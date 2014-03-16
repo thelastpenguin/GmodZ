@@ -1,0 +1,16 @@
+"darkrpv2"
+{
+	"base"		"base"
+    "title"  "GmodZ"
+    "version"   "1.0.0"
+    "menusystem"	"1"
+
+    "author_name"   "TheLastPenguin"
+    "author_email"  ""
+    "author_url"    ""
+
+    "icon"  ""
+    "info"  ""
+    "hide"  "0"
+    "maps"      "^gmodz_"
+}

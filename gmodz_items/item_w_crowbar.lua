@@ -10,5 +10,6 @@ Useful for prying open locks or bashing in brains.
 ]]
 item.Model = 'models/weapons/w_crowbar.mdl'
 item.Weapon = 'weapon_crowbar'
+item.lootBias = 0.3
 
 gmodz.item.register( 'w_crowbar', item );

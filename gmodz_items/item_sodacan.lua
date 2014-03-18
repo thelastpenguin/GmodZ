@@ -1,7 +1,7 @@
 
 local item = {};
 
-item.base = 'base';
+item.base = 'base_genaric';
 item.PrintName = 'Soda Can'
 item.Desc = [[
 A refreshing can of soda!

@@ -6,12 +6,13 @@ item.Desc = [[
 Base Food Entity.
 ]]
 function item:OnUse( pl, stack )
+	local fm, wm = gmodz.cfg.max_food/100, gmodz.cfg.max_water/100;
 	if self.addFood then
-		pl:SetUData( 'food', math.Clamp( pl:GetUData( 'food', 0 ) + self.addFood, 0, gmodz.cfg.max_food ) );
+		pl:SetUData( 'food', math.Clamp( pl:GetUData( 'food', 0 ) + self.addFood*fm, 0, gmodz.cfg.max_food ) );
 	end
 	
 	if self.addWater then
-		pl:SetUData( 'water', math.Clamp( pl:GetUData( 'water', 0 ) + self.addWater, 0, gmodz.cfg.max_water ) );
+		pl:SetUData( 'water', math.Clamp( pl:GetUData( 'water', 0 ) + self.addWater*wm, 0, gmodz.cfg.max_water ) );
 	end
 	
 	if self.Sound then

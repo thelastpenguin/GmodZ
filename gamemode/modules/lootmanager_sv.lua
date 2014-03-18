@@ -14,7 +14,7 @@ gmodz.hook.Add( 'medit_Cleanup', function( )
 	gmodz.print('[MEDIT] Cleaned up '..c..' loot nodes!');
 end);
 
--- 
+/* 
 local nodes = {};
 local lootRange = 0;
 
@@ -84,7 +84,7 @@ end
 timer.Create( 'gmodz_checkloot', 120, 0, checkLoot );
 
 gmodz.hook.Add( 'medit_PostProcess', checkLoot );
-
+*/
 
 
 --

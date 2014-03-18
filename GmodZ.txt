@@ -1,8 +1,8 @@
 "darkrpv2"
 {
 	"base"		"base"
-    "title"  "GmodZ"
-    "version"   "1.0.0"
+    "title"  "GmodZ - git"
+    "version"   "1.3.0"
     "menusystem"	"1"
 
     "author_name"   "TheLastPenguin"
@@ -12,5 +12,5 @@
     "icon"  ""
     "info"  ""
     "hide"  "0"
-    "maps"      "^gmodz_"
+    "maps"      "^gmodz_|^gmz"
 }

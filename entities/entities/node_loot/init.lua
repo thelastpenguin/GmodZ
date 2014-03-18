@@ -34,6 +34,8 @@ function ENT:SetConfig( cfg )
 		sampRange = sampRange + v.lootBias;
 	end
 	self.sampRange = sampRange;
+	
+	self:SpawnLoot( );
 end
 
 function ENT:SpawnLoot( )
@@ -65,14 +67,19 @@ function ENT:SpawnLoot( )
 	self.entLoot = ent;
 	
 	ent:SetPos( self:GetPos( ) + Vector( 0, 0, 10 ) );
-	ent:DisableTimeout( );
 	
 end
 
+local CurTime = CurTime ;
 function ENT:Think()
-	if self.entLoot ~= nil and not IsValid( self.entLoot ) then
-		gmodz.hook.Call( 'looting_LootPickedup', self );
+	if self.nextSpawn then
+		if self.nextSpawn < CurTime( ) then
+			self:SpawnLoot()
+			self.nextSpawn = nil;
+		end
+	elseif self.entLoot ~= nil and not IsValid( self.entLoot ) then
 		self.entLoot = nil;
+		self.nextSpawn = CurTime() + math.random( 100, 200 );
 	end
 end
 

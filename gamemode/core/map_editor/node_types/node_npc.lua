@@ -11,8 +11,6 @@ function NODE:Activate( node )
 	
 	local data = node:GetData( );
 	
-	local npc_maker = ents.Create("npc_maker")
-	
 	npc_maker:SetPos( node:GetPos( ) );
 	
 	npc_maker:SetKeyValue( "NPCType", data.npc_class[math.random(1,#data.npc_class)] )

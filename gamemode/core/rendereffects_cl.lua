@@ -108,7 +108,59 @@ end
 --
 -- DEFAULT CALCULATOR FOR VIEW
 --
-gmodz.rendereffects.SetCamCalc( function( pl, pos, ang, fov )
+
+local hitpos = Vector(0,0,0)
+local targetpos = Vector(0,0,0)
+local newpos = Vector(0,0,0)
+local newangle = Angle(0,0,0)
+local dist = 0
+local smooth = 0
+
+local function rotpoint(a, b, c, u, v, w, x, y, z, t) 
+    local l = math.sqrt(u*u + v*v + w*w)
+    if l < 1E-9 then
+        return
+    end
+    local u = u/l 
+    local v = v/l
+    local w = w/l
+    local u2 = u*u
+    local v2 = v*v
+    local w2 = w*w
+    local cost = math.cos(t)
+    local minuscost = 1 - cost
+    local sint = math.sin(t)
+
+    local p = Vector(0,0,0)
+    p.x = (a*(v2 + w2) - u*(b*v + c*w - u*x - v*y - w*z)) * minuscost + x*cost + (-c*v + b*w - w*y + v*z)*sint
+    p.y = (b*(u2 + w2) - v*(a*u + c*w - u*x - v*y - w*z)) * minuscost + y*cost + (c*u - a*w + w*x - u*z)*sint
+    p.z = (c*(u2 + v2) - w*(a*u + b*v - u*x - v*y - w*z)) * minuscost + z*cost + (-b*u + a*v - v*x + u*y)*sint
+    return p
+end
+
+local function view_3rdperson_better( ply, pos, ang, fov)
+    local view = {}
+    local playerdistance = 50
+    local fixeddist = 25
+
+    hitpos = ply:GetEyeTrace().HitPos
+    targetpos = pos
+    newpos = rotpoint(hitpos.x, hitpos.y, hitpos.z, ang:Up().x, ang:Up().y, ang:Up().z, targetpos.x, targetpos.y, targetpos.z, -fixeddist/dist) 
+    dist = hitpos:Distance(targetpos)
+    newangle = Angle(ang.p, math.NormalizeAngle(ang.y - math.deg(fixeddist/dist)), ang.r)
+    newangle = (hitpos - newpos):Angle()
+    newpos = newpos - newangle:Forward() * playerdistance
+
+    view.origin = newpos
+    view.angles = newangle
+    view.fov = fov
+    view.drawviewer = true;
+    
+    return view
+end
+gmodz.rendereffects.SetCamCalc( view_3rdperson_better );
+
+/*gmodz.rendereffects.SetCamCalc( function( pl, pos, ang, fov )
 	local LocalPlayer = LocalPlayer() ;
 	
 	local pos = LocalPlayer:HeadPos( );

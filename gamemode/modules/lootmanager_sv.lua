@@ -18,16 +18,19 @@ local function pickRandomBiased( opts )
 	-- CALCULATE RANGE.
 	local r = 0;
 	for _, item in pairs( opts )do
+		print( 'TEST: '..item.PrintName );
 		r = r + item.lootBias ;
 	end
 	
 	-- CHOOSE RANDOM THRESHOLD FROM 0-r
 	local t = math.random()*r;
+	print( t );
 	
 	-- CALC VAL AT THRESH
 	local i = 0;
 	local lType, b ; 
 	for k,v in pairs( opts )do
+		print( v.PrintName, ' - ', v.lootBias, ' - ', i );
 		b = v.lootBias;
 		i = i + b;
 		if i > t then
@@ -36,7 +39,7 @@ local function pickRandomBiased( opts )
 		end
 	end
 	
-	if not lType.children or #lType.children == 0 then
+	if lType.children == nil or table.Count( lType.children ) == 0 then
 		return lType
 	else
 		return pickRandomBiased( lType.children );

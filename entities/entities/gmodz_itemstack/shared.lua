@@ -1,5 +1,5 @@
 ENT.Type = "anim"
-ENT.Base = "base_gmodentity"
+ENT.Base = "base_entity"
 ENT.PrintName = "GmodZ Item Stack"
 ENT.Author = "thelastpenguin"
 ENT.Spawnable = false

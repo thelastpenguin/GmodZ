@@ -1,3 +1,4 @@
+local gmodz = gmodz;
 --
 -- THE ENTITY
 --
@@ -11,51 +12,18 @@ end
 function ENT:SetConfig( cfg )
 	self.cfg = cfg;
 	local cfgTypes = cfg.loot_types;
+	self.lootTypes = cfgTypes;
 	
-	-- LINK LOOT TYPE STRINGS TO META TABLES.
-	local lootTypes = {};
-	for k,v in pairs( cfgTypes )do
-		local cldrn = gmodz.item.GetChildren( v );
-		if table.Count( cldrn ) > 0 then
-			for k,t in pairs( cldrn )do
-				table.insert( lootTypes, t );
-			end	
-		else
-			table.insert( lootTypes, gmodz.item.GetMeta( v ) );
-		end
-	end
-	
-	self.lootTypes = lootTypes
-	
-	-- CALCULATE RANGE DATA.
-	local sampRange = 0;
-	for k,v in pairs( lootTypes )do
-		if not v.lootBias then PrintTable( v ) end
-		sampRange = sampRange + v.lootBias;
-	end
-	self.sampRange = sampRange;
-	
-	self:SpawnLoot( );
 end
 
 function ENT:SpawnLoot( )
-	
-	local val = math.random()*self.sampRange
-	
-	local index = 0;
-	local lType ; 
-	for k,v in pairs( self.lootTypes )do
-		local bias = v.lootBias;
-		index = index + bias;
-		if index > val then
-			lType = v;
-			break ;
-		end
+	local lType = gmodz.hook.Call( 'ChooseLootType', self.lootTypes );
+	if not lType then
+		gmodz.print('ERROR ON NODE: nil loot type', Color(255,0,0));
 	end
 	
 	-- CREATE THE ENTITY
 	local count = isfunction( lType.lootCount ) and lType.lootCount() or lType.lootCount;
-	
 	
 	-- BUILD STACK
 	local lootStack = gmodz.itemstack.new( lType.class );
@@ -63,24 +31,37 @@ function ENT:SpawnLoot( )
 	
 	-- SPAWN IT.
 	local ent = gmodz.itemstack.CreateEntity( lootStack );
+	ent:SetPos( self:GetPos( ) );
+	ent:SetMoveType( MOVETYPE_NONE );
+	
+	ent:SetUseCallback( function()
+		if not IsValid( self )then return end
+		self:QueueSpawn( );
+	end);
 	
 	self.entLoot = ent;
-	
-	ent:SetPos( self:GetPos( ) + Vector( 0, 0, 10 ) );
-	
 end
 
-local CurTime = CurTime ;
-function ENT:Think()
-	if self.nextSpawn then
-		if self.nextSpawn < CurTime( ) then
-			self:SpawnLoot()
-			self.nextSpawn = nil;
+function ENT:CanSpawnLoot( )
+	local mpos = self:GetPos( );
+	for _, pl in pairs( player.GetAll() )do
+		if pl:GetPos():Distance( mpos ) < 300 then
+			return false ;
 		end
-	elseif self.entLoot ~= nil and not IsValid( self.entLoot ) then
-		self.entLoot = nil;
-		self.nextSpawn = CurTime() + math.random( 100, 200 );
 	end
+	return true;
+end
+
+function ENT:QueueSpawn( )
+	local rnd = math.random( gmodz.cfg.loot_respawnTime - gmodz.cfg.loot_respawnVariance, gmodz.cfg.loot_respawnTime + gmodz.cfg.loot_respawnVariance );
+	timer.Simple( rnd, function()
+		if not IsValid( self )then return end
+		if self:CanSpawnLoot( ) then
+			self:SpawnLoot( );
+		else
+			self:QueueSpawn( );
+		end
+	end);
 end
 
 function ENT:OnRemove( )

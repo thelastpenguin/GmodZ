@@ -10,5 +10,6 @@ An Infantry Firstaid Kit left by the military. Use it to heal yourself or your c
 item.Model = "models/weapons/w_ifak.mdl"
 item.SVModel = "models/Items/HealthKit.mdl"
 item.Weapon = 'fas2_ifak'
+item.lootBias = 3
 
 gmodz.item.register( 'healthkit', item );

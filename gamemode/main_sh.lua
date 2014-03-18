@@ -1,3 +1,11 @@
+/*
+ * This file is subject to the terms and conditions defined in
+ * file 'LICENSE.txt', which is part of this source code package.
+ * removing or modifying this header is a violation of the terms 
+ * and conditions defined in 'LICENSE.txt'
+ */
+
+
 gmodz = {}; -- core table.
 
 if( SERVER )then
@@ -71,10 +79,11 @@ gmodz.include_cl 'core/rendereffects_cl.lua' ;
 gmodz.include_cl 'core/scoreboard_cl.lua' ;
 
 -- LOAD THE ITEM SYSTEM
+gmodz.include_sh 'core/items_load_sh.lua' ;
+
 gmodz.include_sh 'core/inventory/meta_stack_sh.lua' ;
 gmodz.include_sv 'core/inventory/meta_inventory_sv.lua' ;
 gmodz.include_cl 'core/inventory/meta_inventory_cl.lua' ;
-gmodz.include_sh 'core/inventory/items_load_sh.lua' ;
 
 gmodz.include_sv 'core/inventory/itemstacks_sv.lua' ;
 
@@ -122,9 +131,12 @@ local function include_folder( path )
 	end
 end
 
-include_folder( '/gamemode/modules/' );
+
+gmodz.print(' = LOADING VGUI = ' );
 include_folder( '/gamemode/vgui/' );
 
+gmodz.print(' = LOADING MODULES = ' );
+include_folder( '/gamemode/modules/' );
 
 
 

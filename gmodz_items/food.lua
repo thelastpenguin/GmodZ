@@ -22,6 +22,7 @@ end
 item.Model = "models/Items/BoxMRounds.mdl"
 item.Sound = "eating_and_drinking/eating.wav"
 item.lootCount = 1
+item.lootBias = 3
 gmodz.item.register( 'base_food', item );
 
 

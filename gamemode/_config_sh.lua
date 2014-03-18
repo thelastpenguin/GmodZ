@@ -6,6 +6,9 @@ gmodz.cfg.max_water = 100;
 
 gmodz.cfg.item_despawn = 300; -- wait five minutes.
 
+gmodz.cfg.loot_respawnTime = 10;
+gmodz.cfg.loot_respawnVariance = 2;
+
 gmodz.cfg.user_invSize = {w=5,h=6};
 gmodz.cfg.user_bankSize = {w=4,h=6};
 

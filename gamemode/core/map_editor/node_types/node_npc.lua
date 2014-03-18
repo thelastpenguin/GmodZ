@@ -3,7 +3,6 @@ NODE.PrintName = 'NPC Node';
 NODE.Color = Color( 255, 0, 0 );
 
 NODE.base = 'base';
-NODE.hull = Vector(5,5,5);
 
 function NODE:Activate( node )
 	local npc_maker = ents.Create( 'npc_maker' );

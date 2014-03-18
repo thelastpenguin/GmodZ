@@ -1,6 +1,7 @@
 local NODE = {};
 NODE.PrintName = 'Unknown'
 NODE.Color = color_white;
+NODE.zOff = 4;
 
 do
 	local vUP = Vector( 0, 0, 10 );

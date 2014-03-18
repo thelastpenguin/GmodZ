@@ -3,7 +3,6 @@ gmodz.print('GmodZ activated module lootmanager_sv.lua' );
 --
 -- MANAGE LOOT SYSTEMS.
 --
-
 gmodz.hook.Add( 'medit_Cleanup', function( )
 	local c = 0;
 	for k,v in pairs( ents.GetAll() )do
@@ -14,136 +13,54 @@ gmodz.hook.Add( 'medit_Cleanup', function( )
 	gmodz.print('[MEDIT] Cleaned up '..c..' loot nodes!');
 end);
 
-/* 
-local nodes = {};
-local lootRange = 0;
-
-local function selectNode( )
-	local val = math.random()*lootRange
+local function pickRandomBiased( opts )
 	
-	local index = 0;
-	local node ; 
-	for k,v in ipairs( nodes )do
-		local bias = v.sampRange;
-		if not bias then continue end
-		index = index + bias;
-		if index > val then
-			node = v;
+	-- CALCULATE RANGE.
+	local r = 0;
+	for _, item in pairs( opts )do
+		r = r + item.lootBias ;
+	end
+	
+	-- CHOOSE RANDOM THRESHOLD FROM 0-r
+	local t = math.random()*r;
+	
+	-- CALC VAL AT THRESH
+	local i = 0;
+	local lType, b ; 
+	for k,v in pairs( opts )do
+		b = v.lootBias;
+		i = i + b;
+		if i > t then
+			lType = v;
 			break ;
 		end
 	end
-	return node ;
+	
+	if not lType.children or #lType.children == 0 then
+		return lType
+	else
+		return pickRandomBiased( lType.children );
+	end
 end
 
-local function findOpenNode( )
-	local node ;
-	local c = 0;
-	repeat
-		c = c + 1
-		node = selectNode( );
-		print( node );
-	until ( c > 100 or ( node and not IsValid( node.entLoot ) ) )
-	
-	return node;
+local function chooseItemType( )
+	local base = gmodz.item.GetMeta( 'base' );
+	return pickRandomBiased( base.children );
 end
 
-gmodz.hook.Add( 'medit_PostProcess', function()
+gmodz.hook.Add( 'ChooseLootType', function( bases )
 	
-	gmodz.print('[LOOT SYSTEM PROCESSING]' );
-	
-	-- CALCULATE RANGE.
-	nodes = {};
-	for k,v in pairs( ents.GetAll() )do
-		if v:GetClass() ~= 'node_loot' or not IsValid( v ) then continue end
-		nodes[ #nodes + 1 ] = v;
-		lootRange = lootRange + v.sampRange
+	local bmetas = {};
+	for k,v in pairs( bases )do
+		if type( v ) ~= 'string' then continue end
+		bmetas[ #bmetas + 1 ] = gmodz.item.GetMeta( v );
 	end
 	
-	gmodz.print('  found '..#nodes..' loot nodes.' );
-	gmodz.hook.Call( 'looting_LootPickedup', NULL );
+	return chooseItemType( bmetas );
 end);
 
-local checkLoot =  function()
-	local used = 0;
-	for k,v in pairs( nodes )do
-		if IsValid( v.entLoot ) then
-			used = used + 1;
-		end
+gmodz.hook.Add( 'PostMapLoaded', function()
+	for k,v in pairs( ents.FindByClass( 'node_loot' ) )do
+		v:SpawnLoot( );
 	end
-	local goal = math.floor((#nodes)/2)
-	while used < goal do
-		used = used + 1;
-		local n = findOpenNode( );
-		n:SpawnLoot( );
-		gmodz.print('Spawning loot.');
-		
-	end
-	gmodz.print('Loot processing done.');
-end
-
-timer.Create( 'gmodz_checkloot', 120, 0, checkLoot );
-
-gmodz.hook.Add( 'medit_PostProcess', checkLoot );
-*/
-
-
---
--- NPC Looting
---
-do
-	local lootTypes = {};
-	local lootBases = {
-			['base_food'] = true,
-			['base_fas2'] = true,
-			['base_ammo'] = true
-		}
-	local lootRange = 0;
-	gmodz.hook.Add( 'LoadComplete', function()
-		for k,v in pairs( gmodz.item.GetStored( ))do
-			if lootBases[ v.base ] then
-				lootTypes[ #lootTypes + 1 ] = v;
-				lootRange = lootRange + v.lootBias;
-			end
-		end
-	end);
-
-	local function selectLoot( )
-		local val = math.random()*lootRange
-	
-		local index = 0;
-		local lootType ; 
-		for k,v in ipairs( lootTypes )do
-			local bias = v.lootBias;
-			if not bias then continue end
-			index = index + bias;
-			if index > val then
-				lootType = v;
-				break ;
-			end
-		end
-		return lootType;
-	end
-	
-
-	gmodz.hook.Add( 'OnNPCKilled', function( npc, pl )
-		
-		gmodz.adminLog( 'Player '..pl:Name()..' killed NPC '..npc:GetClass());
-		
-		if math.random(1,3) ~= 1 then return end
-		local lType = selectLoot( );
-		if not lType then return end
-		
-		local count = isfunction( lType.lootCount ) and lType.lootCount() or lType.lootCount;
-	
-		
-		-- BUILD STACK
-		local lootStack = gmodz.itemstack.new( lType.class );
-		lootStack:SetCount( count );
-		
-		-- SPAWN IT.
-		local ent = gmodz.itemstack.CreateEntity( lootStack );
-		
-		ent:SetPos( npc:GetPos( ) + Vector( 0, 0, 10 ) );
-		ent:DisableTimeout( );
-	end);
-end
+end);

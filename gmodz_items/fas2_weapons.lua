@@ -13,7 +13,7 @@ Useful for prying open locks or bashing in brains.
 ]]
 item.Model = 'models/weapons/w_crowbar.mdl'
 item.Weapon = 'weapon_crowbar'
-item.lootBias = 0.5
+item.lootBias = 1
 
 gmodz.item.register( 'base_fas2', item );
 

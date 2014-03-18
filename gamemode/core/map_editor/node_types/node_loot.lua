@@ -3,7 +3,6 @@ NODE.PrintName = 'Loot Node';
 NODE.Color = Color( 0, 255, 0 );
 
 NODE.base = 'base';
-NODE.hull = Vector(5,5,5);
 
 function NODE:Activate( node )
 
@@ -24,10 +23,12 @@ end
 NODE.settings = {};
 
 local lootTypes = {};
-for k,v in pairs( gmodz.item.GetStored( ) )do
-	lootTypes[#lootTypes + 1 ] = k;
-end
-table.sort( lootTypes );
+gmodz.hook.Add( 'LoadComplete', function()
+	for k,v in pairs( gmodz.item.GetStored( ) )do
+		lootTypes[#lootTypes + 1 ] = k;
+	end
+	table.sort( lootTypes );
+end);
 NODE.settings['loot_types'] = {
 	PrintName = 'Loot Type',
 	type = 'BooleanList',

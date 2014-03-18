@@ -34,7 +34,9 @@ function ENT:DisableTimeout( )
 	self.TimeOut = nil;
 end
 
-function ENT:Use( pl,caller)
+function ENT:Use( pl, caller )
+	if self.OnUse then self.OnUse( self, pl ) end
+	
 	self:EmitSound( 'weapons/ammopickup.wav', 500, 100 );
 	if not pl:IsPlayer() then return end
 	local inv = pl:GetInv( 'inv' );
@@ -49,6 +51,9 @@ function ENT:Use( pl,caller)
 	end
 	self:Remove()
 end
+function ENT:SetUseCallback( func )
+	self.OnUse = func;
+end
 
 do
 	local CurTime = _G.CurTime ;
@@ -59,16 +64,3 @@ do
 		end	
 	end
 end
-
-/*function ENT:Touch(ent)
-	
-	if ent:GetClass() ~= "gmodz_itemstack" or self.hasMerged or ent.hasMerged then return end
-	if ent.stack.meta ~= self.stack.meta then return end
-	if self.stack:GetCount() + ent.stack:GetCount() >= self.stack.meta.StackSize then return end
-	
-	ent.hasMerged = true
-	
-	ent:Remove()
-	
-	self:SetAmount( self:GetAmount() + ent:GetAmount())
-end*/

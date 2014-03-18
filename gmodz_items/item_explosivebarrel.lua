@@ -45,5 +45,6 @@ item.OnUse = function( self, pl )
 	end
 	pl:Kill( );
 end
+item.lootBias = 0;
 
 gmodz.item.register( 'explosive_barrel', item );

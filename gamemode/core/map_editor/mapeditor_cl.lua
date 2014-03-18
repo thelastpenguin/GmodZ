@@ -163,21 +163,10 @@ concommand.Add( '+medit_CreateNode', function()
 					end
 				end
 				
-				local tr;
-				if type.hull then
-					local tracedata = {}
-					tracedata.start = EyePos( );
-					tracedata.endpos = EyePos( ) + ( EyeAngles():Forward() * 10000 )
-					tracedata.filter = LocalPlayer( );
-					tracedata.mins = -type.hull;
-					tracedata.maxs = type.hull;
-					tr = util.TraceHull( tracedata );
-				else
-					tr = LocalPlayer():GetEyeTrace();
-				end
+				local tr = LocalPlayer():GetEyeTrace();
 				
 				local new = medit.newNode( );
-				new:SetPos(  tr.HitPos );
+				new:SetPos(  tr.HitPos + tr.HitNormal * ( type.zOff or 0 ) );
 				new:SetAngles( tr.HitNormal:Angle() );
 				
 				new:SetType( type.class );

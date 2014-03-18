@@ -8,37 +8,35 @@ end
 function gmodz.item.GetMeta( class )
 	return items[ class ];
 end
+gmodz.item.Get = gmodz.item.GetMeta;
 
 function gmodz.item.register( class, table )
 	table.class = class;
 	items[ class ] = table;
 end
 
-function gmodz.item.GetChildren( bClass )
-	local cldrn = {};
-	for k,v in pairs( items )do
-		if v.base == bClass then
-			cldrn[ #cldrn + 1 ] = v;
-		end
-	end	
-	return cldrn;
-end
-
+--
+-- INHERITANCE LINKER.
+--
 do
 	local noCopy = {
 		baseLinked = true,
 		base = true,
 		class = true	
 	}
+	local cLinked ;
 	local function linkItem( item )
 		if( item.baseLinked )then return end
+		cLinked = cLinked + 1;
 		
 		item.baseLinked = true;
+		item.children = {};
 		
 		if( item.base and items[ item.base ] )then
-			print('linking...');
 			local base = items[ item.base ];
-			linkItem( base );
+			linkItem( base ); -- recurse.
+			
+			base.children[item.class] = item;
 			
 			for k,v in pairs( base )do
 				if not item[ k ] and not noCopy[ k ] then
@@ -49,10 +47,26 @@ do
 		end
 	end
 	
+	local function printItem( prefix, item )
+		print( prefix..' - '..item.PrintName .. ' ('..item.class..')' );
+		local pnext = prefix..'  ';
+		for k,v in pairs( item.children )do
+			printItem( pnext, v );
+		end
+	end
+	
+	local function printItemStruct( )
+		printItem( '', items['base'] );
+	end
+	
 	function gmodz.runLinker( )
+		gmodz.print('[ITEMLOADER] Running linker...' );
+		cLinked = 0;
 		for _, item in pairs( items )do 
 			linkItem( item );
 		end
+		printItemStruct( );
+		gmodz.print('[ITEMLOADER] '..cLinked..' items linked.' );
 	end
 end
 
@@ -156,15 +170,22 @@ do -- give it it's own registry space.
 end
 
 
--- LOAD ITEMS
-local fol = GM.FolderName .. '/gmodz_items/';
-local files = file.Find( fol .. "*.lua", "LUA");
-for _, f in SortedPairs( files, true )do
-	local p = fol .. f;
-	gmodz.include_sh( p );
-end
+-- 
+-- LASTLY LOAD AND PARSE ITEMS.
+--
+gmodz.hook.Add( 'LoadComplete', function()
+	local fol = GM.FolderName .. '/gmodz_items/';
+	local files = file.Find( fol .. "*.lua", "LUA");
+	for _, f in SortedPairs( files, true )do
+		local p = fol .. f;
+		gmodz.include_sh( p );
+	end
 
-gmodz.runLinker( );
+	gmodz.runLinker( );
 
-gmodz.hook.Call( 'PostItemsLoaded' );
-gmodz.hook.DeleteAll( 'PostItemsLoaded' ) -- this only gets called once...
+	gmodz.hook.Call( 'PostItemsLoaded' );
+	gmodz.hook.DeleteAll( 'PostItemsLoaded' ) -- this only gets called once.
+	for k,v in pairs( items )do
+		gmodz.hook.Call( 'ItemLoaded', v );
+	end
+end);

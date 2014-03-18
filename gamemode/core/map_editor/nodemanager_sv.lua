@@ -58,16 +58,17 @@ end
 function medit.ActivateNodes( )
 	gmodz.print('[MEDIT] Activating nodes. ('..#medit.mapnodes..' nodes)');
 	gmodz.print(' * pre processing * ');
-	gmodz.hook.Call('medit_PreProcess');
+	gmodz.hook.Call('PreMapLoaded');
 	gmodz.print(' * activating nodes * ' );
 	for k,v in pairs( medit.mapnodes )do
 		local mt =  v.meta;
 		if not mt then continue end
 		print('   - node: '..mt.class );
 		mt:Activate( v );
+		gmodz.hook.Call( 'ActivatedNode', v );
 	end
 	gmodz.print(' * calling hooks *' );
-	gmodz.hook.Call( 'medit_PostProcess' );	
+	gmodz.hook.Call( 'PostMapLoaded' );
 	gmodz.print( '* activation complete *' );
 	gmodz.print('[MEDIT] Nodes are activated.' );
 end

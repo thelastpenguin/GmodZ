@@ -8,8 +8,6 @@ function ENT:Initialize()
 		self.csModel = ClientsideModel( self.meta.Model, RENDERMODE_TRANSALPHA );
 		self.csModel:SetNoDraw( );
 		self.csModel:SetPos(Vector(0,0,0) );
-		self.rOffset = Vector( 0, 0, 0 );
-		self.rDir = VectorRand( ):GetNormalized();
 	end
 	
 	local meta = self.meta;

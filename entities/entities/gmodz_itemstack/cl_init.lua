@@ -4,41 +4,50 @@ function ENT:Initialize()
 	self.initted = true;
 	self.meta = gmodz.item.GetMeta( self:GetType() );
 	
-	if self.meta.SVModel and self.meta.Model ~= self.meta.SVModel then
-		self.csModel = ClientsideModel( self.meta.Model, RENDERGROUP_OPAQUE );
+	if self.meta.SVModel then
+		self.csModel = ClientsideModel( self.meta.Model, RENDERMODE_TRANSALPHA );
 		self.csModel:SetNoDraw( );
-	end
-	
-end
-function ENT:OnRemove( )
-	if IsValid( self.csModel )then self.csModel:Remove() end	
-end
-
-function ENT:Draw()
-	if not self.initted then self:Initialize( ) end
-	
-	if IsValid( self.csModel ) then
-		self.csModel:SetPos( self:GetPos( ));
-		self.csModel:SetAngles( self:GetAngles() );
-		self.csModel:DrawModel();
-	else
-		self:DrawModel()
+		self.csModel:SetPos(Vector(0,0,0) );
+		self.rOffset = Vector( 0, 0, 0 );
+		self.rDir = VectorRand( ):GetNormalized();
 	end
 	
 	local meta = self.meta;
-	
-	if meta.customDraw then
-		meta.customDraw( meta, self );
-	end
-	
 	local count, text = self:GetAmount( );
 	if count > 1 then
 		text = count..' '..meta.PrintName..'s';
 	else
 		text = meta.PrintName;
 	end
+	self.text = text;
+end
+function ENT:OnRemove( )
+	if IsValid( self.csModel )then self.csModel:Remove() end
+end
+
+function ENT:Draw()
+	if not self.initted then self:Initialize( ) end
 	
-	self:DrawEntLabel( text );
+	render.SuppressEngineLighting( true );
+	if self.csModel then
+		self.csModel:SetRenderOrigin( self:GetPos( ) );
+		self.csModel:SetRenderAngles( self:GetAngles( ) );
+		self.csModel:SetupBones( );
+		self.csModel:DrawModel( );
+	else
+		self:DrawModel()
+	end
+	render.SuppressEngineLighting( false );
+	
+	local meta = self.meta;
+	
+	if meta.customDraw then
+		meta.customDraw( meta, self );
+	end
+end
+
+function ENT:GetCaption( )
+	return self.text;
 end
 
 function ENT:Think()

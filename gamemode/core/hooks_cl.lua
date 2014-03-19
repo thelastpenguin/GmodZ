@@ -38,7 +38,6 @@ function GM:OnEntityCreated( ... )
 	gmodz.hook.Call('OnEntityCreated', ... );
 end
 
-
 --
 -- SPAWN MENU OPEN
 --

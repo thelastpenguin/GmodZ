@@ -3,6 +3,7 @@ gmodz.rendereffects = {};
 
 local gmodz = gmodz;
 local LocalPlayer, math, FrameTime, Lerp = LocalPlayer, math, FrameTime, Lerp;
+local render, surface = render, surface ;
 
 gmodz.VM_FIRSTPERSON = 0;
 gmodz.VM_THIRDPERSON = 1;
@@ -63,12 +64,24 @@ function GM:CalcView( pl, pos, ang, fov, nearZ, farZ )
 		local pos, ang, fov = calcA( pl, hpos, Angle(ang.p, ang.y, ang.r), fov );
 		if pos:Distance( hpos ) < 10 then gmodz.firstperson = true return end ;
 		gmodz.firstperson = false ;
+		
+		local tracedata = {
+			start = hpos,
+			endpos = pos, 
+			filter = function() return false end,
+			mins = Vector( -5, -5, -5 ),
+			maxs = Vector( 5, 5, 5 )
+		}
+		local tRes = util.TraceHull( tracedata );
+		
 		return {
 				origin = pos,
-				angles = ang,
+				angles = tRes.HitPos,
 				fov = fov
 			}
 	else
+		
+		-- CALCULATE LERP OF VIEWS.
 		local posA, angA, fovA = calcA( pl, hpos, Angle(ang.p, ang.y, ang.r), fov );
 		local posB, angB, fovB = calcB( pl, hpos, Angle(ang.p, ang.y, ang.r), fov, posA, angA, fovA );
 		local frac0 = 1 - frac;
@@ -77,9 +90,22 @@ function GM:CalcView( pl, pos, ang, fov, nearZ, farZ )
 		if pos:Distance( hpos ) < 10 then gmodz.firstperson = true return end ;
 		gmodz.firstperson = false ;
 		
+		-- CHECK VECTOR FOR OBSTICALS
+		local ang = LerpAngle( frac, angA, angB );
+		
+		local tracedata = {
+			start = hpos,
+			endpos = pos, 
+			filter = function() return false end,
+			mins = Vector( -5, -5, -5 ),
+			maxs = Vector( 5, 5, 5 )
+		}
+		local tRes = util.TraceHull( tracedata );
+		
+		-- RETURN
 		return {
-				origin = pos,
-				angles = LerpAngle( frac, angA, angB ),
+				origin = tRes.HitPos,
+				angles = ang,
 				fov = fovA*frac0 + fovB*frac
 			}
 	end
@@ -129,40 +155,11 @@ local function rotpoint(a, b, c, u, v, w, x, y, z, t)
     	(c*(u2 + v2) - w*(a*u + b*v - u*x - v*y - w*z)) * minuscost + z*cost + (-b*u + a*v - v*x + u*y)*sint)
 end
 
+local _ang, _pos = Angle(0,0,0), Vector(0,0,0);
 gmodz.rendereffects.SetCamCalc( function( ply, pos, ang, fov )
-	local view = {}
-	local playerdistance = 50
-	local fixeddist = 25
-
-	local hitpos = ply:GetEyeTrace().HitPos
-	local targetpos = pos
-	local dist = hitpos:Distance(targetpos);
-	local newpos = rotpoint(hitpos.x, hitpos.y, hitpos.z, ang:Up().x, ang:Up().y, ang:Up().z, targetpos.x, targetpos.y, targetpos.z, fixeddist/dist) 
-	local newangle = Angle(ang.p, math.NormalizeAngle(ang.y - math.deg(fixeddist/dist)), ang.r)
-	newangle = (hitpos - newpos):Angle()
-	newpos = newpos - newangle:Forward() * playerdistance
+	if gmodz.getVar( 'viewmode' ) == 0 then return pos, ang, fov end
 	
-	
-	local tracedata = {
-		start = targetpos,
-		endpos = newpos, -- Vector( 0, 0, 10 )*camDist,
-		filter = function() return false end,
-		mins = Vector( -5, -5, -5 ),
-		maxs = Vector( 5, 5, 5 )
-	}
-	local tRes = util.TraceHull( tracedata );
-	
-	return tRes.HitPos,newangle,fov
-end );
-
-/*gmodz.rendereffects.SetCamCalc( function( pl, pos, ang, fov )
-	local LocalPlayer = LocalPlayer() ;
-	
-	local pos = LocalPlayer:HeadPos( );
-	if gmodz.getVar( 'viewmode' ) == gmodz.VM_FIRSTPERSON then
-		return pos, ang, fov;
-	end
-	
+	-- LIMIT 3RD PERSON VIEW ANGLES.
 	local pitch = ang.p;
 	if( pitch > 40 or pitch < -60 )then
 		ang.p = math.Clamp( pitch, -60, 40 );
@@ -170,18 +167,24 @@ end );
 		pl:SetEyeAngles( ang );
 	end
 	
-	local tracedata = {
-		start = pos,
-		endpos = pos - ang:Forward() * 80 + ang:Right()*20, -- Vector( 0, 0, 10 )*camDist,
-		filter = pl,
-		mins = Vector( -5, -5, -5 ),
-		maxs = Vector( 5, 5, 5 )
-	}
-	local tRes = util.TraceHull( tracedata );
 	
-	return tRes.HitPos, ang, fov ;
+	local playerdistance = 50
+	local fixeddist = 16
+	
+
+	local hitpos = LocalPlayer():GetEyeTrace().HitPos
+	local targetpos = pos
+	local dist = hitpos:Distance(targetpos);
+	local newpos = rotpoint(hitpos.x, hitpos.y, hitpos.z, ang:Up().x, ang:Up().y, ang:Up().z, targetpos.x, targetpos.y, targetpos.z, fixeddist/dist) 
+	local newangle = Angle(ang.p, math.NormalizeAngle(ang.y - math.deg(fixeddist/dist)), ang.r)
+	newangle = (hitpos - newpos):Angle()
+	newpos = newpos - newangle:Forward() * playerdistance
+	
+	_ang = LerpAngle( FrameTime()*20, _ang, newangle );
+	_pos = LerpVector( FrameTime()*20, _pos, newpos );
+	
+	return _pos,_ang,fov
 end );
-*/
 
 function gmodz.rendereffects.BuildViewCalc( offx, offy, offz, postFunc )
 	offz = Vector( 0, 0, offz );
@@ -195,45 +198,30 @@ function gmodz.rendereffects.BuildViewCalc( offx, offy, offz, postFunc )
 			pl:SetEyeAngles( ang );
 		end
 		
-		local tracedata = {
-			start = pos,
-			endpos = pos - ang:Forward() * offy + ang:Right()*offx + offz, -- Vector( 0, 0, 10 )*camDist,
-			filter = pl,
-			mins = Vector( -5, -5, -5 ),
-			maxs = Vector( 5, 5, 5 )
-		}
-		local tRes = util.TraceHull( tracedata );
-		
-		
-		return tRes.HitPos, ang, fov ;
+		return pos - ang:Forward() * offy + ang:Right()*offx + offz, ang, fov ;
 	end
 end
 
 --
 -- DRAW THE EYE BEAM
 --
-local beamTexture = Material( "cable/redlaser" )
-local beamColor = Color(255,255,255,100);
-gmodz.hook.Add( 'PostDrawOpaqueRenderables', function()
-	if gmodz.firstperson then return end
-	
-	local LocalPlayer = LocalPlayer();
-	
-	-- FIX FAS2 ANIM GLITCH.
-	local wep = LocalPlayer:GetActiveWeapon( );
-	if( IsValid( wep ) and wep.Wep )then
-		local vm = wep.Wep;
-		vm:FrameAdvance( );
-	end
-	
-	if( gmodz.hook.Call( 'ShouldDrawEyeBeam' ) ~= false )then
-    local BonePos, BoneAng = LocalPlayer:HeadPos( );
-    if( BonePos )then
-			render.SetMaterial( beamTexture );
-			render.DrawBeam( BonePos, LocalPlayer:GetEyeTrace().HitPos, 5, 1, 1, beamColor );
+do
+	local beamTexture = Material( "cable/redlaser" )
+	local beamColor = Color(255,255,255,20);
+	gmodz.hook.Add( 'PostDrawOpaqueRenderables', function()
+		if gmodz.firstperson then return end
+		
+		local LocalPlayer = LocalPlayer();
+		
+		-- FIX FAS2 ANIM GLITCH.
+		local wep = LocalPlayer:GetActiveWeapon( );
+		if( IsValid( wep ) and wep.Wep )then
+			local vm = wep.Wep;
+			vm:FrameAdvance( );
 		end
-	end
-end );
+		
+	end );
+end
 
 gmodz.hook.Add( 'ShouldDrawEyeBeam', function()
 	if frac > 0.5 then return false end
@@ -264,4 +252,28 @@ do
 			end
 		end
 	end );
+end
+
+--
+-- DRAW CAPTIONS
+--
+do
+	local captioned = {};
+	
+	gmodz.hook.Add( 'PostDrawTranslucentRenderables', function()
+		local LocalPlayer = LocalPlayer( );
+		
+		local etr = LocalPlayer:GetEyeTrace( );
+		local hEnt = etr.Entity ;
+		if IsValid( hEnt ) and hEnt.GetCaption then
+			captioned[hEnt] = hEnt;
+		end
+		for k,v in pairs( captioned )do
+			if IsValid( v ) then
+				v:DrawEntLabel( v:GetCaption( ) );
+			else
+				captioned[k] = nil;
+			end
+		end
+	end);
 end

@@ -16,9 +16,9 @@ do
 				val = 0;
 			end
 		end
-		self.anim = Lerp( FrameTime()*10, self.anim, val );
+		self.anim = Lerp( FrameTime()*4, self.anim, val );
 		
-		if self.anim < 0.1 then return end
+		if self.anim < 0.04 then return end
 		
 		local pos = self:GetPos():ToScreen( );
 		

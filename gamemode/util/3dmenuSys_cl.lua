@@ -163,10 +163,8 @@ local rendertarget = GetRenderTarget( 'gmodz_'..tostring( {} ), 512, 512, true )
 local rtMat = CreateMaterial( 'gmodz_'..tostring( {} ), 'unlitgeneric', {['$translucent'] = '1'} );
 
 local lastHovered = nil;
-gmodz.hook.Add('PostDrawTranslucentRenderables',function()
-	if not isEnabled then return end
-	
-	pCatcher:SetCursor( 'arrow' );
+
+local function drawPanels()
 	
 	local LocalPlayer = LocalPlayer();
 	local view = hook.Call( 'CalcView', GAMEMODE, LocalPlayer, LocalPlayer:EyePos(), LocalPlayer:EyeAngles(), LocalPlayer:GetFOV() );
@@ -243,7 +241,22 @@ gmodz.hook.Add('PostDrawTranslucentRenderables',function()
 	
 	
 	removeOverrides( );
+end
+
+
+gmodz.hook.Add('PostDrawTranslucentRenderables',function()
+	if not isEnabled then return end
 	
+	-- PREVENT PIXELATION
+	render.PushFilterMag( TEXFILTER.ANISOTROPIC )
+	render.PushFilterMin( TEXFILTER.ANISOTROPIC )
+		local succ, err = pcall( drawPanels );
+		if not succ then
+			gmodz.print( 'FAILED TO DRAW TRANSLUCENT RENDERABLES!', Color(255,0,0) );
+			print( err );
+		end
+	render.PopFilterMag()
+	render.PopFilterMin()
 end);
 
 -- 

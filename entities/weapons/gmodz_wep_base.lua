@@ -1,3 +1,109 @@
+if SERVER then AddCSLuaFile( ) end
+--
+-- CORE ATTACK
+-- 
+SWEP.AutoSwitchTo = true ;
+
+SWEP.SwingTime = 1;
+SWEP.MeleeRange = 60;
+SWEP.MeleeSize = Vector( 5, 5, 5 );
+SWEP.MeleeDamage = 20
+
+SWEP.HitAnim = {ACT_VM_HITCENTER,ACT_VM_HITCENTER2}
+SWEP.MissAnim = {ACT_VM_MISSCENTER, ACT_VM_MISSCENTER2}
+
+SWEP.DamageType = DMG_SLASH
+
+SWEP.BloodDecal = "Blood"
+SWEP.HitDecal = "Impact.Concrete"
+
+function SWEP:PrimaryAttack( )
+	if not SERVER then return end
+	
+	self:SetNextPrimaryFire( CurTime() + self.SwingTime )
+	
+	if self.HitDelay then
+		timer.Simple( self.HitDelay, function()
+			if not IsValid( self )then return end
+			self:MeleeAttack( );
+		end );
+	else
+		self:MeleeAttack( );
+	end
+end
+function SWEP:SecondaryAttack( )
+	
+end
+function SWEP:AttackTrace( )
+	local pos = self.Owner:GetShootPos( );
+	local tracedata = {}
+	tracedata.start = pos
+	tracedata.endpos = pos + self.Owner:GetAimVector() * self.MeleeRange ;
+	tracedata.filter = self.Owner ;
+	tracedata.mins = -self.MeleeSize;
+	tracedata.maxs = self.MeleeSize;
+	
+	local tres = util.TraceHull( tracedata );
+	return tres;
+end
+function SWEP:MeleeAttack( )
+	local owner = self.Owner ;
+	local damage = self.MeleeDamage ;
+	
+	local tr = self:AttackTrace( );
+	
+	owner:DoAttackEvent()
+	if tr.Hit and not IsValid( tr.Entity ) then 
+		self:SendWeaponAnim( type( self.HitAnim ) == 'table' and self.HitAnim[math.random(1,#self.HitAnim)] or self.HitAnim );
+	else
+		self:SendWeaponAnim( type( self.MissAnim ) == 'table' and self.HitAnim[math.random(1,#self.MissAnim)] or self.MissAnim );
+	end
+	
+	if IsValid( tr.Entity )then
+		local effect = EffectData( );
+		effect:SetStart( tr.HitPos );
+		effect:SetOrigin( tr.HitPos );
+		effect:SetAngles( owner:EyeAngles( ) );
+		effect:SetScale( 1 );
+		effect:SetEntity( tr.Entity );
+		util.Effect( 'gmodz_bloodspray', effect );
+		
+		local dmg = DamageInfo( );
+		dmg:SetDamage( damage );
+		dmg:SetDamageType( DMG_SLASH );
+		dmg:SetAttacker( owner );
+		dmg:SetDamageForce( owner:GetAimVector()*100 );
+		dmg:SetDamagePosition( tr.HitPos );
+		tr.Entity:TakeDamageInfo( dmg );
+		if tr.Entity.Health then
+			if tr.Entity:Health() <= 0 then
+				local effect = EffectData( );
+				effect:SetStart( tr.HitPos );
+				effect:SetOrigin( tr.HitPos );
+				effect:SetAngles( owner:EyeAngles( ) );
+				effect:SetScale( 1 );
+				effect:SetEntity( tr.Entity );
+				util.Effect( 'gib_player', effect );
+			end
+		end 
+	else
+		local tr = owner:GetEyeTrace();
+		util.Decal( 'ManhackCut', tr.HitPos + tr.HitNormal, tr.HitPos - tr.HitNormal );
+	end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
 /********************************************************
 	SWEP Construction Kit base code
 		Created by Clavus
@@ -178,7 +284,6 @@ if CLIENT then
 			end
 			
 		end
-		
 	end
 
 	SWEP.wRenderOrder = nil

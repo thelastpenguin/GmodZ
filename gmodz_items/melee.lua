@@ -1,7 +1,7 @@
 local item = {};
 
 item.base = 'base';
-item.PrintName = 'FAS2 Base'
+item.PrintName = 'Melee Base'
 item.StackSize = 1
 item.Desc = [[
 A trusty metal crowbar. 
@@ -9,7 +9,7 @@ Useful for prying open locks or bashing in brains.
 ]]
 item.Model = 'models/weapons/w_crowbar.mdl'
 item.Weapon = 'weapon_crowbar'
-item.lootBias = 1
+item.lootBias = 2
 
 gmodz.item.register( 'base_melee', item );
 
@@ -195,7 +195,7 @@ item.Model = "models/warz/melee/katana1.mdl"
 item.Weapon = 'gmodz_katana'
 item.lootBias = 1
 
-gmodz.item.register( 'melee_katana, item );
+gmodz.item.register( 'melee_katana', item );
 
 
 

@@ -44,7 +44,7 @@ else
 	local LocalPlayer = _G.LocalPlayer ;
 	-- PROMPT
 	local function canDrink( )
-		return LocalPlayer:WaterLevel() >= 1 ;
+		return LocalPlayer():WaterLevel() >= 1 ;
 	end
 	
 	-- HUD PROMPT: Drink Water

@@ -27,10 +27,10 @@ SWEP.WElements = {
 	["element_name"] = { type = "Model", model = "models/warz/melee/butterflyknife.mdl", bone = "ValveBiped.Bip01_R_Hand", rel = "", pos = Vector(2.9, 1, -1.364), angle = Angle(5.113, -86.932, -168.75), size = Vector(0.947, 0.947, 0.947), color = Color(255, 255, 255, 255), surpresslightning = false, material = "", skin = 0, bodygroup = {} }
 }
 
-SWEP.SwingTime = 1;
+SWEP.SwingTime = 0.7;
 SWEP.MeleeRange = 60;
 SWEP.MeleeSize = Vector( 5, 5, 5 );
-SWEP.MeleeDamage = 400
+SWEP.MeleeDamage = 20
 
 SWEP.HitAnim = ACT_VM_HITCENTER
 SWEP.MissAnim = ACT_VM_MISSCENTER

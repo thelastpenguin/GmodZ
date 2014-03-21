@@ -193,10 +193,46 @@ Slash through the undead like butter.
 ]]
 item.Model = "models/warz/melee/katana1.mdl"
 item.Weapon = 'gmodz_katana'
-item.lootBias = 1
+item.lootBias = 0.1
 
 gmodz.item.register( 'melee_katana', item );
 
 
+--
+-- MACHETE
+--
+local item = {};
+
+item.base = 'base_melee';
+item.PrintName = 'Machete'
+item.Desc = [[
+Clearing a path... through zombies.
+]]
+item.Model = "models/warz/melee/machete.mdl"
+item.Weapon = 'gmodz_machete'
+item.lootBias = 1
+
+gmodz.item.register( 'melee_machete', item );
+
+--
+-- PICKAXE
+--
+local item = {};
+
+item.base = 'base_melee';
+item.PrintName = 'Pick Axe'
+item.Desc = [[
+No need to dig down to hell when you can find it right at the surface.
+]]
+item.Model = "models/warz/melee/pickaxe.mdl"
+item.Weapon = 'gmodz_pickaxe'
+item.lootBias = 1
+
+gmodz.item.register( 'melee_pickaxe', item );
 
 
+
+
+	
+
+	

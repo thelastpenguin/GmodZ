@@ -30,7 +30,7 @@ SWEP.WElements = {
 SWEP.SwingTime = 1;
 SWEP.MeleeRange = 60;
 SWEP.MeleeSize = Vector( 5, 5, 5 );
-SWEP.MeleeDamage = 400
+SWEP.MeleeDamage = 50
 
 SWEP.HitAnim = ACT_VM_HITCENTER
 SWEP.MissAnim = ACT_VM_MISSCENTER

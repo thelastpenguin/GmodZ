@@ -3,6 +3,7 @@ if SERVER then AddCSLuaFile( ) end
 -- CORE ATTACK
 -- 
 SWEP.AutoSwitchTo = true ;
+SWEP.DrawAmmo = false
 
 SWEP.SwingTime = 1;
 SWEP.MeleeRange = 60;
@@ -16,6 +17,11 @@ SWEP.DamageType = DMG_SLASH
 
 SWEP.BloodDecal = "Blood"
 SWEP.HitDecal = "Impact.Concrete"
+
+SWEP.SoundGroups = {
+	['crowbar'] = {'weapons/crowbar/crowbar_impact1.wav','weapons/crowbar/crowbar_impact2.wav'},
+	
+}
 
 function SWEP:PrimaryAttack( )
 	if not SERVER then return end
@@ -93,9 +99,15 @@ function SWEP:MeleeAttack( )
 end
 
 
-
-
-
+SWEP.Primary.ClipSize = -1
+SWEP.Primary.DefaultClip = -1
+SWEP.Primary.Automatic = true
+SWEP.Primary.Ammo = "none"
+ 
+SWEP.Secondary.ClipSize = -1
+SWEP.Secondary.DefaultClip = -1
+SWEP.Secondary.Automatic = false
+SWEP.Secondary.Ammo = "none"
 
 
 

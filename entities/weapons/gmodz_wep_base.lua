@@ -18,10 +18,7 @@ SWEP.DamageType = DMG_SLASH
 SWEP.BloodDecal = "Blood"
 SWEP.HitDecal = "Impact.Concrete"
 
-SWEP.SoundGroups = {
-	['crowbar'] = {'weapons/crowbar/crowbar_impact1.wav','weapons/crowbar/crowbar_impact2.wav'},
-	
-}
+SWEP.Sounds = {'weapons/crowbar/crowbar_impact1.wav','weapons/crowbar/crowbar_impact2.wav'}
 
 function SWEP:PrimaryAttack( )
 	if not SERVER then return end
@@ -32,9 +29,11 @@ function SWEP:PrimaryAttack( )
 		timer.Simple( self.HitDelay, function()
 			if not IsValid( self )then return end
 			self:MeleeAttack( );
+			self:EmitSound( self.Sounds[ math.random( 1, #self.Sounds)], 100, 100 );
 		end );
 	else
 		self:MeleeAttack( );
+		self:EmitSound( self.Sounds[ math.random( 1, #self.Sounds)], 100, 100 );
 	end
 end
 function SWEP:SecondaryAttack( )
@@ -65,7 +64,11 @@ function SWEP:MeleeAttack( )
 		self:SendWeaponAnim( type( self.MissAnim ) == 'table' and self.HitAnim[math.random(1,#self.MissAnim)] or self.MissAnim );
 	end
 	
-	if IsValid( tr.Entity )then
+	if IsValid( tr.Entity ) and ( tr.Entity:IsNPC() or tr.Entity:IsPlayer() ) then
+		if tr.Entity:IsNPC() then
+			damage = damage / 2;
+		end
+		
 		local effect = EffectData( );
 		effect:SetStart( tr.HitPos );
 		effect:SetOrigin( tr.HitPos );

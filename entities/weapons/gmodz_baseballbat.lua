@@ -12,7 +12,7 @@ SWEP.HoldType = "melee"
 SWEP.ViewModelFlip = false
 SWEP.ViewModel = "models/weapons/c_stunstick.mdl"
 SWEP.WorldModel = "models/warz/melee/baseballbat.mdl"
-SWEP.ShowViewModel = true
+SWEP.ShowViewModel = false
 SWEP.ShowWorldModel = false
 SWEP.ViewModelBoneMods = {
 	["Bip01"] = { scale = Vector(0.009, 0.009, 0.009), pos = Vector(0, 0, 0), angle = Angle(0, 0, 0) }

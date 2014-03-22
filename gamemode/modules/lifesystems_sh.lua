@@ -3,11 +3,14 @@ if SERVER then
 	-- LIFE SYSTEMS.
 	--
 	timer.Create( 'gmodz_lifesystems', 10, 0, function()
+		local mw, mf = gmodz.cfg.max_water, gmodz.cfg.max_food;
+		local mh = gmodz.cfg.starting_health;
 		for k,pl in pairs( player.GetAll())do
 			
 			local rate = pl:GetVelocity():Length() > 30 and 2 or 1;
 			
 			local w, f = pl:GetUData( 'water', 0 ), pl:GetUData( 'food', 0 );
+			local fw, ff = w / mw, f / mf ;
 			if f <= 0 then
 				pl:TakeDamage( math.random(2,3), NULL, NULL );
 			else
@@ -20,6 +23,9 @@ if SERVER then
 				pl:SetUData( 'water', w - rate );
 			end
 			
+			if fw > 0.8 and ff > 0.8 and pl:Health() < mh then
+				pl:SetHealth( math.Clamp( pl:Health() + 5, 0, mh ) );
+			end
 		end
 	end);
 	

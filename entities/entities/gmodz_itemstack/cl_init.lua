@@ -6,7 +6,7 @@ function ENT:Initialize()
 	
 	if self.meta.SVModel then
 		self.csModel = ClientsideModel( self.meta.Model, RENDERMODE_TRANSALPHA );
-		self.csModel:SetNoDraw( );
+		self.csModel:SetNoDraw( true );
 		self.csModel:SetPos(Vector(0,0,0) );
 	end
 	

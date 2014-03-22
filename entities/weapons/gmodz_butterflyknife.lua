@@ -13,7 +13,7 @@ SWEP.ViewModelFOV = 70
 SWEP.ViewModelFlip = false
 SWEP.ViewModel = "models/weapons/v_knife_t.mdl"
 SWEP.WorldModel = "models/warz/melee/butterflyknife.mdl"
-SWEP.ShowViewModel = true
+SWEP.ShowViewModel = false
 SWEP.ShowWorldModel = false
 SWEP.ViewModelBoneMods = {
 	["v_weapon.knife_Parent"] = { scale = Vector(0.009, 0.009, 0.009), pos = Vector(0, 0, 0), angle = Angle(0, 0, 0) }

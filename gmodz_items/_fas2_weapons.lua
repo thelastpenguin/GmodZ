@@ -213,7 +213,7 @@ The Glock 20, introduced in 1991, was developed for the then-growing law enforce
 item.Model = "models/weapons/w_pist_glock18.mdl"
 item.SVModel = "models/weapons/w_pist_glock18.mdl"
 item.Weapon = 'fas2_glock20'
-item.lootBias = 2
+item.lootBias = 5
 
 gmodz.item.register( 'weapon_fas2_glock20', item );
 
@@ -438,7 +438,7 @@ MP5K
 item.Model = "models/weapons/w_mp5.mdl"
 item.SVModel = "models/weapons/w_smg_mp5.mdl"
 item.Weapon = 'fas2_mp5k'
-item.lootBIas = 0.9
+item.lootBias = 0.9
 
 gmodz.item.register( 'weapon_fas2_mp5k', item );
 
@@ -473,7 +473,7 @@ The SIG P226 is a full-sized, service-type pistol made by SIG Sauer.
 item.Model = "models/weapons/w_pist_p228.mdl"
 item.SVModel = "models/weapons/w_pist_p228.mdl"
 item.Weapon = 'fas2_p226'
-item.lootBias = 2.3
+item.lootBias = 4
 
 gmodz.item.register( 'weapon_fas2_p226', item );
 
@@ -507,7 +507,7 @@ item.Desc = [[
 The Raging Bull is a revolver. 
 In its larger calibers it is marketed as a hunter's sidearm because it is a potent weapon with plenty of stopping power.
 ]]
-item.Model = "models/weapons/view/pistols/ragingbull.mdl"
+item.Model = "models/weapons/w_357.mdl"
 item.SVModel = "models/weapons/w_357.mdl"
 item.Weapon = 'fas2_ragingbull'
 item.lootBias = 1.4
@@ -527,7 +527,7 @@ Remington 870
 item.Model = "models/weapons/w_m3.mdl"
 item.SVModel = "models/weapons/w_shot_m3super90.mdl"
 item.Weapon = 'fas2_rem870'
-item.lootBias = 1.5
+item.lootBias = 3
 
 gmodz.item.register( 'weapon_fas2_rem870', item );
 

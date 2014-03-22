@@ -31,7 +31,11 @@ function ENT:SpawnLoot( )
 	
 	-- SPAWN IT.
 	local ent = gmodz.itemstack.CreateEntity( lootStack );
-	ent:SetPos( self:GetPos( ) );
+	if not IsValid( ent ) then return end
+	
+	local size = -ent:OBBMins();
+	
+	ent:SetPos( self:GetPos( ) + self:GetAngles():Forward() * size.z );
 	ent:SetMoveType( MOVETYPE_NONE );
 	
 	ent:SetUseCallback( function()

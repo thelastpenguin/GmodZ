@@ -159,15 +159,6 @@ local _ang, _pos = Angle(0,0,0), Vector(0,0,0);
 gmodz.rendereffects.SetCamCalc( function( ply, pos, ang, fov )
 	if gmodz.getVar( 'viewmode' ) == 0 then return pos, ang, fov end
 	
-	-- LIMIT 3RD PERSON VIEW ANGLES.
-	local pitch = ang.p;
-	if( pitch > 40 or pitch < -60 )then
-		ang.p = math.Clamp( pitch, -60, 40 );
-		ang.r = 0;
-		pl:SetEyeAngles( ang );
-	end
-	
-	
 	local playerdistance = 50
 	local fixeddist = 16
 	

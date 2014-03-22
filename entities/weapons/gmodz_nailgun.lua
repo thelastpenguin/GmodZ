@@ -27,7 +27,7 @@ SWEP.WElements = {
 	["w"] = { type = "Model", model = "models/warz/melee/nailgun.mdl", bone = "ValveBiped.Bip01_R_Hand", rel = "", pos = Vector(4.091, 2, -2.274), angle = Angle(0, 0, 180), size = Vector(0.947, 0.947, 0.947), color = Color(255, 255, 255, 255), surpresslightning = false, material = "", skin = 0, bodygroup = {} }
 }
 
-SWEP.SwingTime = 2;
+SWEP.Primary.Delay = 2;
 SWEP.MeleeRange = 60;
 SWEP.MeleeSize = Vector( 5, 5, 5 );
 SWEP.MeleeDamage = 10

@@ -57,3 +57,44 @@ end
 function Player:InSafezone( )
 	return self:GetNWBool( 'gmodz_sz', false );
 end
+
+
+
+--
+-- WEAPON UTILS
+--
+local getSVec = gmodz.Memoize( function( s )
+	return Vector( s, s, s );
+end );
+
+function Player:TraceLine(distance, mask, filter, start)
+	start = start or self:GetShootPos()
+	return util.TraceLine({start = start, endpos = start + self:GetAimVector() * distance, filter = filter or self, mask = mask})
+end
+
+function Player:TraceHull(distance, mask, size, filter, start)
+	start = start or self:GetShootPos()
+	return util.TraceHull({start = start, endpos = start + self:GetAimVector() * distance, filter = filter or self, mask = mask, mins = getSVec( -size ), maxs = getSVec( size )})
+end
+
+function Player:DoubleTrace(distance, mask, size, mask2, filter)
+	local tr1 = self:TraceLine(distance, mask, filter)
+	if tr1.Hit then return tr1 end
+	if mask2 then
+		local tr2 = self:TraceLine(distance, mask2, filter)
+		if tr2.Hit then return tr2 end
+	end
+
+	local tr3 = self:TraceHull(distance, mask, size, filter)
+	if tr3.Hit then return tr3 end
+	if mask2 then
+		local tr4 = self:TraceHull(distance, mask2, size, filter)
+		if tr4.Hit then return tr4 end
+	end
+
+	return tr1
+end
+
+function Player:MeleeTrace(distance, size, filter, start)
+	return self:TraceHull(distance, MASK_SOLID, size, filter, start)
+end

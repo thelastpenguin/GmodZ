@@ -27,7 +27,7 @@ SWEP.WElements = {
 	["sh"] = { type = "Model", model = "models/warz/melee/golfclub.mdl", bone = "ValveBiped.Bip01_R_Hand", rel = "", pos = Vector(3, 1, -14), angle = Angle(180, 146.25, 0), size = Vector(0.889, 0.889, 0.889), color = Color(255, 255, 255, 255), surpresslightning = false, material = "", skin = 0, bodygroup = {} }
 }
 
-SWEP.SwingTime = 0.8;
+SWEP.Primary.Delay = 0.8;
 SWEP.MeleeRange = 70;
 SWEP.MeleeSize = Vector( 5, 5, 5 );
 SWEP.MeleeDamage = 25

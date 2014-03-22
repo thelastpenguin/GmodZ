@@ -27,7 +27,7 @@ SWEP.WElements = {
 	["fp"] = { type = "Model", model = "models/warz/melee/fryingpan.mdl", bone = "ValveBiped.Bip01_R_Hand", rel = "", pos = Vector(3.5, 1.2, -2), angle = Angle(21.476, 86.931, 169), size = Vector(1.059, 1.059, 1.059), color = Color(255, 255, 255, 255), surpresslightning = false, material = "", skin = 0, bodygroup = {} }
 }
 
-SWEP.SwingTime = 1;
+SWEP.Primary.Delay = 1;
 SWEP.MeleeRange = 60;
 SWEP.MeleeSize = Vector( 5, 5, 5 );
 SWEP.MeleeDamage = 20

@@ -27,7 +27,7 @@ SWEP.WElements = {
 	["e"] = { type = "Model", model = "models/warz/melee/fireaxe.mdl", bone = "ValveBiped.Bip01_R_Hand", rel = "", pos = Vector(3.181, 2.273, -8.636), angle = Angle(172.841, 80.794, -3.069), size = Vector(1.003, 1.003, 1.003), color = Color(255, 255, 255, 255), surpresslightning = false, material = "", skin = 0, bodygroup = {} }
 }
 
-SWEP.SwingTime = 1.4;
+SWEP.Primary.Delay = 1.4;
 SWEP.MeleeRange = 60;
 SWEP.MeleeSize = Vector( 5, 5, 5 );
 SWEP.MeleeDamage = 400

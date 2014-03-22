@@ -27,7 +27,7 @@ SWEP.WElements = {
 	["baseballbat"] = { type = "Model", model = "models/warz/melee/baseballbat.mdl", bone = "ValveBiped.Bip01_R_Hand", rel = "", pos = Vector(4.039, 2.23, -5), angle = Angle(180, 3.068, 0), size = Vector(1.343, 1.343, 1.343), color = Color(255, 255, 255, 255), surpresslightning = false, material = "", skin = 0, bodygroup = {} }
 }
 
-SWEP.SwingTime = 1.4;
+SWEP.Primary.Delay  = 1.4;
 SWEP.MeleeRange = 60;
 SWEP.MeleeSize = Vector( 5, 5, 5 );
 SWEP.MeleeDamage = 35	

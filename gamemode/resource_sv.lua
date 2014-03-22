@@ -28,10 +28,11 @@ local function AddDir(dir, str )
 	end
 end
  
-AddDir("materials/gmodz")
+AddDir("materials/gmodz");
 AddDir("materials/blood");
-AddDir("materials/models/warz")
+AddDir("materials/models/warz");
 
-AddDir("models/warz")
+AddDir("models/warz");
 
 AddDir("sound/eating_and_drinking");
+AddDir("sound/weapons/melee");

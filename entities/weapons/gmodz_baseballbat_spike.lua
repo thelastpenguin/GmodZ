@@ -7,6 +7,7 @@ SWEP.Contact = 'thelastpenguin212@gmail.com'
 SWEP.Purpose = "bash n smash"
 SWEP.Instructions = 'Left Click to hit'
 
+SWEP.Sounds = string.combinations('weapons/melee/keyboard/keyboard_hit-0',{'1.ogg','2.ogg','3.ogg','4.ogg'})
 
 SWEP.HoldType = "melee"
 SWEP.ViewModelFlip = false

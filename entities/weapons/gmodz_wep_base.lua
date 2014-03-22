@@ -29,11 +29,10 @@ function SWEP:PrimaryAttack( )
 		timer.Simple( self.HitDelay, function()
 			if not IsValid( self )then return end
 			self:MeleeAttack( );
-			self:EmitSound( self.Sounds[ math.random( 1, #self.Sounds)], 100, 100 );
 		end );
 	else
 		self:MeleeAttack( );
-		self:EmitSound( self.Sounds[ math.random( 1, #self.Sounds)], 100, 100 );
+		
 	end
 end
 function SWEP:SecondaryAttack( )
@@ -98,6 +97,12 @@ function SWEP:MeleeAttack( )
 	else
 		local tr = owner:GetEyeTrace();
 		util.Decal( 'ManhackCut', tr.HitPos + tr.HitNormal, tr.HitPos - tr.HitNormal );
+	end
+	
+	if tr.Hit then
+		self:EmitSound( self.Sounds[ math.random( 1, #self.Sounds)], 100, 100 );
+	else
+		self:EmitSound( 'weapons/melee/melee_slash1.wav', 100, 100 );
 	end
 end
 

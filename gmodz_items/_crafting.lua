@@ -6,8 +6,7 @@ item.Desc = [[
 Base Food Entity.
 ]]
 item.Model = "models/Items/BoxMRounds.mdl"
-item.lootCount = 1
-item.lootBias = 3
+item.lootBias = 2
 gmodz.item.register( 'base_material', item );
 
 
@@ -53,7 +52,7 @@ end
 
 -- PROPANE TANK
 local item = {};
-item.base = 'base';
+item.base = 'base_material';
 item.PrintName = 'Propane Tank'
 item.StackSize = 64
 item.Desc = [[
@@ -67,7 +66,7 @@ gmodz.item.register( 'material_propane', item );
 
 -- GAS TANK
 local item = {};
-item.base = 'base';
+item.base = 'base_material';
 item.PrintName = 'Gas Tank'
 item.StackSize = 64
 item.Desc = [[
@@ -82,7 +81,7 @@ gmodz.item.register( 'material_gas', item );
 
 -- CIRCUIT
 local item = {};
-item.base = 'base';
+item.base = 'base_material';
 item.PrintName = 'Circuit'
 item.StackSize = 64
 item.Desc = [[
@@ -95,7 +94,7 @@ gmodz.item.register( 'material_circuit', item );
 
 -- ADVANCED CIRCUIT
 local item = {};
-item.base = 'base';
+item.base = 'base_material';
 item.PrintName = 'Adv Circuit'
 item.StackSize = 64
 item.Desc = [[
@@ -109,7 +108,7 @@ gmodz.item.register( 'material_circuit_adv', item );
 
 -- UNUBTANIUM
 local item = {};
-item.base = 'base';
+item.base = 'base_material';
 item.PrintName = 'Unubtanium'
 item.StackSize = 64
 item.Desc = [[
@@ -123,7 +122,7 @@ gmodz.item.register( 'material_techtrium', item );
 
 -- RUBBER
 local item = {};
-item.base = 'base';
+item.base = 'base_material';
 item.PrintName = 'Rubber'
 item.StackSize = 64
 item.Desc = [[
@@ -137,7 +136,7 @@ gmodz.item.register( 'material_rubber', item );
 
 -- NITRATE
 local item = {};
-item.base = 'base';
+item.base = 'base_material';
 item.PrintName = 'NITRATE'
 item.StackSize = 64
 item.Desc = [[
@@ -152,7 +151,7 @@ gmodz.item.register( 'material_nitrate', item );
 
 -- PLASTIC RESIN
 local item = {};
-item.base = 'base';
+item.base = 'base_material';
 item.PrintName = 'Plastic Resin'
 item.StackSize = 64
 item.Desc = [[
@@ -168,7 +167,7 @@ gmodz.item.register( 'material_nitrate', item );
 
 -- TECH REACTOR
 local item = {};
-item.base = 'base';
+item.base = 'base_material';
 item.PrintName = 'Tech Reactor'
 item.StackSize = 64
 item.Desc = [[
@@ -183,7 +182,7 @@ gmodz.item.register( 'material_techreactor', item );
 
 -- TERRA COTTA POT
 local item = {};
-item.base = 'base';
+item.base = 'base_material';
 item.PrintName = 'Terracotta Pot'
 item.StackSize = 64
 item.Desc = [[
@@ -197,7 +196,7 @@ gmodz.item.register( 'material_terracottapot', item );
 
 -- SPARE PARTS
 local item = {};
-item.base = 'base';
+item.base = 'base_material';
 item.PrintName = 'Spare Parts'
 item.StackSize = 64
 item.Desc = [[
@@ -210,7 +209,7 @@ gmodz.item.register( 'material_terracottapot', item );
 
 -- METAL RODS
 local item = {};
-item.base = 'base';
+item.base = 'base_material';
 item.PrintName = 'Copper Rods'
 item.StackSize = 64
 item.Desc = [[
@@ -223,7 +222,7 @@ gmodz.item.register( 'material_copper', item );
 
 -- SCRAP METAL
 local item = {}; 
-item.base = 'base';
+item.base = 'base_material';
 item.PrintName = 'Scrap Metal'
 item.StackSize = 64
 item.Desc = [[
@@ -237,7 +236,6 @@ gmodz.item.register( 'material_metal', item );
 
 gmodz.hook.Add( 'PostItemsLoaded', function()
 	local recip = gmodz.crafting.new( )
-	
 	
 	
 end);

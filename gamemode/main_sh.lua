@@ -52,13 +52,15 @@ TEAM_SURVIVER = 2; team.SetUp( TEAM_SURVIVER, 'Survivers', Color( 100, 200, 100 
 --
 gmodz.include_sh '_config_sh.lua' ;
 gmodz.include_cl 'fonts_cl.lua' ;
-gmodz.include_sv 'resource_sv.lua' ;
 
 -- LOAD CORE LIBS
+gmodz.include_sh 'lib/string_sh.lua' ;
 gmodz.include_sh 'lib/fancyprint_sh.lua' ;
 gmodz.include_sh 'lib/phooks_sh.lua' ;
 gmodz.include_sh 'lib/pon_sh.lua' ;
 gmodz.include_sv 'lib/mysql_sv.lua' ;
+
+gmodz.include_sv 'resource_sv.lua' ;
 
 -- OTHER LIBS
 gmodz.include_sh 'lib/settings_sh.lua' ;

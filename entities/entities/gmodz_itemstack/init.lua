@@ -15,6 +15,12 @@ function ENT:Initialize()
 	self:SetCollisionGroup( COLLISION_GROUP_WORLD );
 	
 	local phys = self:GetPhysicsObject()
+	if not IsValid( phys )then
+		gmodz.print("ERROR PHYS INIT FAILED ITEM: "..self.stack.meta.PrintName );
+		ErrorNoHalt("ERROR PHYS INIT FAILED");
+		self:Remove() 
+	end
+	
 	if not phys then self:Remove() end
 	phys:Wake()
 end

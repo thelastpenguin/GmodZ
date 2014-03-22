@@ -179,13 +179,6 @@ function SWEP:MeleeSwing()
 			self:PlayHitFleshSound()
 			if SERVER and IsValid( hitent ) then
 				
-				local effectdata = EffectData()
-					effectdata:SetOrigin(tr.HitPos)
-					effectdata:SetMagnitude(math.Rand(damage * 0.25, damage * 0.6))
-					effectdata:SetNormal((tr.HitPos - owner:GetShootPos()):GetNormalized())
-					effectdata:SetScale(math.max(128, math.Rand(damage * 6, damage * 12)))
-				util.Effect("gmodz_bloodspray", effectdata, nil, true)
-				
 				if tr.Entity.Health then
 					if tr.Entity:Health() <= damage then
 						local effect = EffectData( );
@@ -194,8 +187,15 @@ function SWEP:MeleeSwing()
 						effect:SetAngles( owner:EyeAngles( ) );
 						effect:SetScale( 1 );
 						effect:SetEntity( tr.Entity );
-						util.Effect( 'gib_player', effect );
+						util.Effect( 'gmodz_gibplayer', effect );
 					end
+				else
+					local effectdata = EffectData()
+						effectdata:SetOrigin(tr.HitPos)
+						effectdata:SetMagnitude(math.Rand(damage * 0.25, damage * 0.6))
+						effectdata:SetNormal((tr.HitPos - owner:GetShootPos()):GetNormalized())
+						effectdata:SetScale(math.max(128, math.Rand(damage * 6, damage * 12)))
+					util.Effect("gmodz_bloodspray", effectdata, nil, true)
 				end 
 				
 			end

@@ -217,7 +217,7 @@ Rods of copper, useful in electronics.
 ]]
 item.Model = "models/Items/CrossbowRounds.mdl"
 item.lootCount = 1
-item.lootBias = 3
+item.lootBias = 10
 gmodz.item.register( 'material_copper', item );
 
 -- SCRAP METAL
@@ -230,12 +230,14 @@ Scrap Metal
 ]]
 item.Model = "models/gibs/metal_gib1"
 item.lootCount = 1
-item.lootBias = 3
+item.lootBias = 10
 gmodz.item.register( 'material_metal', item );
 
 
 gmodz.hook.Add( 'PostItemsLoaded', function()
 	local recip = gmodz.crafting.new( )
-	
+	recip:AddMaterialEx( 'material_copper', 1, {} );
+	recip:AddMaterialEx( 'material_nitrate', 1, {} );
+	recip:AddProductEx( 'ammo_9mm', 64, {} );
 	
 end);

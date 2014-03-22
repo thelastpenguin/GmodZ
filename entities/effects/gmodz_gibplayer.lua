@@ -39,7 +39,7 @@ function EFFECT:Init(data)
 		if pos and pos ~= basepos then
 			for i=1, 2 do
 				local heading = VectorRand():GetNormalized() / 5
-				local particle = emitter:Add("noxctf/sprite_bloodspray"..math.random(8), pos + heading)
+				local particle = emitter:Add("blood/sprite_bloodspray"..math.random(8), pos + heading)
 				particle:SetVelocity(speed * math.Rand(0.5, 1) * heading)
 				particle:SetDieTime(math.Rand(3, 6))
 				particle:SetStartAlpha(200)
@@ -57,7 +57,7 @@ function EFFECT:Init(data)
 			end
 
 			for i=1, 4 do
-				local particle = emitter:Add("noxctf/sprite_bloodspray"..math.random(8), pos)
+				local particle = emitter:Add("blood/sprite_bloodspray"..math.random(8), pos)
 				particle:SetVelocity(math.Rand(0.5, 4) * (VectorRand():GetNormalized() + dir))
 				particle:SetDieTime(math.Rand(0.75, 2))
 				particle:SetStartAlpha(230)

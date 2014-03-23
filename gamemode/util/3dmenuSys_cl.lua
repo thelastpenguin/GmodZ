@@ -248,15 +248,19 @@ gmodz.hook.Add('PostDrawTranslucentRenderables',function()
 	if not isEnabled then return end
 	
 	-- PREVENT PIXELATION
-	render.PushFilterMag( TEXFILTER.ANISOTROPIC )
-	render.PushFilterMin( TEXFILTER.ANISOTROPIC )
+	for i = 1, 16 do
+		render.PushFilterMag( TEXFILTER.ANISOTROPIC )
+		render.PushFilterMin( TEXFILTER.ANISOTROPIC )
+	end
 		local succ, err = pcall( drawPanels );
 		if not succ then
 			gmodz.print( 'FAILED TO DRAW TRANSLUCENT RENDERABLES!', Color(255,0,0) );
 			print( err );
 		end
-	render.PopFilterMag()
-	render.PopFilterMin()
+	for i = 1, 16 do
+		render.PopFilterMag()
+		render.PopFilterMin()
+	end
 end);
 
 -- 

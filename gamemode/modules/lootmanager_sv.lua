@@ -7,6 +7,7 @@ gmodz.hook.Add( 'medit_Cleanup', function( )
 	local c = 0;
 	for k,v in pairs( ents.GetAll() )do
 		if v:GetClass() ~= 'node_loot' then continue end
+		v:OnRemove( );
 		v:Remove( );
 		c = c + 1;
 	end
@@ -36,7 +37,7 @@ local function pickRandomBiased( opts )
 			break ;
 		end
 	end
-	
+	if not lType then return pickRandomBiased( opts ) end
 	if lType.children == nil or table.Count( lType.children ) == 0 then
 		return lType
 	else
@@ -63,5 +64,19 @@ end);
 gmodz.hook.Add( 'PostMapLoaded', function()
 	for k,v in pairs( ents.FindByClass( 'node_loot' ) )do
 		v:SpawnLoot( );
+	end
+end);
+
+
+-- NPC Looting...
+gmodz.hook.Add( 'OnNPCKilled', function( npc, pl, wep )
+	if math.random(1,4) == 1 then
+		
+	else
+		local lType = gmodz.hook.Call( 'ChooseLootType', self.lootTypes );
+		local ent = lType:CreateDrop( );
+		local pos = ent:GetPos() ;
+		pos.z = pos.z - ent:OBBMins().z ;
+		ent:SetPos( pos );
 	end
 end);

@@ -8,8 +8,8 @@ function PANEL:Init( )
 	gmodz_hudpanel = self;
 	
 	self.healthmodel = vgui.Create( 'gmodz_healthmodel', self );
-	self.foodbar = vgui.Create( 'gmodz_foodbar', self );
-	self.waterbar = vgui.Create( 'gmodz_waterbar', self );
+	--self.foodbar = vgui.Create( 'gmodz_foodbar', self );
+	--self.waterbar = vgui.Create( 'gmodz_waterbar', self );
 	
 	self:InvalidateLayout( true );
 end
@@ -22,11 +22,11 @@ function PANEL:PerformLayout( )
 		
 	self.healthmodel:SetSize( w, h );
 	
-	self.waterbar:SetSize( w*0.05, h*0.8 );
-	self.foodbar:SetSize( w*0.05, h*0.8 );
+	--self.waterbar:SetSize( w*0.05, h*0.8 );
+	--self.foodbar:SetSize( w*0.05, h*0.8 );
 	
-	self.waterbar:SetPos( w*0.15, h*0.1 );
-	self.foodbar:SetPos( w*(0.85-0.05), h*0.1 );
+	--self.waterbar:SetPos( w*0.15, h*0.1 );
+	--self.foodbar:SetPos( w*(0.85-0.05), h*0.1 );
 end
 function PANEL:Paint( w, h )
 end
@@ -187,7 +187,7 @@ function PANEL:Paint()
 		self.Entity:DrawModel()
 		
 		render.SetBlend( 0.93 );
-		render.FogColor( 200, 50, 50 );
+		render.FogColor( 200, 0, 0 );
 		render.FogMode( MATERIAL_FOG_LINEAR );
 		render.SetScissorRect( x, y, x+w, y+h*(1-self.hpFrac), true );
 		self.Entity:DrawModel( )
@@ -202,12 +202,56 @@ function PANEL:Paint()
 	render.SuppressEngineLighting( false );
 	
 	self.LastPaint = RealTime()
+	
+	-- x, y, radius, linewidth, startangle, endangle, aa
+	draw.NoTexture( );
+	
+	-- RIGHT - FOOD
+	local food = LocalPlayer():GetUData( 'food' );
+	if not food then return end;
+	local frac = 1-math.Clamp( food / gmodz.cfg.max_food, 0, 1 );
+	
+	local aStart = -45;
+	surface.SetDrawColor(0,0,0,150);
+	surface.DrawArc( w*0.4, h*0.5, w*0.5-20, w*0.5, aStart, aStart+90, 10 )
+	
+	surface.SetDrawColor(100,155,0);
+	surface.DrawArc( w*0.4, h*0.5, w*0.5-20, w*0.5, aStart+90*frac, aStart+90, 10 )
+	
+	surface.SetDrawColor(255,255,255,50);
+	surface.DrawArcOutline( w*0.4, h*0.5, w*0.5-20, w*0.5, aStart, aStart+90, 10 )
+	
+	-- LEFT - WATER
+	local water = LocalPlayer():GetUData( 'water' );
+	if not water then return end;
+	local frac = math.Clamp( water / gmodz.cfg.max_water, 0, 1 );
+	
+	local aStart = 90+45
+	surface.SetDrawColor(0,0,0,150);
+	surface.DrawArc( w*0.6, h*0.5, w*0.5-20, w*0.5, aStart, aStart+90, 10 )
+	
+	surface.SetDrawColor(0,70,155);
+	surface.DrawArc( w*0.6, h*0.5, w*0.5-20, w*0.5, aStart, aStart+90*frac, 10 )
+	
+	surface.SetDrawColor(255,255,255,50);
+	surface.DrawArcOutline( w*0.6, h*0.5, w*0.5-20, w*0.5, aStart, aStart+90, 10 )
 end
 
 derma.DefineControl( "gmodz_healthmodel", "Health Model", PANEL )
 
 
 
+
+
+
+
+
+
+
+
+--
+-- STAT BARS
+--
 local PANEL = {};
 function PANEL:Init()
 	
@@ -218,12 +262,15 @@ function PANEL:Paint( w, h )
 	local frac = math.Clamp( food / gmodz.cfg.max_food, 0, 1 );
 	surface.SetDrawColor(100,155,0);
 	surface.DrawRect(0,h*(1-frac),w,h);
-		
+	
 	surface.SetDrawColor(100,155,0,20);
 	surface.DrawRect(0,0,w,h);
 
 	surface.SetDrawColor(100,155,0);
 	surface.DrawOutlinedRect(0,0,w,h);
+	draw.NoTexture( );
+	surface.SetDrawColor(255,255,255);
+	surface.DrawPartialCircle(0, 0, 50, 10, 0, 260, 20 );
 end
 vgui.Register( 'gmodz_foodbar', PANEL );
 

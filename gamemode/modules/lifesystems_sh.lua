@@ -24,7 +24,9 @@ if SERVER then
 			end
 			
 			if fw > 0.8 and ff > 0.8 and pl:Health() < mh then
-				pl:SetHealth( math.Clamp( pl:Health() + 5, 0, mh ) );
+				pl:SetHealth( math.Clamp( pl:Health() + math.random(4,6), 0, mh ) );
+				pl:SetUData( 'food', f - rate*2);
+				pl:SetUData( 'water', w - rate*2);
 			end
 		end
 	end);

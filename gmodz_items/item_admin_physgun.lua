@@ -12,4 +12,4 @@ item.SVModel = 'models/weapons/w_smg1.mdl'
 item.Weapon = 'weapon_physgun'
 item.lootBias = 0;
 
-gmodz.item.register( 'admin_physgun', item );
+gmodz.item.register( 'physgun', item );

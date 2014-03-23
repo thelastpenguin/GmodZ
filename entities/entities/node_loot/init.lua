@@ -23,14 +23,7 @@ function ENT:SpawnLoot( )
 	end
 	
 	-- CREATE THE ENTITY
-	local count = isfunction( lType.lootCount ) and lType.lootCount() or lType.lootCount;
-	
-	-- BUILD STACK
-	local lootStack = gmodz.itemstack.new( lType.class );
-	lootStack:SetCount( count );
-	
-	-- SPAWN IT.
-	local ent = gmodz.itemstack.CreateEntity( lootStack );
+	local ent = lType:CreateDrop( );
 	if not IsValid( ent ) then return end
 	
 	local size = -ent:OBBMins();

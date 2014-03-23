@@ -14,6 +14,13 @@ concommand.Add( 'medit_start', function( )
 	medit.editing = true ;
 end);
 
+concommand.Add( 'medit_stop', function( )
+	chat.AddText( Color(0,0,200,'[MEDIT] Ended edit session.'));
+	net.Start( 'medit_ui_ApplyChanges' );
+	net.SendToServer( );
+	medit.editing = false ;
+end);
+
 --
 -- NETWORKING 
 --
@@ -29,8 +36,13 @@ end);
 --
 -- NODE SYSTEM GUI.
 --
+local mousex, mousey = ScrW()/2, ScrH()/2;
 concommand.Add( '+medit_CreateNode', function()
+	
 	if not medit.editing then chat.AddText( Color(255,0,0), '[MEDIT] ', Color(255,155,0), 'You must be editing first! medit_start'); return end
+	
+	gui.SetMousePos( mousex, mousey );
+	
 	if not medit.menu then
 		local frame = vgui.Create( 'DPanel' );
 		frame:MakePopup();
@@ -186,6 +198,8 @@ concommand.Add( '-medit_CreateNode', function( )
 	if ValidPanel( medit.menu ) then
 		medit.menu:SetVisible( false );
 	end
+	mousex, mousey = input.GetCursorPos()
+	print( mousex, mousey );
 end);
 
 concommand.Add('medit_RemoveNode', function()

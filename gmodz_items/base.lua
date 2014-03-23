@@ -1,3 +1,5 @@
+local gmodz = gmodz ;
+
 
 local item = {};
 
@@ -25,6 +27,19 @@ item.equals = function( stack, other )
 	else
 		return false;
 	end
+end
+
+
+function item:CreateDrop( )
+	-- CREATE THE ENTITY
+	local count = isfunction( self.lootCount ) and self.lootCount() or self.lootCount;
+	
+	-- BUILD STACK
+	local lootStack = gmodz.itemstack.new( self.class );
+	lootStack:SetCount( count );
+	
+	-- SPAWN IT.
+	return gmodz.itemstack.CreateEntity( lootStack );
 end
 
 

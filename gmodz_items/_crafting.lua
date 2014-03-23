@@ -89,7 +89,7 @@ end
 local item = {};
 item.base = 'base_material';
 item.PrintName = 'Propane Tank'
-item.StackSize = 64
+item.StackSize = 16
 item.Desc = [[
 A tank of propane. Handle with care.
 ]]
@@ -103,7 +103,7 @@ gmodz.item.register( 'material_propane', item );
 local item = {};
 item.base = 'base_material';
 item.PrintName = 'Gas Tank'
-item.StackSize = 64
+item.StackSize = 16
 item.Desc = [[
 A tank of gas. Handle with care.
 ]]
@@ -118,7 +118,7 @@ gmodz.item.register( 'material_gas', item );
 local item = {};
 item.base = 'base_material';
 item.PrintName = 'Circuit'
-item.StackSize = 64
+item.StackSize = 16
 item.Desc = [[
 A simple circuit. Pretty simple.
 ]]
@@ -131,7 +131,7 @@ gmodz.item.register( 'material_circuit', item );
 local item = {};
 item.base = 'base_material';
 item.PrintName = 'Adv Circuit'
-item.StackSize = 64
+item.StackSize = 16
 item.Desc = [[
 A simple circuit. Pretty simple.
 ]]
@@ -145,7 +145,7 @@ gmodz.item.register( 'material_circuit_adv', item );
 local item = {};
 item.base = 'base_material';
 item.PrintName = 'Unubtanium'
-item.StackSize = 64
+item.StackSize = 1
 item.Desc = [[
 Unubtanium - high tech alloy. Unstable Form of Matter. HIGHLY EXPLOSIVE.
 ]]
@@ -159,7 +159,7 @@ gmodz.item.register( 'material_techtrium', item );
 local item = {};
 item.base = 'base_material';
 item.PrintName = 'Rubber'
-item.StackSize = 64
+item.StackSize = 16
 item.Desc = [[
 Some vulcanized rubber. Useful for crafting.
 ]]
@@ -173,7 +173,7 @@ gmodz.item.register( 'material_rubber', item );
 local item = {};
 item.base = 'base_material';
 item.PrintName = 'NITRATE'
-item.StackSize = 64
+item.StackSize = 16
 item.Desc = [[
 POWERFUL OXIDANT HANDLE WITH CARE
 ]]
@@ -188,7 +188,7 @@ gmodz.item.register( 'material_nitrate', item );
 local item = {};
 item.base = 'base_material';
 item.PrintName = 'Plastic Resin'
-item.StackSize = 64
+item.StackSize = 16
 item.Desc = [[
 Plastic Resin. It's plastic...
 ]]
@@ -204,7 +204,7 @@ gmodz.item.register( 'material_plastic', item );
 local item = {};
 item.base = 'base_material';
 item.PrintName = 'Tech Reactor'
-item.StackSize = 64
+item.StackSize = 1
 item.Desc = [[
 Tech Reactor. Required for advanced recipes.
 ]]
@@ -219,7 +219,7 @@ gmodz.item.register( 'material_techreactor', item );
 local item = {};
 item.base = 'base_material';
 item.PrintName = 'Terracotta Pot'
-item.StackSize = 64
+item.StackSize = 16
 item.Desc = [[
 A terracotta pot. Useful for farming.
 ]]
@@ -233,7 +233,7 @@ gmodz.item.register( 'material_terracottapot', item );
 local item = {};
 item.base = 'base_material';
 item.PrintName = 'Spare Parts'
-item.StackSize = 64
+item.StackSize = 16
 item.Desc = [[
 Bin of misc electronic parts
 ]]
@@ -246,12 +246,12 @@ gmodz.item.register( 'material_spareparts', item );
 local item = {};
 item.base = 'base_material';
 item.PrintName = 'Copper Rods'
-item.StackSize = 64
+item.StackSize = 16
 item.Desc = [[
 Rods of copper, useful in electronics.
 ]]
 item.Model = "models/Items/CrossbowRounds.mdl"
-item.lootCount = 6
+item.lootCount = 4
 item.lootBias = 10
 gmodz.item.register( 'material_copper', item );
 
@@ -259,12 +259,12 @@ gmodz.item.register( 'material_copper', item );
 local item = {}; 
 item.base = 'base_material';
 item.PrintName = 'Scrap Metal'
-item.StackSize = 64
+item.StackSize = 16
 item.Desc = [[
 Scrap Metal
 ]]
 item.Model = "models/gibs/metal_gib1.mdl"
-item.lootCount = 6
+item.lootCount = 4
 item.lootBias = 10
 gmodz.item.register( 'material_metal', item );
 
@@ -274,7 +274,7 @@ gmodz.item.register( 'material_metal', item );
 local item = {}; 
 item.base = 'base_material';
 item.PrintName = 'Gun Powder'
-item.StackSize = 64
+item.StackSize = 16
 item.Desc = [[
 Gun Powder. Highly explosive. Handle with care.
 ]]
@@ -299,7 +299,7 @@ gmodz.hook.Add( 'PostItemsLoaded', function()
 	-- 9mm AMMO
 	local recip = gmodz.crafting.new( )
 	recip:SetTitle( '9mm Ammo (32)' );
-	recip:AddMaterialEx( 'material_copper', 1, {} );
+	recip:AddMaterialEx( 'material_copper', 2, {} );
 	recip:AddMaterialEx( 'material_gunpowder', 1, {} );
 	recip:AddProductEx( 'ammo_9mm', 30, {} );
 	gmodz.crafting.register( 'ammo_9mm', recip );
@@ -307,8 +307,8 @@ gmodz.hook.Add( 'PostItemsLoaded', function()
 	-- 7.62 AMMO
 	local recip = gmodz.crafting.new( )
 	recip:SetTitle( '7.62 Ammo (28)' );
-	recip:AddMaterialEx( 'material_copper', 1, {} );
-	recip:AddMaterialEx( 'material_metal', 1, {} );
+	recip:AddMaterialEx( 'material_copper', 2, {} );
+	recip:AddMaterialEx( 'material_metal', 2, {} );
 	recip:AddMaterialEx( 'material_gunpowder', 1, {} );
 	recip:AddProductEx( 'ammo_9mm', 20, {} );
 	gmodz.crafting.register( 'ammo_7.62', recip );
@@ -318,9 +318,9 @@ gmodz.hook.Add( 'PostItemsLoaded', function()
 	local recip = gmodz.crafting.new( );
 	recip:SetTitle( '5.56 Ammo (28)' );
 	recip:AddMaterialEx( 'material_copper', 1, {} );
-	recip:AddMaterialEx( 'material_metal', 1, {} );
+	recip:AddMaterialEx( 'material_metal', 2, {} );
 	recip:AddMaterialEx( 'material_gunpowder', 1, {} );
-	recip:AddProductEx( 'ammo_5.56', 30, {} )
+	recip:AddProductEx( 'ammo_5.56', 20, {} )
 	gmodz.crafting.register( 'ammo_5.56', recip )
 	
 	-- Shotgun Shells

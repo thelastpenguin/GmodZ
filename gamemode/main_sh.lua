@@ -107,6 +107,7 @@ gmodz.include_cl 'util/pdata_cl.lua' ;
 gmodz.include_sh 'util/player_sh.lua' ;
 gmodz.include_cl 'util/entity_cl.lua' ;
 gmodz.include_cl 'util/3dmenuSys_cl.lua' ;
+gmodz.include_cl 'util/draw_cl.lua' ;
 
 
 -- GENERAL CLIENTSIDE GRAPHICS

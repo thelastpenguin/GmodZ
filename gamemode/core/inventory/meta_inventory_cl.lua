@@ -85,6 +85,8 @@ function inv_mt:SetSlot( x, y, stack )
 	else
 		index = x;
 	end
+	
+	if index > self.w*self.h then return self end
 		
 	self.stacks[ index ] = stack;
 	

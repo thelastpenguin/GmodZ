@@ -28,12 +28,8 @@ end);
 function gmodz.OpenInventoryMenu( )
 	gmodz.print('Opening inventory menu.');
 	LocalPlayer():ConCommand( 'gmodz_holster' );
-	gmodz.vgui_invpanel = vgui.Create( 'gmodz_menu_inventory' );
+	gmodz.vgui_invpanel = vgui.Create( LocalPlayer():InSafezone() and 'gmodz_menu_inventory' or 'gmodz_menu_invbank'  );
 	gmodz.gui3d.addPanel( 'inv', gmodz.vgui_invpanel );
-	
-	if LocalPlayer():InSafezone() then
-		gmodz.vgui_invpanel:ShowBank( true );
-	end
 	
 	isOpen = true;
 end
@@ -145,3 +141,63 @@ function PANEL:PaintOver( w, h )
 	gmodz.invmenu.PaintDragging( );
 end
 vgui.Register('gmodz_menu_inventory', PANEL, 'gmodz_base3d' );
+
+--
+-- BANK INVENTORY VIEW
+--
+local PANEL = {};
+function PANEL:Init( )
+	self:SetSize( 500, 500 );
+	self.lblTitle = Label( 'INVENTORY & BANK', self );
+	self.lblTitle:SetFont( 'GmodZ_3DH1' );
+	self.lblTitle:SetTextColor( Color(200,200,200) );
+	self.lblTitle:SizeToContents( );
+	self.lblTitle:SetTall( self.lblTitle:GetTall()*0.8);
+	
+	self.pInv = vgui.Create( 'gmodz_inv', self );
+	self.pInv:SetInv( LocalPlayer():GetInv( 'inv' ) );
+	self.pInv:EnableHotbar( true );
+	
+	self.pBankTabs = vgui.Create( 'gmodz_menu_bankview', self );
+	
+	self.pDesc = vgui.Create( 'gmodz_stackdesc', self );
+	self.pInv:SetSlotHoverCBack( function( p, stack )
+		self.pDesc:SetStack( stack );
+	end);
+	
+	gmodz.invmenu.pInv = self.pInv;
+	gmodz.invmenu.pInvMenu = self.pInv;
+end
+
+function PANEL:PerformLayout( )
+	self.lblTitle:SetPos( 0, 0 );
+	self.lblTitle:CenterHorizontal( );
+	
+	self.pDesc:SetSize(self:GetWide()*0.25, self:GetTall() - self.lblTitle:GetTall() );
+	self.pDesc:SetPos( self:GetWide() - self.pDesc:GetWide(), self:GetTall() - self.pDesc:GetTall() );
+	
+	self.pInv:SetPos( 0, self.lblTitle:GetTall() );
+	self.pInv:SetSize( self:GetWide()*0.5 - self.pDesc:GetWide()*0.5, self:GetTall() - self.lblTitle:GetTall() )
+	
+	self.pBankTabs:SetPos( self:GetWide()*0.5, self.lblTitle:GetTall() );
+	self.pBankTabs:SetSize( self:GetWide()*0.5 - self.pDesc:GetWide()*0.5, self:GetTall() - self.lblTitle:GetTall() );
+	
+	self.pInv:InvalidateLayout( true );
+	self.pBankTabs:InvalidateLayout( true );
+end
+function PANEL:Paint(w,h) end
+function PANEL:PaintOver( w, h )
+	gmodz.invmenu.PaintDragging( );
+end
+vgui.Register('gmodz_menu_invbank', PANEL, 'gmodz_base3d' );
+
+
+
+local PANEL = {};
+function PANEL:Init( )
+	self.tabButtons = {};
+end
+function PANEL:PerformLayout( )
+	
+end
+vgui.Register( 'gmodz_menu_bankview', PANEL );

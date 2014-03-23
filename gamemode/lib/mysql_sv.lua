@@ -141,6 +141,26 @@ function database_mt:SQLFormat( str, ... )
 	return string.format( str:gsub( '?', '%%s' ), unpack( arg ) );
 end
 
+function database_mt:SQLFormatEx( str, tbl )
+	local order = {};
+	local keys = {};
+	for k,v in pairs( tbl )do
+		order[k] = string.find( str, k ) or 10000000;
+		keys[#keys+1] = k;
+		
+		str = str:gsub( '<'..k..'>', '%%s' );
+	end
+	
+	table.sort( keys, function( a, b ) return order[a] < order[b] end );
+	
+	local vals = {};
+	for k,v in ipairs( keys )do
+		vals[k] = self.db:escape( tostring( tbl[v] ) );
+	end
+	str = string.format( str, unpack( vals ) );
+	return str;
+end
+
 function database_mt:SQLStr( str )
 	return self.db:escape( str );
 end
@@ -244,6 +264,14 @@ function query_mt:SetSQL( str, ... )
 	end
 	self.str = self.db:SQLFormat( str, ... )
 	return self;
+end
+function query_mt:SetSQLEx( str, tbl )
+	if( not self.db )then
+		error("NO DB FOR SQL STRING PROCESSING! USE :SetDB first!");
+		return self;
+	end
+	self.str = self.db:SQLFormatEx( str, tbl )
+	return self;	
 end
 
 function query_mt:SetCallback( func )

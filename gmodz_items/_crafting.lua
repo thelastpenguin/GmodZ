@@ -6,7 +6,7 @@ item.Desc = [[
 Base Food Entity.
 ]]
 item.Model = "models/Items/BoxMRounds.mdl"
-item.lootBias = 2
+item.lootBias = 5
 gmodz.item.register( 'base_material', item );
 
 
@@ -240,7 +240,7 @@ Bin of misc electronic parts
 item.Model = "models/props_lab/partsbin01.mdl"
 item.lootCount = 4
 item.lootBias = 3
-gmodz.item.register( 'material_terracottapot', item );
+gmodz.item.register( 'material_spareparts', item );
 
 -- METAL RODS
 local item = {};
@@ -263,19 +263,44 @@ item.StackSize = 64
 item.Desc = [[
 Scrap Metal
 ]]
-item.Model = "models/gibs/metal_gib1"
+item.Model = "models/gibs/metal_gib1.mdl"
 item.lootCount = 6
 item.lootBias = 10
 gmodz.item.register( 'material_metal', item );
 
 
+
+-- SCRAP METAL
+local item = {}; 
+item.base = 'base_material';
+item.PrintName = 'Gun Powder'
+item.StackSize = 64
+item.Desc = [[
+Gun Powder. Highly explosive. Handle with care.
+]]
+item.OnUse = onuse_explosive_super ;
+item.Model = "models/props_c17/woodbarrel001.mdl"
+item.lootBias = false
+gmodz.item.register( 'material_gunpowder', item );
+
+
+
+
 gmodz.hook.Add( 'PostItemsLoaded', function()
 	print("RECIPES ADDED:");
+	
+	-- GUN POWDER
+	local recip = gmodz.crafting.new( );
+	recip:SetTitle( 'Black Powder' );
+	recip:AddMaterialEx( 'material_nitrate', 1 );
+	recip:AddProductEx( 'material_gunpowder', 1 );
+	gmodz.crafting.register( 'gunpowder', recip );
+	
 	-- 9mm AMMO
 	local recip = gmodz.crafting.new( )
 	recip:SetTitle( '9mm Ammo (32)' );
 	recip:AddMaterialEx( 'material_copper', 1, {} );
-	recip:AddMaterialEx( 'material_nitrate', 1, {} );
+	recip:AddMaterialEx( 'material_gunpowder', 1, {} );
 	recip:AddProductEx( 'ammo_9mm', 30, {} );
 	gmodz.crafting.register( 'ammo_9mm', recip );
 	
@@ -284,7 +309,7 @@ gmodz.hook.Add( 'PostItemsLoaded', function()
 	recip:SetTitle( '7.62 Ammo (28)' );
 	recip:AddMaterialEx( 'material_copper', 1, {} );
 	recip:AddMaterialEx( 'material_metal', 1, {} );
-	recip:AddMaterialEx( 'material_nitrate', 1, {} );
+	recip:AddMaterialEx( 'material_gunpowder', 1, {} );
 	recip:AddProductEx( 'ammo_9mm', 20, {} );
 	gmodz.crafting.register( 'ammo_7.62', recip );
 	
@@ -294,7 +319,7 @@ gmodz.hook.Add( 'PostItemsLoaded', function()
 	recip:SetTitle( '5.56 Ammo (28)' );
 	recip:AddMaterialEx( 'material_copper', 1, {} );
 	recip:AddMaterialEx( 'material_metal', 1, {} );
-	recip:AddMaterialEx( 'material_nitrate', 1, {} );
+	recip:AddMaterialEx( 'material_gunpowder', 1, {} );
 	recip:AddProductEx( 'ammo_5.56', 30, {} )
 	gmodz.crafting.register( 'ammo_5.56', recip )
 	
@@ -303,7 +328,7 @@ gmodz.hook.Add( 'PostItemsLoaded', function()
 	recip:SetTitle( 'Buckshot (16)' );
 	recip:AddMaterialEx( 'material_plastic', 1, {} );
 	recip:AddMaterialEx( 'material_metal', 1, {} );
-	recip:AddMaterialEx( 'material_nitrate', 1, {} );
+	recip:AddMaterialEx( 'material_gunpowder', 1, {} );
 	recip:AddProductEx( 'ammo_Buckshot', 20, {} )
 	gmodz.crafting.register( 'ammo_Buckshot', recip );
 	
@@ -312,7 +337,7 @@ gmodz.hook.Add( 'PostItemsLoaded', function()
 	recip:SetTitle( '50 Cal Ammo (20)')
 	recip:AddMaterialEx( 'material_copper', 2, {} );
 	recip:AddMaterialEx( 'material_metal', 2, {} );
-	recip:AddMaterialEx( 'material_nitrate', 2, {} );
+	recip:AddMaterialEx( 'material_gunpowder', 2, {} );
 	recip:AddProductEx( 'ammo_50cal', 20, {} );
 	gmodz.crafting.register( 'ammo_50cal', recip );
 	
@@ -332,4 +357,17 @@ gmodz.hook.Add( 'PostItemsLoaded', function()
 	recip:AddProductEx( 'material_circuit_adv', {} );
 	gmodz.crafting.register( 'advcirc', recip );
 	
+	-- MEDICAL KIT
+	local recip = gmodz.crafting.new( );
+	recip:SetTitle( 'Medical Kit' );
+	recip:AddMaterialEx( 'ammo_Bandages', 1, {} );
+	recip:AddMaterialEx( 'ammo_Quikclots', 1, {} );
+	recip:AddMaterialEx( 'ammo_Hemostats', 1, {} );
+	recip:AddProductEx( 'healthkit', 1, {} );
+	
+	-- SALVAGE IRON
+	local recip = gmodz.crafting.new( );
+	recip:SetTitle( 'Scrap Metal' );
+	recip:AddMaterialEx( 'melee_fryingpan', 1, {} );
+	recip:AddProductEx( 'material_metal', 5 );
 end);

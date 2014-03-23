@@ -39,7 +39,7 @@ do
 			base.children[item.class] = item;
 			
 			for k,v in pairs( base )do
-				if not item[ k ] and not noCopy[ k ] then
+				if item[ k ] == nil and not noCopy[ k ] then
 					item[ k ] = v;
 				end
 			end

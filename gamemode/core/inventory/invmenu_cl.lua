@@ -31,6 +31,10 @@ function gmodz.OpenInventoryMenu( )
 	gmodz.vgui_invpanel = vgui.Create( 'gmodz_menu_inventory' );
 	gmodz.gui3d.addPanel( 'inv', gmodz.vgui_invpanel );
 	
+	if LocalPlayer():InSafezone() then
+		gmodz.vgui_invpanel:ShowBank( true );
+	end
+	
 	isOpen = true;
 end
 

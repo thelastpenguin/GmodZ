@@ -1,0 +1,12 @@
+//-------------------------------------------------------------------------
+//
+// GModZ Hammer Entities
+//
+//-------------------------------------------------------------------------
+
+@include "base.fgd" 
+
+@SolidClass base(Trigger, Targetname) iconsprite("editor/obsolete.vmt") = gmodz_safezone_brush :
+	"A trigger volume for Safe Zone."
+[
+]

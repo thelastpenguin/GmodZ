@@ -23,11 +23,8 @@ function GM:PlayerDataReady( pl )
 	
 	gmodz.adminLog( '   Player '..pl:Name()..' is data ready.' );
 	
-	-- SUBSCRIBE PLAYER TO HIS OWN INVENTORY
-	pl:InvAddEditor( 'bank', pl );
-	pl:InvAddEditor( 'inv', pl );
-	
 	-- SYNC ALL DATA FIELDS WE HAVE LOADED.
+	PrintTable( pl.udata );
 	pl:UDataSyncAll( );
 	
 	GAMEMODE:PlayerReady( pl );

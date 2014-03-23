@@ -174,7 +174,6 @@ do
 				n:SetSize( gmodz.cfg.user_bankSize.w, gmodz.cfg.user_bankSize.h );
 				bPages[ #bPages + 1 ] = n;
 			end
-			
 			dLoaded.bank = bPages ;
 		else
 			dLoaded.bank = { invCreate( gmodz.cfg.user_bankSize.w, gmodz.cfg.user_bankSize.h ) };
@@ -220,9 +219,11 @@ do
 	local function ApplyData( pl, data )
 		-- Assign Inventories
 		pl:AssignInv( 'inv', data.inv );
+		pl:InvAddEditor( 'inv', pl, true );
 		for k, inv in ipairs( data.bank )do
-			print( k, inv );
+			print( 'bank'..k );
 			pl:AssignInv( 'bank'..k, inv );
+			pl:InvAddEditor( 'bank'..k, pl, true );
 		end
 		
 		pl.udata = {};
@@ -234,7 +235,7 @@ do
 		pl:SetUData( 'KilledZombies', data.KilledZombies );
 		pl:SetUData( 'KilledCivilians', data.KilledCivilians );
 		pl:SetUData( 'KilledBandits', data.KilledBandits );
-		pl:SetUData( 'karma', data.karma );	
+		pl:SetUData( 'karma', data.karma );
 	end
 	
 	function gmodz.pdata.LoadUser( pl, cback )
@@ -288,14 +289,7 @@ do
 			end
 		local bank = gmodz.pon.encode( banks );
 		
-		-- USER DATA
-		pl:SetUData( 'food', data.food );
-		pl:SetUData( 'water', data.water );
-		pl:SetUData( 'TimePlayed', data.TimePlayed );
-		pl:SetUData( 'KilledZombies', data.KilledZombies );
-		pl:SetUData( 'KilledCivilians', data.KilledCivilians );
-		pl:SetUData( 'KilledBandits', data.KilledBandits );
-		pl:SetUData( 'karma', data.karma );	
+		-- UDATA
 		local food = pl:GetUData( 'food', 0 );
 		local water = pl:GetUData( 'water', 0 );
 		local TimePlayed = pl:GetUData( 'TimePlayed', 0 );

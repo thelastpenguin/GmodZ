@@ -372,7 +372,7 @@ net.Receive( 'gmodz_inv_moveStack', function( len, pl )
 		-- merge into the existing stack...
 		local destMeta = stackDest.meta;
 		if destMeta ~= stackSource.meta then
-			pl:ChatPrint(string.format('[ERROR] Can not merge stacks of type "%d" and "%d".', destMeta.PrintName or destMeta.class, stackSource.meta.PrintName or stackSource.meta.class ) );
+			pl:ChatPrint(string.format('[ERROR] Can not merge stacks of type "%s" and "%s".', destMeta.PrintName or destMeta.class, stackSource.meta.PrintName or stackSource.meta.class ) );
 			invSource:SyncSlot( sIndex1 );
 			invDest:SyncSlot( sIndex2 );
 			return ;

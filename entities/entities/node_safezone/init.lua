@@ -35,7 +35,7 @@ do
 			
 			-- calculations.
 			local r = self:GetRadius( );
-			self.nCheck = CurTime() + 1;
+			self.nCheck = CurTime() + 0.3;
 			local mpos = self:GetPos( );
 			
 			-- check players.

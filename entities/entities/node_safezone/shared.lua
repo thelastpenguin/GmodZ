@@ -7,5 +7,4 @@ ENT.AdminSpawnable = false
 
 function ENT:SetupDataTables()
 	self:NetworkVar("Int",1,"Radius")
-	self:SetRadius( 2000 );
 end

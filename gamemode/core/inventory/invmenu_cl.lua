@@ -28,7 +28,7 @@ end);
 function gmodz.OpenInventoryMenu( )
 	gmodz.print('Opening inventory menu.');
 	LocalPlayer():ConCommand( 'gmodz_holster' );
-	gmodz.vgui_invpanel = vgui.Create( LocalPlayer():InSafezone() and 'gmodz_menu_inventory' or 'gmodz_menu_invbank'  );
+	gmodz.vgui_invpanel = vgui.Create( LocalPlayer():InSafezone() and 'gmodz_menu_invbank' or 'gmodz_menu_inventory'  );
 	gmodz.gui3d.addPanel( 'inv', gmodz.vgui_invpanel );
 	
 	isOpen = true;
@@ -140,14 +140,27 @@ function PANEL:Paint(w,h) end
 function PANEL:PaintOver( w, h )
 	gmodz.invmenu.PaintDragging( );
 end
-vgui.Register('gmodz_menu_inventory', PANEL, 'gmodz_base3d' );
+function PANEL:CalcRenderSettings( pos )
+	local xpos = ScrW()*0.6;
+	local ypos = ScrH()*0.5;
+	local vecOffset = gui.ScreenToVector( xpos, ypos );
+	local campos = pos + vecOffset * 30;
+	
+	local ang = LocalPlayer():GetAngles();
+	ang.p = 90;
+	ang.r = 0;
+	ang.y = ang.y + 180;
+	ang:RotateAroundAxis( ang:Up(), 90 )
+	return campos, ang, 0.05;
+end
+vgui.Register('gmodz_menu_inventory', PANEL );
 
 --
 -- BANK INVENTORY VIEW
 --
 local PANEL = {};
 function PANEL:Init( )
-	self:SetSize( 500, 500 );
+	self:SetSize( 900, 500 );
 	self.lblTitle = Label( 'INVENTORY & BANK', self );
 	self.lblTitle:SetFont( 'GmodZ_3DH1' );
 	self.lblTitle:SetTextColor( Color(200,200,200) );
@@ -156,7 +169,7 @@ function PANEL:Init( )
 	
 	self.pInv = vgui.Create( 'gmodz_inv', self );
 	self.pInv:SetInv( LocalPlayer():GetInv( 'inv' ) );
-	self.pInv:EnableHotbar( true );
+	--self.pInv:EnableHotbar( true );
 	
 	self.pBankTabs = vgui.Create( 'gmodz_menu_bankview', self );
 	
@@ -167,19 +180,21 @@ function PANEL:Init( )
 	
 	gmodz.invmenu.pInv = self.pInv;
 	gmodz.invmenu.pInvMenu = self.pInv;
+	
+	self:InvalidateLayout( true );
 end
 
 function PANEL:PerformLayout( )
 	self.lblTitle:SetPos( 0, 0 );
 	self.lblTitle:CenterHorizontal( );
 	
-	self.pDesc:SetSize(self:GetWide()*0.25, self:GetTall() - self.lblTitle:GetTall() );
+	self.pDesc:SetSize(self:GetWide()*0.125, self:GetTall() - self.lblTitle:GetTall() );
 	self.pDesc:SetPos( self:GetWide() - self.pDesc:GetWide(), self:GetTall() - self.pDesc:GetTall() );
 	
 	self.pInv:SetPos( 0, self.lblTitle:GetTall() );
 	self.pInv:SetSize( self:GetWide()*0.5 - self.pDesc:GetWide()*0.5, self:GetTall() - self.lblTitle:GetTall() )
 	
-	self.pBankTabs:SetPos( self:GetWide()*0.5, self.lblTitle:GetTall() );
+	self.pBankTabs:SetPos( self.pInv:GetWide(), self.lblTitle:GetTall() );
 	self.pBankTabs:SetSize( self:GetWide()*0.5 - self.pDesc:GetWide()*0.5, self:GetTall() - self.lblTitle:GetTall() );
 	
 	self.pInv:InvalidateLayout( true );
@@ -189,15 +204,35 @@ function PANEL:Paint(w,h) end
 function PANEL:PaintOver( w, h )
 	gmodz.invmenu.PaintDragging( );
 end
-vgui.Register('gmodz_menu_invbank', PANEL, 'gmodz_base3d' );
+function PANEL:CalcRenderSettings( pos )
+	local xpos = ScrW()*0.5;
+	local ypos = ScrH()*0.5;
+	local vecOffset = gui.ScreenToVector( xpos, ypos );
+	local campos = pos + vecOffset * 30;
+	
+	local ang = LocalPlayer():GetAngles();
+	ang.p = 90;
+	ang.r = 0;
+	ang.y = ang.y + 180;
+	ang:RotateAroundAxis( ang:Up(), 90 )
+	return campos, ang, 0.05;
+end
+vgui.Register('gmodz_menu_invbank', PANEL );
 
 
 
 local PANEL = {};
 function PANEL:Init( )
 	self.tabButtons = {};
+	self.pInv = vgui.Create( 'gmodz_inv', self );
+	self.pInv:SetInv( LocalPlayer():GetInv( 'bank1' ) );
+	self.pInv:SetSlotHoverCBack( function( p, stack )
+		self:GetParent().pDesc:SetStack( stack );
+	end);
+	self:InvalidateLayout( true );
 end
 function PANEL:PerformLayout( )
-	
+	self.pInv:SetSize( self:GetSize() );
+	self.pInv:InvalidateLayout( true );
 end
 vgui.Register( 'gmodz_menu_bankview', PANEL );

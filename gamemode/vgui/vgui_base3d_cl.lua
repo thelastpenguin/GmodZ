@@ -1,7 +1,7 @@
 local PANEL = {};
 
 function PANEL:CalcRenderSettings( pos )
-	local xpos = ScrW()*0.6;
+	local xpos = ScrW()*( self:GetWide() < 700 and 0.6 or 0.5 );
 	local ypos = ScrH()*0.5;
 	local vecOffset = gui.ScreenToVector( xpos, ypos );
 	local campos = pos + vecOffset * 30;

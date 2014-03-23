@@ -75,8 +75,8 @@ function GM:CalcView( pl, pos, ang, fov, nearZ, farZ )
 		local tRes = util.TraceHull( tracedata );
 		
 		return {
-				origin = pos,
-				angles = tRes.HitPos,
+				origin = tRes.HitPos,
+				angles = ang,
 				fov = fov
 			}
 	else

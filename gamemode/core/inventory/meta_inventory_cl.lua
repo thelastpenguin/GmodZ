@@ -187,7 +187,7 @@ function gmodz.InvTransfer( inv1, index1, inv2, index2, qty )
 	net.Start('gmodz_inv_moveStack');
 		net.WriteUInt(inv1.id, 32);
 		net.WriteUInt(index1, 16);
-		net.WriteUInt(inv1.id, 32);
+		net.WriteUInt(inv2.id, 32);
 		net.WriteUInt(index2, 16);
 		net.WriteUInt(qty, 16);
 	net.SendToServer( );

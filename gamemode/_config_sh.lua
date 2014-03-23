@@ -10,7 +10,7 @@ gmodz.cfg.loot_respawnTime = 200;
 gmodz.cfg.loot_respawnVariance = 100;
 
 gmodz.cfg.user_invSize = {w=5,h=6};
-gmodz.cfg.user_bankSize = {w=4,h=6};
+gmodz.cfg.user_bankSize = {w=5,h=6};
 
 
 

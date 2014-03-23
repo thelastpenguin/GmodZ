@@ -59,7 +59,7 @@ These nails should do the trick.
 ]]
 item.Model = "models/warz/melee/baseballbat_spike.mdl"
 item.Weapon = 'gmodz_baseballbat_spike'
-item.lootBias = 1
+item.lootBias = false ;
 
 gmodz.item.register( 'melee_bballBat_spiked', item );
 
@@ -93,7 +93,7 @@ A cricketbat... Once these were used for sports.
 ]]
 item.Model = "models/warz/melee/cricketbat.mdl"
 item.Weapon = 'gmodz_cricketbat'
-item.lootBias = 1
+item.lootBias = 3
 
 gmodz.item.register( 'melee_cricketbat', item );
 
@@ -110,7 +110,7 @@ Trusty old crowbar
 ]]
 item.Model = "models/warz/melee/crowbar.mdl"
 item.Weapon = 'gmodz_crowbar'
-item.lootBias = 1
+item.lootBias = 3
 
 gmodz.item.register( 'melee_crowbar', item );
 
@@ -127,7 +127,7 @@ An old frying skillet.
 ]]
 item.Model = "models/warz/melee/fryingpan.mdl"
 item.Weapon = 'gmodz_fryingpan'
-item.lootBias = 1
+item.lootBias = 3
 
 gmodz.item.register( 'melee_fryingpan', item );
 
@@ -176,7 +176,7 @@ Hack and slash with this hatchet.
 ]]
 item.Model = "models/warz/melee/hatchet.mdl"
 item.Weapon = 'gmodz_hatchet'
-item.lootBias = 1
+item.lootBias = 0.8
 
 gmodz.item.register( 'melee_hatchet', item );
 
@@ -210,7 +210,7 @@ Clearing a path... through zombies.
 ]]
 item.Model = "models/warz/melee/machete.mdl"
 item.Weapon = 'gmodz_machete'
-item.lootBias = 1
+item.lootBias = 0.4
 
 gmodz.item.register( 'melee_machete', item );
 
@@ -226,7 +226,7 @@ No need to dig down to hell when you can find it right at the surface.
 ]]
 item.Model = "models/warz/melee/pickaxe.mdl"
 item.Weapon = 'gmodz_pickaxe'
-item.lootBias = 1
+item.lootBias = 0.5
 
 gmodz.item.register( 'melee_pickaxe', item );
 

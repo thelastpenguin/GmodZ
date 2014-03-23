@@ -50,6 +50,41 @@ local function onuse_explosive( self, pl )
 	pl:Kill( );
 end
 
+local function onuse_explosive_super( self, pl )
+	local vPoint = pl:GetPos()
+	local effectdata = EffectData()
+	effectdata:SetStart(vPoint)
+	effectdata:SetOrigin(vPoint)
+	effectdata:SetScale(1)
+	util.Effect("Explosion", effectdata)
+	
+	for k, v in pairs(ents.FindInSphere(pl:GetPos(), 200)) do
+		if not v:IsWeapon() and v:GetClass() ~= "predicted_viewmodel" then
+			v:Ignite(math.random(50, 100), 0)
+		end
+	end
+	
+	for i = 0, 50 do
+		local fire = ents.Create("env_fire")
+		local randvec = Vector(math.random(-200,200),math.random(-200,200),0)
+
+		fire:SetKeyValue("StartDisabled","0")
+		fire:SetKeyValue("health",math.random(12,38))
+		fire:SetKeyValue("firesize",math.random(32,72))
+		fire:SetKeyValue("fireattack","2")
+		fire:SetKeyValue("ignitionpoint","0")
+		fire:SetKeyValue("damagescale","10")
+		fire:SetKeyValue("spawnflags",2 + 4 + 128)
+		
+		fire:SetPos(pl:GetPos() + randvec)
+		fire:Spawn()
+		fire:Fire("StartFire","","0")
+	end
+	pl:Kill( );
+end
+
+
+
 -- PROPANE TANK
 local item = {};
 item.base = 'base_material';
@@ -102,7 +137,7 @@ A simple circuit. Pretty simple.
 ]]
 item.Model = "models/props_lab/reciever01b.mdl"
 item.lootCount = 1
-item.lootBias = 3
+item.lootBias = false ;
 gmodz.item.register( 'material_circuit_adv', item );
 
 
@@ -112,12 +147,12 @@ item.base = 'base_material';
 item.PrintName = 'Unubtanium'
 item.StackSize = 64
 item.Desc = [[
-Unubtanium - high tech alloy.
+Unubtanium - high tech alloy. Unstable Form of Matter. HIGHLY EXPLOSIVE.
 ]]
-item.OnUse = onuse_explosive;
+item.OnUse = onuse_explosive_super;
 item.Model = "models/props_c17/consolebox05a.mdl"
-item.lootCount = 1
-item.lootBias = 1
+item.lootCount = 16
+item.lootBias = 0.2
 gmodz.item.register( 'material_techtrium', item );
 
 -- RUBBER
@@ -129,7 +164,7 @@ item.Desc = [[
 Some vulcanized rubber. Useful for crafting.
 ]]
 item.Model = "models/props_vehicles/tire001b_truck.mdl"
-item.lootCount = 1
+item.lootCount = 4
 item.lootBias = 3
 gmodz.item.register( 'material_rubber', item );
 
@@ -144,8 +179,8 @@ POWERFUL OXIDANT HANDLE WITH CARE
 ]]
 item.OnUse = function( _, pl ) pl:Ignite( 10, 10 ) end
 item.Model = "models/props_lab/jar01a.mdl"
-item.lootCount = 1
-item.lootBias = 3
+item.lootCount = 4
+item.lootBias = 7
 gmodz.item.register( 'material_nitrate', item );
 
 
@@ -159,9 +194,9 @@ Plastic Resin. It's plastic...
 ]]
 item.OnUse = function( _, pl ) pl:Ignite( 10, 10 ) end
 item.Model = "models/props_junk/plasticbucket001a.mdl"
-item.lootCount = 1
-item.lootBias = 3
-gmodz.item.register( 'material_nitrate', item );
+item.lootCount = 4
+item.lootBias = 4
+gmodz.item.register( 'material_plastic', item );
 
 
 
@@ -203,7 +238,7 @@ item.Desc = [[
 Bin of misc electronic parts
 ]]
 item.Model = "models/props_lab/partsbin01.mdl"
-item.lootCount = 1
+item.lootCount = 4
 item.lootBias = 3
 gmodz.item.register( 'material_terracottapot', item );
 
@@ -216,7 +251,7 @@ item.Desc = [[
 Rods of copper, useful in electronics.
 ]]
 item.Model = "models/Items/CrossbowRounds.mdl"
-item.lootCount = 1
+item.lootCount = 6
 item.lootBias = 10
 gmodz.item.register( 'material_copper', item );
 
@@ -229,15 +264,72 @@ item.Desc = [[
 Scrap Metal
 ]]
 item.Model = "models/gibs/metal_gib1"
-item.lootCount = 1
+item.lootCount = 6
 item.lootBias = 10
 gmodz.item.register( 'material_metal', item );
 
 
 gmodz.hook.Add( 'PostItemsLoaded', function()
+	print("RECIPES ADDED:");
+	-- 9mm AMMO
 	local recip = gmodz.crafting.new( )
+	recip:SetTitle( '9mm Ammo (32)' );
 	recip:AddMaterialEx( 'material_copper', 1, {} );
 	recip:AddMaterialEx( 'material_nitrate', 1, {} );
-	recip:AddProductEx( 'ammo_9mm', 64, {} );
+	recip:AddProductEx( 'ammo_9mm', 30, {} );
+	gmodz.crafting.register( 'ammo_9mm', recip );
+	
+	-- 7.62 AMMO
+	local recip = gmodz.crafting.new( )
+	recip:SetTitle( '7.62 Ammo (28)' );
+	recip:AddMaterialEx( 'material_copper', 1, {} );
+	recip:AddMaterialEx( 'material_metal', 1, {} );
+	recip:AddMaterialEx( 'material_nitrate', 1, {} );
+	recip:AddProductEx( 'ammo_9mm', 20, {} );
+	gmodz.crafting.register( 'ammo_7.62', recip );
+	
+	
+	-- ammo_5.56
+	local recip = gmodz.crafting.new( );
+	recip:SetTitle( '5.56 Ammo (28)' );
+	recip:AddMaterialEx( 'material_copper', 1, {} );
+	recip:AddMaterialEx( 'material_metal', 1, {} );
+	recip:AddMaterialEx( 'material_nitrate', 1, {} );
+	recip:AddProductEx( 'ammo_5.56', 30, {} )
+	gmodz.crafting.register( 'ammo_5.56', recip )
+	
+	-- Shotgun Shells
+	local recip = gmodz.crafting.new( );
+	recip:SetTitle( 'Buckshot (16)' );
+	recip:AddMaterialEx( 'material_plastic', 1, {} );
+	recip:AddMaterialEx( 'material_metal', 1, {} );
+	recip:AddMaterialEx( 'material_nitrate', 1, {} );
+	recip:AddProductEx( 'ammo_Buckshot', 20, {} )
+	gmodz.crafting.register( 'ammo_Buckshot', recip );
+	
+	-- 50 Cal Ammo
+	local recip = gmodz.crafting.new( )
+	recip:SetTitle( '50 Cal Ammo (20)')
+	recip:AddMaterialEx( 'material_copper', 2, {} );
+	recip:AddMaterialEx( 'material_metal', 2, {} );
+	recip:AddMaterialEx( 'material_nitrate', 2, {} );
+	recip:AddProductEx( 'ammo_50cal', 20, {} );
+	gmodz.crafting.register( 'ammo_50cal', recip );
+	
+	-- SPIKED BASEBALL BAT.
+	local recip = gmodz.crafting.new( )
+	recip:SetTitle( 'Spiked Bat' );
+	recip:AddMaterialEx( 'melee_bballBat', 1, {} );
+	recip:AddMaterialEx( 'material_metal', 5, {} );
+	recip:AddProductEx( 'melee_bballBat_spiked', 1, {} );
+	gmodz.crafting.register( 'spikedbat', recip );
+	
+	-- ADVANCED CIRCUIT
+	local recip = gmodz.crafting.new( )
+	recip:SetTitle( 'Advanced Circuit' );
+	recip:AddMaterialEx( 'material_techtrium', 1, {} );
+	recip:AddMaterialEx( 'material_circuit', 1, {} );
+	recip:AddProductEx( 'material_circuit_adv', {} );
+	gmodz.crafting.register( 'advcirc', recip );
 	
 end);

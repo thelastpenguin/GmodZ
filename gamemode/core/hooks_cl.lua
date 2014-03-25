@@ -67,10 +67,21 @@ function GM:HUDItemPickedUp( itemName ) return true end
 function GM:HUDAmmoPickedUp( itemName, amount ) return true end
 function GM:HUDDrawPickupHistory( ) return true end
 
+-- DRAWING HOOKS.
+function GM:PostRenderVGUI( ... ) gmodz.hook.Call( 'PostRenderVGUI', ... ); end
+function GM:HUDPaintBackground( ... ) gmodz.hook.Call( 'HUDPaintBackground', ... ); end
+
+function GM:HUDShouldDraw( ... ) return gmodz.hook.Call( 'HUDShouldDraw', ... ) ~= false end
+
+
+--
+-- WEIRD HOOKS...
+--
 timer.Create( 'gmodz_nwready', 1, 1, function()
 	-- tell the server we're ready for data.
 	net.Start( 'gmodz_nwready' );
 	net.SendToServer( );
+	
 end);
 
 

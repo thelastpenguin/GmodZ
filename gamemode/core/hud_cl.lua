@@ -2,24 +2,23 @@ gmodz.hook.Add('LoadComplete',function()
 	local hud = vgui.Create( 'gmodz_hud', panel );
 	hud:SetPaintedManually( true );
 	
-	function GM:HUDPaintBackground( )
+	-- DRAW THE MAIN HUD
+	gmodz.hook.Add('HUDPaintBackground',function()
 		hud:SetPaintedManually( false );
 		hud:PaintManual( );
-		hud:SetPaintedManually( true );	
-		
-		gmodz.hook.Call( 'HUDPaintBackground' );
-	end
-
-	function GM:HUDShouldDraw( name )
-		if( name == 'CHudHealth' )then
-			return false ;
-		else
-			return true;
-		end	
-	end
+		hud:SetPaintedManually( true );
+	end);
+	
+	-- DISABLE HEALTH GUI
+	gmodz.hook.Add('HUDShouldDraw',function( n ) if n == 'CHudHealth' then return false end end );
+	
+	
+	-- DRAW LOADING SEQUENCE OVERLAY
+	vgui.Create( 'gmodz_loading' );
 	
 end);
 
+-- DRAW TIP TEXT
 local ScrW, ScrH, LocalPlayer = ScrW, ScrH, LocalPlayer ;
 gmodz.hook.Add( 'HUDPaintBackground', function()
 	local text = gmodz.hook.Call( 'hud_prompt' );

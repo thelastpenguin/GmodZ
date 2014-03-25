@@ -37,7 +37,7 @@ local function pickRandomBiased( opts )
 			break ;
 		end
 	end
-	if not lType then return pickRandomBiased( opts ) end
+	if not lType then return end
 	if lType.children == nil or table.Count( lType.children ) == 0 then
 		return lType
 	else
@@ -58,7 +58,7 @@ gmodz.hook.Add( 'ChooseLootType', function( bases )
 		bmetas[ #bmetas + 1 ] = gmodz.item.GetMeta( v );
 	end
 	
-	return chooseItemType( bmetas );
+	return chooseItemType( bmetas ) or chooseItemType( bmetas ) or chooseItemType( { gmodz.item.GetMeta( 'base' ) } );
 end);
 
 gmodz.hook.Add( 'PostMapLoaded', function()
@@ -73,7 +73,7 @@ gmodz.hook.Add( 'OnNPCKilled', function( npc, pl, wep )
 	if math.random(1,4) == 1 then
 		
 	else
-		local lType = gmodz.hook.Call( 'ChooseLootType', self.lootTypes );
+		local lType = gmodz.hook.Call( 'ChooseLootType', { gmodz.item.GetMeta( 'base' )} );
 		local ent = lType:CreateDrop( );
 		local pos = ent:GetPos() ;
 		pos.z = pos.z - ent:OBBMins().z ;

@@ -1,0 +1,17 @@
+"UnlitGeneric"
+{
+	"$basetexture"	"gmodz/bg_hospital001"
+	"$translucent"	1
+	"$nocull"	1
+  "$decal"	1
+
+	"Proxies"
+	{
+"AnimatedTexture" 
+{ 
+"animatedTextureVar" "$basetexture" 
+"animatedTextureFrameNumVar" "$frame" 
+"animatedTextureFrameRate" "25" 
+}
+	}
+}

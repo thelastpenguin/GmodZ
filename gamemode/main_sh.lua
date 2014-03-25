@@ -114,6 +114,7 @@ gmodz.include_cl 'util/draw_cl.lua' ;
 gmodz.include_cl 'core/hud_cl.lua' ;
 gmodz.include_cl 'core/rendereffects_cl.lua' ;
 gmodz.include_cl 'core/scoreboard_cl.lua' ;
+gmodz.include_cl 'core/mainmenu_cl.lua'
 
 -- LOAD THE ITEM SYSTEM
 gmodz.include_sh 'core/items_load_sh.lua' ;

@@ -98,3 +98,18 @@ end
 function Player:MeleeTrace(distance, size, filter, start)
 	return self:TraceHull(distance, MASK_SOLID, size, filter, start)
 end
+
+
+if SERVER then
+	util.AddNetworkString( 'gmodz_callhook' );
+	function Player:CallClientHook( str, ... )
+		net.Start( 'gmodz_callhook' );
+			net.WriteString( str );
+			net.WriteTable( { ... } );
+		net.Send( self );
+	end
+else
+	net.Receive( 'gmodz_callhook', function()
+		gmodz.hook.Call( net.ReadString(), unpack( net.ReadTable() ) );
+	end);
+end

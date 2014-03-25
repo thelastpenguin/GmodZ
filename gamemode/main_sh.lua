@@ -26,7 +26,7 @@ do
 			
 			local filtered = {};
 			for k,v in ipairs( lines )do
-				if not string.find( v, '[%a]' ) then continue end
+				--if not string.find( v, '[%a]' ) then continue end
 				filtered[#filtered+1] = v--v:sub( string.find( v, '[%a]' ) );
 			end
 			
@@ -93,6 +93,8 @@ gmodz.include_sh 'lib/phooks_sh.lua' ;
 gmodz.include_sh 'lib/pon_sh.lua' ;
 gmodz.include_sv 'lib/mysql_sv.lua' ;
 gmodz.include_sh 'lib/functionutils_sh.lua' ;
+gmodz.include_cl 'lib/draw_cl.lua' ;
+
 
 gmodz.include_sv 'resource_sv.lua' ;
 
@@ -107,7 +109,7 @@ gmodz.include_cl 'util/pdata_cl.lua' ;
 gmodz.include_sh 'util/player_sh.lua' ;
 gmodz.include_cl 'util/entity_cl.lua' ;
 gmodz.include_cl 'util/3dmenuSys_cl.lua' ;
-gmodz.include_cl 'util/draw_cl.lua' ;
+gmodz.include_cl 'util/escmenu_cl.lua' ;
 
 
 -- GENERAL CLIENTSIDE GRAPHICS

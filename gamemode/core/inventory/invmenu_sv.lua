@@ -30,12 +30,19 @@ net.Receive( 'gmodz_inv_useitem', function( len, pl )
 	
 	
 end);
+
+
+--
+-- HANDLE DROPPING PHYSICAL STACKS.
+--
 util.AddNetworkString( 'gmodz_inv_dropitem' )
 net.Receive( 'gmodz_inv_dropitem', function( len, pl )
+	-- READ IN INFO
 	local invid = net.ReadUInt( 32 );
 	local slotid = net.ReadUInt( 16 );
 	local qty = net.ReadUInt( 8 );
 	
+	-- VALIDATE
 	local inv = gmodz.inventory.get( invid );
 	if not inv then
 		pl:ChatPrint('Inventory ID: '..invid..' does not exist.' );
@@ -55,6 +62,7 @@ net.Receive( 'gmodz_inv_dropitem', function( len, pl )
 		return ;
 	end
 	
+	-- DEDUCT THE QTY FROM STACK.
 	stack:SetCount( stack:GetCount() - qty );
 	if stack:GetCount() == 0 then
 		inv:SetSlot( slotid, nil );
@@ -65,6 +73,7 @@ net.Receive( 'gmodz_inv_dropitem', function( len, pl )
 		inv:SyncSlot( slotid );
 	end
 	
+	-- CREATE THE PHYSICAL DROP...
 	local dropStack = stack:Copy();
 	dropStack:SetCount( qty );
 	

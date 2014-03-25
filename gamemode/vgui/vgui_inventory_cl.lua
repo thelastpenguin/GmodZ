@@ -342,40 +342,38 @@ function PANEL:SetStack( stack )
 	local inv = parent:GetInv( );
 	local pIndex = parent:Index( );
 	-- ADD STACK OPTIONS
-	if meta.DoDrop then
-		self:AddOption( 'drop', function()
-			-- DROP A CERTAIN QUANTITY.
-			self.stayOpen = true;
-			self:RemoveOptions( );
-			
-			Label('Drop Qty', self ):Dock( TOP );
-			
-			local counter = vgui.Create( 'gmodz_numcycler', self );
-			counter:Dock( FILL );
-			counter:SetSize(self:GetWide(), self:GetTall()/2 );
-			counter:SetMouseInputEnabled( true );
-			counter:SetRange( 1, stack:GetCount( ))
-			counter:SetValue( 1 );
-			
-			local bDrop = vgui.Create( 'DButton', self );
-			bDrop:SetText('DROP');
-			bDrop:SetSize( self:GetWide(),20);
-			bDrop:SetTextColor( color_white );
-			bDrop:SetFont('GmodZ_Font3D18');
-			bDrop:Dock( BOTTOM );
-			bDrop:CenterHorizontal( );
-			function bDrop:Paint(w,h)
-				if not self:IsHovered() then return end
-				surface.SetDrawColor(255,255,255,20);
-				surface.DrawRect(0,0,w,h);
-			end
-			function bDrop:DoClick( )
-				surface.PlaySound( 'weapons/ammopickup.wav' )
-				gmodz.invmenu.DropItems( inv.id, pIndex, counter:GetValue( ) );
-				self:GetParent():Remove( );
-			end
-		end );
-	end
+	self:AddOption( 'drop', function()
+		-- DROP A CERTAIN QUANTITY.
+		self.stayOpen = true;
+		self:RemoveOptions( );
+		
+		Label('Drop Qty', self ):Dock( TOP );
+		
+		local counter = vgui.Create( 'gmodz_numcycler', self );
+		counter:Dock( FILL );
+		counter:SetSize(self:GetWide(), self:GetTall()/2 );
+		counter:SetMouseInputEnabled( true );
+		counter:SetRange( 1, stack:GetCount( ))
+		counter:SetValue( math.floor( stack:GetCount()/2 ) );
+		
+		local bDrop = vgui.Create( 'DButton', self );
+		bDrop:SetText('DROP');
+		bDrop:SetSize( self:GetWide(),20);
+		bDrop:SetTextColor( color_white );
+		bDrop:SetFont('GmodZ_Font3D18');
+		bDrop:Dock( BOTTOM );
+		bDrop:CenterHorizontal( );
+		function bDrop:Paint(w,h)
+			if not self:IsHovered() then return end
+			surface.SetDrawColor(255,255,255,20);
+			surface.DrawRect(0,0,w,h);
+		end
+		function bDrop:DoClick( )
+			surface.PlaySound( 'weapons/ammopickup.wav' )
+			gmodz.invmenu.DropItems( inv.id, pIndex, counter:GetValue( ) );
+			self:GetParent():Remove( );
+		end
+	end );
 	
 	-- USE THE STACK...
 	if meta.OnUse then

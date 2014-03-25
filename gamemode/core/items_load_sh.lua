@@ -1,5 +1,9 @@
 gmodz.item = {};
 
+--
+-- ITEM SYSTEM CORE
+--
+
 local items = {};
 function gmodz.item.GetStored( )
 	return items;	
@@ -15,6 +19,20 @@ function gmodz.item.register( class, table )
 	items[ class ] = table;
 end
 
+
+--
+-- ITEM FLAG SYSTEM
+--
+ITEMFLAG_BASECLASS = 1;
+ITEMFLAG_LOOTABLE = 2;
+
+do
+	local band = bit.band ;
+	function gmodz.item._util_hasflag( meta, flag )
+		return band( meta.flags or 0, flag ) > 0 ;
+	end
+end
+
 --
 -- INHERITANCE LINKER.
 --
@@ -22,6 +40,7 @@ do
 	local noCopy = {
 		baseLinked = true,
 		base = true,
+		basemt = true,
 		class = true	
 	}
 	local cLinked ;
@@ -34,6 +53,8 @@ do
 		
 		if( item.base and items[ item.base ] )then
 			local base = items[ item.base ];
+			item.basemt = base;
+			
 			linkItem( base ); -- recurse.
 			
 			base.children[item.class] = item;
@@ -47,6 +68,7 @@ do
 		end
 	end
 	
+	-- UTILS FOR PRINTING GENERATED TREE
 	local function printItem( prefix, item )
 		print( prefix..' - '..item.PrintName .. ' ('..item.class..')' );
 		local pnext = prefix..'  ';
@@ -59,6 +81,7 @@ do
 		printItem( '', items['base'] );
 	end
 	
+	-- FUNCTION CALL TO LINK NODES
 	function gmodz.runLinker( )
 		gmodz.print('[ITEMLOADER] Running linker...' );
 		cLinked = 0;
@@ -66,12 +89,15 @@ do
 			linkItem( item );
 		end
 		printItemStruct( );
+		
+		gmodz.hook.Call( 'ItemsLinked', items );
+		
 		gmodz.print('[ITEMLOADER] '..cLinked..' items linked.' );
 	end
 end
 
 --
--- NOW LETS MAKE RECIPES
+-- CRAFTING SYSTEM
 --
 do -- give it it's own registry space.
 	gmodz.crafting = {};
@@ -189,3 +215,5 @@ gmodz.hook.Add( 'LoadComplete', function()
 		gmodz.hook.Call( 'ItemLoaded', v );
 	end
 end);
+
+-- POST PROCESSING - HANDLE LOOTING PROBABILITIES.

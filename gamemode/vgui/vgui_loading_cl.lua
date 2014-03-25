@@ -11,7 +11,7 @@ function PANEL:Init( )
 		{2,'Loading User Data'},	
 		{0.5,'Precaching Models'},
 		{0.5,'Precaching Textures'},
-		{0.5, 'Loading Nodes...'},
+		{0.5,'Loading Nodes...'},
 		{1,'Receiving Data Pack'},
 		{1,'Validating Data'},
 		{1,'Done'}
@@ -22,7 +22,7 @@ function PANEL:Init( )
 		if #messages == 0 then self:Remove() return end
 		local m = table.remove( messages, 1 );
 		table.insert( self.text, 1, m[2] );
-		timer.Simple( math.random()*m[1]*0.5+m[1]*0.5, message );
+		timer.Simple( (math.random()*m[1]+m[1])*1/gmodz.cfg.d_loadrate*0.5, message );
 	end
 	timer.Simple( 1, message );
 end
@@ -45,6 +45,7 @@ function PANEL:Paint( w, h )
 	
 	local t = CurTime();
 	surface.SetDrawColor(255,255,255);
+	draw.NoTexture( );
 	
 	surface.DrawArc( w*0.5, h*0.3, 30, 35, t*30, t*30+230, 20 )
 	

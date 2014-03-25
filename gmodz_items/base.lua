@@ -7,33 +7,31 @@ local item = {};
 item.PrintName = 'Unnamed'
 item.Model = 'models/props_c17/oildrum001.mdl'
 item.StackSize = 16
+item.flags = ITEMFLAG_BASECLASS ;
 
--- GENARIC FUNCTIONS
-item.DoDrop = function( stack, pl )
-	local ent = ents.Create( 'gmodz_itemstack' );
-end
-
-item.OnPickup = function( stack, pl )
-	
-end
-
--- LOOT
 item.lootBias = 1;
 item.lootCount = 1;
 
-item.equals = function( stack, other )
-	if( stack.class == other.class )then
-		return true;
-	else
-		return false;
+-- HOOKS
+item.OnPickup = function( stack, pl )
+	gmodz.print("Player "..pl:Name().." picked up a stack of "..stack.meta.PrintName.." x"..stack:GetCount() );
+end
+
+-- UTILS
+function item:GetChildren() return self.children end
+item.HasFlag = gmodz.item._util_hasflag;
+
+do
+	local ITEMFLAG_BASECLASS, ITEMFLAG_LOOTABLE = _G.ITEMFLAG_BASECLASS, _G.ITEMFLAG_LOOTABLE ;
+	function item:IsBase( )
+		return self:HasFlag( ITEMFLAG_BASECLASS );
+	end
+	function item:IsLootable( )
+		return self:HasFlag( ITEMFLAG_LOOTABLE );
 	end
 end
 
-
-function item:CreateDrop( )
-	-- CREATE THE ENTITY
-	local count = isfunction( self.lootCount ) and self.lootCount() or self.lootCount;
-	
+function item:CreateDrop( count )
 	-- BUILD STACK
 	local lootStack = gmodz.itemstack.new( self.class );
 	lootStack:SetCount( count );
@@ -42,25 +40,18 @@ function item:CreateDrop( )
 	return gmodz.itemstack.CreateEntity( lootStack );
 end
 
-
-function item:StackCanMerge( stack, other )
-	return true;
+-- LOOTING SYSTEM
+function item:CreateLoot( )
+	-- CREATE THE ENTITY
+	local count = isfunction( self.lootCount ) and self.lootCount() or self.lootCount;
+	
+	return self:CreateDrop( count );
 end
 
-function item:FindChildren( )
-	if self.children then return self.children end
-	self.children = {};
-	for k,v in pairs( gmodz.item.GetStored( ) )do
-		if v.base == self.class then
-			self.children[#self.children+1] = v ;
-		end
-	end
-	return self.children ;
-end
 
-function item:IsBase( )
-	return #self:FindChildren() > 0 ;
-end
+--function item:StackCanMerge( stack, other )
+--	return true;
+--end
 
 -- LOOT SYSTEM
 

@@ -33,9 +33,11 @@ local function select( tbl )
 			i = i + v.lootBias ;
 			if i < t then continue end
 			if v:IsBase( ) then
+				c = c - v.lootBias ;
 				_type = select( table.remove( opts, k ):GetChildren() );
 				break ;
 			elseif v:IsLootable() then
+				c = c - v.lootBias ;
 				_type = table.remove( opts, k );
 				break ;
 			end

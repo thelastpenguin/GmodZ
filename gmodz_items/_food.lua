@@ -287,7 +287,7 @@ item.lootCount = 2
 function item:OnUse( pl )
 	pl:SetHealth( math.Clamp( pl:Health() + 20, 0, 100 ) );
 end
-item.lootBias = 2
+item.lootBias = 0.5
 item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'food_medicine', item );
 
@@ -303,7 +303,7 @@ item.lootCount = 2
 function item:OnUse( pl )
 	pl:SetHealth( math.Clamp( pl:Health() + 10, 0, 100 ) );
 end
-item.lootBias = 2
+item.lootBias = 0.5
 item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'food_painkillers', item );
 

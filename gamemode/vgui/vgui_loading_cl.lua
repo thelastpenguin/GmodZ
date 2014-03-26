@@ -4,6 +4,7 @@ function PANEL:Init( )
 	self:InvalidateLayout( true );
 	self.text = {};
 	self:MakePopup( );
+	self:MoveToBack( );
 	
 	local messages = {
 		{1,'Loading...'},

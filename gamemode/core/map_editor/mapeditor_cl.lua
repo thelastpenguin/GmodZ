@@ -6,6 +6,8 @@ medit.editing = false;
 -- START EDITING
 --
 concommand.Add( 'medit_start', function( )
+	if not LocalPlayer():IsSuperAdmin() then chat.AddText(Color(255,0,0),'[MEDIT] You need to be a super admin to do this.' ) return end
+	
 	medit.mapnodes = {};
 	
 	chat.AddText(Color(0,200,0),'[MEDIT] ', Color(55,255,55),'Starting edit session.')
@@ -15,6 +17,7 @@ concommand.Add( 'medit_start', function( )
 end);
 
 concommand.Add( 'medit_stop', function( )
+	if not LocalPlayer():IsSuperAdmin() then chat.AddText(Color(255,0,0),'[MEDIT] You need to be a super admin to do this.' ) return end
 	chat.AddText( Color(0,0,200,'[MEDIT] Ended edit session.'));
 	net.Start( 'medit_ui_ApplyChanges' );
 	net.SendToServer( );
@@ -38,6 +41,7 @@ end);
 --
 local mousex, mousey = ScrW()/2, ScrH()/2;
 concommand.Add( '+medit_CreateNode', function()
+	if not LocalPlayer():IsSuperAdmin() then chat.AddText(Color(255,0,0),'[MEDIT] You need to be a super admin to do this.' ) return end
 	
 	if not medit.editing then chat.AddText( Color(255,0,0), '[MEDIT] ', Color(255,155,0), 'You must be editing first! medit_start'); return end
 	
@@ -224,11 +228,13 @@ end);
 
 
 concommand.Add('medit_apply',function()
+	if not LocalPlayer():IsSuperAdmin() then chat.AddText(Color(255,0,0),'[MEDIT] You need to be a super admin to do this.' ) return end
 	net.Start( 'medit_ui_ApplyChanges' );
 	net.SendToServer( );
 end);
 
 concommand.Add('medit_unload', function()
+	if not LocalPlayer():IsSuperAdmin() then chat.AddText(Color(255,0,0),'[MEDIT] You need to be a super admin to do this.' ) return end
 	net.Start('medit_ui_Unload');
 	net.SendToServer( );
 end);

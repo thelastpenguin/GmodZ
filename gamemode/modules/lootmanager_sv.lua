@@ -14,51 +14,48 @@ gmodz.hook.Add( 'medit_Cleanup', function( )
 	gmodz.print('[MEDIT] Cleaned up '..c..' loot nodes!');
 end);
 
-local function pickRandomBiased( opts )
-	
-	-- CALCULATE RANGE.
-	local r = 0;
-	for _, item in pairs( opts )do
-		if not item.lootBias or item.lootBias == 0 then continue end
-		r = r + item.lootBias ;
-	end
-	
-	-- CHOOSE RANDOM THRESHOLD FROM 0-r
-	local t = math.random()*r;
-	-- CALC VAL AT THRESH
-	local i = 0;
-	local lType, b ; 
-	for k,v in pairs( opts )do
-		if not v.lootBias or v.lootBias == 0 then continue end
-		b = v.lootBias;
-		i = i + b;
-		if i > t then
-			lType = v;
-			break ;
+local table, math = table, math ;
+local function select( tbl )
+	local c = 0;
+	local opts = {};
+	for k,v in pairs( tbl )do
+		if v.lootBias and (v:IsBase() or v:IsLootable() )then
+			c = c + v.lootBias ;
+			opts[ #opts + 1 ] = v;
 		end
 	end
-	if not lType then return end
-	if lType.children == nil or table.Count( lType.children ) == 0 then
-		return lType
-	else
-		return pickRandomBiased( lType.children );
-	end
+	if c == 0 then return nil end -- nothing to see here.
+	
+	local _type ;
+	repeat
+		local t, i = math.random()*c, 0;
+		for k,v in ipairs( opts )do
+			i = i + v.lootBias ;
+			if i < t then continue end
+			if v:IsBase( ) then
+				_type = select( table.remove( opts, k ):GetChildren() );
+				break ;
+			elseif v:IsLootable() then
+				_type = table.remove( opts, k );
+				break ;
+			end
+		end
+	until ( _type or #opts == 0 )
+	return _type ;
 end
 
-local function chooseItemType( )
-	local base = gmodz.item.GetMeta( 'base' );
-	return pickRandomBiased( base.children );
+local function chooseItemType( _b )
+	return select( _b or gmodz.item.GetMeta( 'base' ).children ) or select( gmodz.item.GetMeta( 'base' ).children );
 end
 
 gmodz.hook.Add( 'ChooseLootType', function( bases )
-	
 	local bmetas = {};
 	for k,v in pairs( bases )do
 		if type( v ) ~= 'string' then continue end
 		bmetas[ #bmetas + 1 ] = gmodz.item.GetMeta( v );
 	end
 	
-	return chooseItemType( bmetas ) or chooseItemType( bmetas ) or chooseItemType( { gmodz.item.GetMeta( 'base' ) } );
+	return chooseItemType( bmetas );
 end);
 
 gmodz.hook.Add( 'PostMapLoaded', function()
@@ -80,3 +77,5 @@ gmodz.hook.Add( 'OnNPCKilled', function( npc, pl, wep )
 		ent:SetPos( pos );
 	end
 end);
+
+

@@ -23,8 +23,9 @@ end
 --
 -- ITEM FLAG SYSTEM
 --
-ITEMFLAG_BASECLASS = 1;
-ITEMFLAG_LOOTABLE = 2;
+ITEMFLAG_ADMINONLY = bit.lshift(1,0);
+ITEMFLAG_BASECLASS = bit.lshift(1,1);
+ITEMFLAG_LOOTABLE = bit.lshift(1,2);
 
 do
 	local band = bit.band ;
@@ -41,7 +42,7 @@ do
 		baseLinked = true,
 		base = true,
 		basemt = true,
-		class = true	
+		class = true
 	}
 	local cLinked ;
 	local function linkItem( item )

@@ -11,5 +11,6 @@ item.Model = "models/weapons/w_ifak.mdl"
 item.SVModel = "models/Items/HealthKit.mdl"
 item.Weapon = 'fas2_ifak'
 item.lootBias = 3
+item.flags = ITEMFLAG_LOOTABLE;
 
 gmodz.item.register( 'healthkit', item );

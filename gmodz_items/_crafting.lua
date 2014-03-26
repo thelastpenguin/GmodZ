@@ -1,12 +1,13 @@
 local item = {};
 item.base = 'base';
 item.PrintName = 'Base Crafting'
-item.StackSize = 64
+item.StackSize = 16
 item.Desc = [[
 Base Food Entity.
 ]]
 item.Model = "models/Items/BoxMRounds.mdl"
 item.lootBias = 5
+item.flags = ITEMFLAG_BASECLASS ;
 gmodz.item.register( 'base_material', item );
 
 
@@ -97,6 +98,7 @@ item.OnUse = onuse_explosive;
 item.Model = "models/props_junk/propane_tank001a.mdl"
 item.lootCount = 1
 item.lootBias = 3
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'material_propane', item );
 
 -- GAS TANK
@@ -111,6 +113,7 @@ item.OnUse = onuse_explosive;
 item.Model = "models/props_junk/gascan001a.mdl"
 item.lootCount = 1
 item.lootBias = 3
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'material_gas', item );
 
 
@@ -125,6 +128,7 @@ A simple circuit. Pretty simple.
 item.Model = "models/props_lab/reciever01d.mdl"
 item.lootCount = 1
 item.lootBias = 3
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'material_circuit', item );
 
 -- ADVANCED CIRCUIT
@@ -138,6 +142,7 @@ A simple circuit. Pretty simple.
 item.Model = "models/props_lab/reciever01b.mdl"
 item.lootCount = 1
 item.lootBias = false ;
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'material_circuit_adv', item );
 
 
@@ -153,6 +158,7 @@ item.OnUse = onuse_explosive_super;
 item.Model = "models/props_c17/consolebox05a.mdl"
 item.lootCount = 16
 item.lootBias = 0.2
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'material_techtrium', item );
 
 -- RUBBER
@@ -166,6 +172,7 @@ Some vulcanized rubber. Useful for crafting.
 item.Model = "models/props_vehicles/tire001b_truck.mdl"
 item.lootCount = 4
 item.lootBias = 3
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'material_rubber', item );
 
 
@@ -181,6 +188,7 @@ item.OnUse = function( _, pl ) pl:Ignite( 10, 10 ) end
 item.Model = "models/props_lab/jar01a.mdl"
 item.lootCount = 4
 item.lootBias = 7
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'material_nitrate', item );
 
 
@@ -196,6 +204,7 @@ item.OnUse = function( _, pl ) pl:Ignite( 10, 10 ) end
 item.Model = "models/props_junk/plasticbucket001a.mdl"
 item.lootCount = 4
 item.lootBias = 4
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'material_plastic', item );
 
 
@@ -226,6 +235,7 @@ A terracotta pot. Useful for farming.
 item.Model = "models/props_junk/terracotta01.mdl"
 item.lootCount = 1
 item.lootBias = 3
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'material_terracottapot', item );
 
 
@@ -240,6 +250,7 @@ Bin of misc electronic parts
 item.Model = "models/props_lab/partsbin01.mdl"
 item.lootCount = 4
 item.lootBias = 3
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'material_spareparts', item );
 
 -- METAL RODS
@@ -253,6 +264,7 @@ Rods of copper, useful in electronics.
 item.Model = "models/Items/CrossbowRounds.mdl"
 item.lootCount = 4
 item.lootBias = 10
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'material_copper', item );
 
 -- SCRAP METAL
@@ -266,6 +278,7 @@ Scrap Metal
 item.Model = "models/gibs/metal_gib1.mdl"
 item.lootCount = 4
 item.lootBias = 10
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'material_metal', item );
 
 
@@ -280,7 +293,7 @@ Gun Powder. Highly explosive. Handle with care.
 ]]
 item.OnUse = onuse_explosive_super ;
 item.Model = "models/props_c17/woodbarrel001.mdl"
-item.lootBias = false
+item.flags = 0;
 gmodz.item.register( 'material_gunpowder', item );
 
 

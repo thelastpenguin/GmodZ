@@ -7,7 +7,7 @@ local item = {};
 item.PrintName = 'Unnamed'
 item.Model = 'models/props_c17/oildrum001.mdl'
 item.StackSize = 16
-item.flags = ITEMFLAG_BASECLASS ;
+item.flags = ITEMFLAG_BASECLASS;
 
 item.lootBias = 1;
 item.lootCount = 1;

@@ -9,6 +9,7 @@ Ammo Base
 item.Model = 'models/Items/BoxMRounds.mdl'
 item.ammo_type = 'none'
 item.lootBias = 3
+item.flags = ITEMFLAG_BASECLASS;
 gmodz.item.register( 'base_ammo', item );
 
 
@@ -26,6 +27,7 @@ item.Model = "models/Items/BoxMRounds.mdl"
 item.ammo_type = '5.56mm'
 item.lootCount = function() return math.random( 20, 30 ); end
 item.lootBias = 6
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'ammo_5.56', item );
 
 
@@ -42,6 +44,7 @@ item.ammo_type = '7.62mm'
 item.Model = 'models/Items/BoxMRounds.mdl'
 item.lootCount = function() return math.random( 20, 30 ); end
 item.lootBias = 4
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'ammo_7.62', item );
 
 
@@ -58,6 +61,7 @@ item.Model = 'models/Items/BoxSRounds.mdl'
 item.ammo_type = '9mm'
 item.lootCount = function() return math.random( 20, 30 ) end
 item.lootBias = 8
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'ammo_9mm', item );
 
 
@@ -74,6 +78,7 @@ item.Model = 'models/Items/BoxBuckshot.mdl'
 item.ammo_type = 'Buckshot'
 item.lootCount = function() return math.random( 10, 20 ) end
 item.lootBias = 7
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'ammo_Buckshot', item );
 
 
@@ -89,6 +94,7 @@ item.Model = 'models/Items/357ammo.mdl'
 item.ammo_type = '.50 Cal'
 item.lootCount = function() return math.random( 15, 25 ); end
 item.lootBias = 4
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'ammo_50cal', item );
 
 
@@ -104,6 +110,7 @@ item.Model = 'models/Items/HealthKit.mdl'
 item.ammo_type = 'Bandages'
 item.lootCount = function() return math.random( 1, 2 ); end
 item.lootBias = 1;
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'ammo_Bandages', item );
 
 
@@ -131,6 +138,7 @@ item.Model = 'models/Items/HealthKit.mdl'
 item.ammo_type = 'Hemostats'
 item.lootCount = function() return math.random( 1, 2 ); end
 item.lootBias = 1;
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'ammo_Hemostats', item );
 
 

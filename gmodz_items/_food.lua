@@ -6,7 +6,7 @@ item.Desc = [[
 Base Food Entity.
 ]]
 function item:OnUse( pl, stack )
-	local fm, wm = gmodz.cfg.max_food/100, gmodz.cfg.max_water/100;
+	local fm, wm = 1, 1 -- gmodz.cfg.max_food/100, gmodz.cfg.max_water/100;
 	if self.addFood then
 		pl:SetUData( 'food', math.Clamp( pl:GetUData( 'food', 0 ) + self.addFood*fm, 0, gmodz.cfg.max_food ) );
 	end
@@ -23,6 +23,7 @@ item.Model = "models/Items/BoxMRounds.mdl"
 item.Sound = "eating_and_drinking/eating.wav"
 item.lootCount = 1
 item.lootBias = 5
+item.flags = ITEMFLAG_BASECLASS ;
 gmodz.item.register( 'base_food', item );
 
 
@@ -37,6 +38,7 @@ item.Model = "models/warz/consumables/bag_chips.mdl"
 item.Sound = "eating_and_drinking/crunchy_double.wav"
 item.addFood = 30
 item.lootBias = 5
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'food_chips', item );
 
 -- MRE - Ready To Eat
@@ -50,6 +52,7 @@ item.Model = "models/warz/consumables/bag_mre.mdl"
 item.Sound = "eating_and_drinking/eating_long.wav"
 item.addFood = 100
 item.lootBias = 5
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'food_mre', item );
 
 -- BAG OAT
@@ -63,6 +66,7 @@ item.Model = "models/warz/consumables/bag_oat.mdl"
 item.Sound = "eating_and_drinking/eating.wav"
 item.addFood = 50
 item.lootBias = 5
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'food_oatmeal', item );
 
 -- BAR CHOCOLATE
@@ -77,6 +81,7 @@ item.Sound = "eating_and_drinking/eating.wav"
 item.lootCount = 2
 item.addFood = 20
 item.lootBias = 1
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'food_chocolate', item );
 
 -- BAR CHOCOLATE
@@ -91,6 +96,7 @@ item.Sound = "eating_and_drinking/eating.wav"
 item.lootCount = 2
 item.addFood = 30
 item.lootBias = 4
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'food_granola', item );
 
 -- CAN OF PASTA
@@ -105,6 +111,7 @@ item.Sound = "eating_and_drinking/eating.wav"
 item.lootCount = 1
 item.addFood = 50
 item.lootBias = 4
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'food_pasta', item );
 
 
@@ -121,6 +128,7 @@ item.Sound = "eating_and_drinking/eating.wav"
 item.lootCount = 1
 item.addFood = 30
 item.lootBias = 4
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'food_soup', item );
 
 -- CAN OF SPAM
@@ -135,6 +143,7 @@ item.Sound = "eating_and_drinking/eating.wav"
 item.lootCount = 1
 item.addFood = 40
 item.lootBias = 4
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'food_spam', item );
 
 -- CAN OF TUNA
@@ -149,6 +158,7 @@ item.Sound = "eating_and_drinking/eating.wav"
 item.lootCount = 1
 item.addFood = 50
 item.lootBias = 4
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'food_tuna', item );
 
 -- CAN OF TUNA
@@ -163,6 +173,7 @@ item.Sound = "eating_and_drinking/eating.wav"
 item.lootCount = 1
 item.addFood = 50
 item.lootBias = 4
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'food_tuna', item );
 
 
@@ -182,6 +193,7 @@ item.Sound = "eating_and_drinking/drinking.wav"
 item.lootCount = 1
 item.addWater = 30
 item.lootBias = 6
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'food_coconut_water', item );
 
 
@@ -198,6 +210,7 @@ item.lootCount = 1
 item.addWater = 30
 item.addFood = 30
 item.lootBias = 4
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'food_energy_drink', item );
 
 local item = {};
@@ -211,6 +224,7 @@ item.Sound = "eating_and_drinking/drinking.wav"
 item.lootCount = 1
 item.addWater = 50
 item.lootBias = 4
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'food_gatorade', item );
 
 local item = {};
@@ -224,6 +238,7 @@ item.Sound = "eating_and_drinking/drinking.wav"
 item.lootCount = 1
 item.addWater = 34
 item.lootBias = 4
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'food_juice', item );
 
 
@@ -238,6 +253,7 @@ item.Sound = "eating_and_drinking/drinking.wav"
 item.lootCount = 1
 item.addWater = 44
 item.lootBias = 4
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'food_soda', item );
 
 local item = {};
@@ -251,6 +267,7 @@ item.Sound = "eating_and_drinking/drinking.wav"
 item.lootCount = 1
 item.addWater = 80
 item.lootBias = 4
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'food_water_l', item );
 
 
@@ -271,6 +288,7 @@ function item:OnUse( pl )
 	pl:SetHealth( math.Clamp( pl:Health() + 20, 0, 100 ) );
 end
 item.lootBias = 2
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'food_medicine', item );
 
 local item = {};
@@ -286,6 +304,7 @@ function item:OnUse( pl )
 	pl:SetHealth( math.Clamp( pl:Health() + 10, 0, 100 ) );
 end
 item.lootBias = 2
+item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'food_painkillers', item );
 
 

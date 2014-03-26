@@ -17,14 +17,18 @@ function ENT:SetConfig( cfg )
 end
 
 function ENT:SpawnLoot( )
+	print("SPAWNING!");
 	local lType = gmodz.hook.Call( 'ChooseLootType', self.lootTypes );
 	if not lType then
 		gmodz.print('ERROR ON NODE: nil loot type', Color(255,0,0));
 	end
 	
 	-- CREATE THE ENTITY
-	local ent = lType:CreateDrop( );
-	if not IsValid( ent ) then return end
+	local succ, ent = pcall( lType.CreateDrop, lType, isfunction( lType.lootCount ) and lType.lootCount( self ) or lType.lootCount );
+	if not succ or not IsValid( ent ) then
+		gmodz.print("LOOT NODE FAILED TO CREATE LOOT ENTITY.  CLASS: "..lType.class );
+		print( ent );
+		return end
 	
 	local size = -ent:OBBMins();
 	

@@ -8,7 +8,7 @@ Ammo Base
 ]]
 item.Model = 'models/Items/BoxMRounds.mdl'
 item.ammo_type = 'none'
-item.lootBias = 3
+item.lootBias = 4
 item.flags = ITEMFLAG_BASECLASS;
 gmodz.item.register( 'base_ammo', item );
 

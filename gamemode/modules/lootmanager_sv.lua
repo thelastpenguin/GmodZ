@@ -7,7 +7,7 @@ gmodz.hook.Add( 'medit_Cleanup', function( )
 	local c = 0;
 	for k,v in pairs( ents.GetAll() )do
 		if v:GetClass() ~= 'node_loot' then continue end
-		v:OnRemove( );
+		--:OnRemove( );
 		v:Remove( );
 		c = c + 1;
 	end
@@ -73,7 +73,7 @@ gmodz.hook.Add( 'OnNPCKilled', function( npc, pl, wep )
 		
 	else
 		local lType = gmodz.hook.Call( 'ChooseLootType', { gmodz.item.GetMeta( 'base' )} );
-		local ent = lType:CreateDrop( );
+		local ent = lType:CreateDrop( isfunction( lType.lootCount ) and lType.lootCount( lType ) or lType.lootCount );
 		local pos = ent:GetPos() ;
 		pos.z = pos.z - ent:OBBMins().z ;
 		ent:SetPos( pos );

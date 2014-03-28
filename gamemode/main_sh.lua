@@ -8,47 +8,14 @@
 
 gmodz = {}; -- core table.
 
-local include , writeCompiled 
-do
-	local files = {};
-	local activeDir = ''
-	function include( path )
-		local f = file.Read( path, 'LUA') or file.Read( GM.FolderName..'/gamemode/'..path, 'LUA' );
-		files[#files+1] = f ;
-		if not f then print("COULDNT FIND PATH: "..path ); end
-		_G.include( path );
-	end
-	
-	function writeCompiled( )
-		local final = {};
-		for _, f in pairs( files )do
-			local lines = string.Explode( '[\n]', f, true );
-			
-			local filtered = {};
-			for k,v in ipairs( lines )do
-				--if not string.find( v, '[%a]' ) then continue end
-				filtered[#filtered+1] = v--v:sub( string.find( v, '[%a]' ) );
-			end
-			
-			final[#final+1] = '\ndo\n';
-			final[#final+1] = table.concat( filtered, '\n' );
-			final[#final+1] = '\nend\n';
-			
-		end 
-		local output = table.concat( final, ' ' );
-		--print( output );
-		file.Write( CLIENT and 'gmodz/comp_cl.txt' or 'gmodz/comp_sv.txt', output )
-	end
-end
-
 if( SERVER )then
-	gmodz.include_cl = _G.AddCSLuaFile ;
-	gmodz.include_sv = _G.include ;
+	gmodz.include_cl = AddCSLuaFile ;
+	gmodz.include_sv = include ;
 	gmodz.include_sh = function( ... ) include( ... ) AddCSLuaFile( ... ) end ;
 elseif( CLIENT )then
-	gmodz.include_cl = _G.include ;
+	gmodz.include_cl = include ;
 	gmodz.include_sv = function( ) end -- dfgaf.
-	gmodz.include_sh = _G.include ;
+	gmodz.include_sh = include ;
 end
 
 --

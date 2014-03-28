@@ -213,13 +213,13 @@ function PANEL:Paint()
 	
 	local aStart = -45;
 	surface.SetDrawColor(0,0,0,150);
-	surface.DrawArc( w*0.4, h*0.5, w*0.5-20, w*0.5, aStart, aStart+90, 15 )
+	surface.DrawArc( w*0.45, h*0.5, w*0.5-20, w*0.5, aStart, aStart+90, 15 )
 	
 	surface.SetDrawColor(100,155,0);
-	surface.DrawArc( w*0.4, h*0.5, w*0.5-20, w*0.5, aStart+90*frac, aStart+90, 15 )
+	surface.DrawArc( w*0.45, h*0.5, w*0.5-20, w*0.5, aStart+90*frac, aStart+90, 15 )
 	
 	surface.SetDrawColor(255,255,255,50);
-	surface.DrawArcOutline( w*0.4, h*0.5, w*0.5-20, w*0.5, aStart, aStart+90, 15 )
+	surface.DrawArcOutline( w*0.45, h*0.5, w*0.5-20, w*0.5, aStart, aStart+90, 15 )
 	
 	-- LEFT - WATER
 	local water = LocalPlayer():GetUData( 'water' );
@@ -228,13 +228,13 @@ function PANEL:Paint()
 	
 	local aStart = 90+45
 	surface.SetDrawColor(0,0,0,150);
-	surface.DrawArc( w*0.6, h*0.5, w*0.5-20, w*0.5, aStart, aStart+90, 15 )
+	surface.DrawArc( w*0.55, h*0.5, w*0.5-20, w*0.5, aStart, aStart+90, 15 )
 	
 	surface.SetDrawColor(0,70,155);
-	surface.DrawArc( w*0.6, h*0.5, w*0.5-20, w*0.5, aStart, aStart+90*frac, 15 )
+	surface.DrawArc( w*0.55, h*0.5, w*0.5-20, w*0.5, aStart, aStart+90*frac, 15 )
 	
 	surface.SetDrawColor(255,255,255,50);
-	surface.DrawArcOutline( w*0.6, h*0.5, w*0.5-20, w*0.5, aStart, aStart+90, 15 )
+	surface.DrawArcOutline( w*0.55, h*0.5, w*0.5-20, w*0.5, aStart, aStart+90, 15 )
 end
 
 derma.DefineControl( "gmodz_healthmodel", "Health Model", PANEL )

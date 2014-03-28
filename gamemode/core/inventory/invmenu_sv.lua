@@ -57,8 +57,8 @@ net.Receive( 'gmodz_inv_dropitem', function( len, pl )
 		pl:ChatPrint('Inventory slot does not contain enough items!');
 		return ;
 	end
-	if not stack.meta.DoDrop then
-		pl:ChatPrint('Item Meta does not have a \'Do Drop\' handler defined.');
+	if not stack.meta.CreateDrop then
+		pl:ChatPrint('Item Meta does not have a \'CreateDrop\' handler defined.');
 		return ;
 	end
 	

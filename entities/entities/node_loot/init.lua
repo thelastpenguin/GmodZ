@@ -40,6 +40,8 @@ function ENT:SpawnLoot( )
 		self:QueueSpawn( );
 	end);
 	
+	ent:DisableTimeout( true );
+	
 	self.entLoot = ent;
 end
 

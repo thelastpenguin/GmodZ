@@ -94,6 +94,7 @@ do
 		dLoaded.KilledCivilians = tonumber( pdata.dKilledCivilians );
 		dLoaded.KilledBandits = tonumber( pdata.dKilledBandits );
 		dLoaded.karma = tonumber( pdata.karma );
+		dLoaded.mdl = pdata.mdl;
 	end
 	
 	-- UTILITY TO INITALIZE USER DATA.
@@ -110,6 +111,7 @@ do
 		dLoaded.KilledCivilians = 0;
 		dLoaded.KilledBandits = 0;
 		dLoaded.karma = 0;
+		dLoaded.mdl = gmodz.cfg.models[ math.random(1,#gmodz.cfg.models ) ];
 	end
 	
 	-- UTILITY TO LOAD ITEMS
@@ -127,7 +129,6 @@ do
 		pl:AssignInv( 'inv', data.inv );
 		pl:InvAddEditor( 'inv', pl, true );
 		for k, inv in ipairs( data.bank )do
-			print( 'bank'..k );
 			pl:AssignInv( 'bank'..k, inv );
 			pl:InvAddEditor( 'bank'..k, pl, true );
 		end
@@ -142,6 +143,7 @@ do
 		pl:SetUData( 'KilledCivilians', data.KilledCivilians );
 		pl:SetUData( 'KilledBandits', data.KilledBandits );
 		pl:SetUData( 'karma', data.karma );
+		pl:SetUData( 'mdl', data.mdl );
 	end
 	
 	function gmodz.pdata.LoadUser( pl, cback )
@@ -205,8 +207,17 @@ do
 		local KilledBandits = pl:GetUData( 'KilledBandits', 0 );
 		local karma = math.Clamp( pl:GetUData( 'karma', 0 ), -100, 100 );
 		
-		gmodz.db:NewQuery():SetSQLEx('REPLACE INTO gmodz_users VALUES ( "<steamid>", "<inv>", "<bank>", "<dHealth>", "<dFood>", "<dWater>", "<dTimePlayed>", "<dTimeSurvived>", "<dKilledZombies>", "<dKilledCivilians>", "<dKilledBandits>", "<karma>" )', {
+		local mdl, mdlid = pl:GetModel( ), 'none' ;
+		for k,v in pairs( gmodz.cfg.models )do
+			if v == mdl then
+				mdlid = k
+				break
+			end
+		end
+		
+		gmodz.db:NewQuery():SetSQLEx('REPLACE INTO gmodz_users VALUES ( "<steamid>", "<mdl>", "<inv>", "<bank>", "<dHealth>", "<dFood>", "<dWater>", "<dTimePlayed>", "<dTimeSurvived>", "<dKilledZombies>", "<dKilledCivilians>", "<dKilledBandits>", "<karma>" )', {
 				steamid = pl:SteamID(),
+				mdl = mdlid,
 				inv = inv,
 				bank = bank,
 				dHealth = pl:Health(),

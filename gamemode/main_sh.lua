@@ -28,7 +28,7 @@ MsgC( SERVER and Color( 0, 155, 255 ) or Color( 255, 0, 0 ),   ' =\n============
 
 GM.VersionNUMARIC = {1,0,0};
 GM.Version = table.concat( GM.VersionNUMARIC, '.' );
-GM.Name = "GmodZ"
+GM.Name = "GmodZ - TPS"
 GM.Author = "TheLastPenguin"
 
 DeriveGamemode("base")
@@ -51,6 +51,7 @@ TEAM_SURVIVER = 2; team.SetUp( TEAM_SURVIVER, 'Survivers', Color( 100, 200, 100 
 -- INCLUDE STUFF
 --
 gmodz.include_sh '_config_sh.lua' ;
+gmodz.include_sh '_config_models_sh.lua' ;
 gmodz.include_cl 'fonts_cl.lua' ;
 
 -- LOAD CORE LIBS
@@ -149,6 +150,3 @@ include_folder( '/gamemode/modules/' );
 
 gmodz.hook.Call( 'LoadComplete' );
 gmodz.hook.DeleteAll( 'LoadComplete' ); 
-
-
-writeCompiled( );

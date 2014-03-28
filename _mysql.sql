@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS `gmodz_users` ( 
-			`steamid` VARCHAR( 30 ) NOT NULL, 
+			`steamid` VARCHAR( 30 ) NOT NULL,
+			'mdl' VARCHAR( 50 ), 
 			`inventory` TEXT,
 			`bank` TEXT,
 			`dHealth` TINYINT UNSIGNED,

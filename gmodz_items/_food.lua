@@ -244,7 +244,7 @@ gmodz.item.register( 'food_juice', item );
 
 local item = {};
 item.base = 'base_food';
-item.PrintName = 'Juice'
+item.PrintName = 'Soda'
 item.Desc = [[
 Soda, gone flat but better than nothing.
 ]]

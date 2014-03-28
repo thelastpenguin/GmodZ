@@ -79,9 +79,9 @@ end
 function GM:PlayerSpawnActive( pl )
 	
 	pl:SetHealth( gmodz.cfg.starting_health );
-	pl:SetModel( "models/player/breen.mdl" );
 	pl:SetMoveType( MOVETYPE_WALK );
 	pl:UnSpectate();
+	pl:SetModel( gmodz.cfg.models[pl:GetUData( 'mdl' )] or gmodz.cfg.modelRandom( ) );
 	
 	pl:AllowFlashlight( true );
 	

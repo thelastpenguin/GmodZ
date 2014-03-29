@@ -170,6 +170,8 @@ do
 	encode['NPC']     = encode['Entity'];
 	encode['NextBot'] = encode['Entity'];
 	
+	encode['function'] = function() end;
+	
 	do
 		local empty, concat = table.Empty, table.concat ;
 		function pon.encode( tbl )

@@ -8,6 +8,15 @@
 
 gmodz = {}; -- core table.
 
+if (SERVER )then
+	AddCSLuaFile( 'lib/source_compiler_sh.lua' );
+end
+include( 'lib/source_compiler_sh.lua' );
+
+gmodz.src_start( GM.FolderName..'/gamemode' );
+
+local include = gmodz.src_include ;
+
 if( SERVER )then
 	gmodz.include_cl = AddCSLuaFile ;
 	gmodz.include_sv = include ;
@@ -28,7 +37,7 @@ MsgC( SERVER and Color( 0, 155, 255 ) or Color( 255, 0, 0 ),   ' =\n============
 
 GM.VersionNUMARIC = {1,0,0};
 GM.Version = table.concat( GM.VersionNUMARIC, '.' );
-GM.Name = "GmodZ - TPS"
+GM.Name = "GmodZ"
 GM.Author = "TheLastPenguin"
 
 DeriveGamemode("base")
@@ -84,7 +93,8 @@ gmodz.include_cl 'util/escmenu_cl.lua' ;
 gmodz.include_cl 'core/hud_cl.lua' ;
 gmodz.include_cl 'core/rendereffects_cl.lua' ;
 gmodz.include_cl 'core/scoreboard_cl.lua' ;
-gmodz.include_cl 'core/mainmenu_cl.lua'
+gmodz.include_cl 'core/mainmenu_cl.lua' ;
+gmodz.include_sv 'core/mainmenu_sv.lua' ;
 
 -- LOAD THE ITEM SYSTEM
 gmodz.include_sh 'core/items_load_sh.lua' ;
@@ -150,3 +160,8 @@ include_folder( '/gamemode/modules/' );
 
 gmodz.hook.Call( 'LoadComplete' );
 gmodz.hook.DeleteAll( 'LoadComplete' ); 
+
+
+gmodz.src_output( 'gmodz/'..( SERVER and 'src_server.txt' or 'src_client.txt' ), function( out )
+	return SERVER and [[AddCSLuaFile( 'init_cl.lua' ); ]]..out or out ; 
+end );

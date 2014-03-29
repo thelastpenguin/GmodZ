@@ -55,6 +55,7 @@ end
 util.AddNetworkString( 'gmodz_invSetSlot' );
 util.AddNetworkString( 'gmodz_syncInv' );
 util.AddNetworkString( 'gmodz_delInv' );
+util.AddNetworkString( 'gmodz_syncHash' );
 
 function inv_mt:SetSize( w, h )
 	self.w, self.h = w, h;
@@ -154,6 +155,13 @@ function inv_mt:SyncSlot( index )
 	end
 end
 
+function inv_mt:SyncHash( )
+	net.Start( 'gmodz_syncHash' );
+		net.WriteInt( self.id, 32 );
+		net.WriteInt( self:Hash(), 32 );
+	net.Send( self.editors );
+end
+
 --
 -- INVENTORY UTILITIES
 --
@@ -242,6 +250,16 @@ function inv_mt:CountItems( selector )
 	end
 	return c;
 end
+
+
+function inv_mt:Hash( )
+	local hashstr = {};
+	for k,v in SortedPairs( self.stacks )do
+		hashstr[#hashstr+1] = k..','..v.meta.class..','..v:GetCount();
+	end
+	return util.CRC( table.concat( hashstr, ',' ) )%1073741824;
+end
+
 
 
 -- 
@@ -415,4 +433,31 @@ net.Receive( 'gmodz_inv_moveStack', function( len, pl )
 			invSource:SyncSlot( sIndex1 );
 		end
 	end
+	
+	invDest:SyncHash( );
+	invSource:SyncHash( );
+end);
+
+--
+-- REQUEST RESYNC
+--
+util.AddNetworkString('gmodz_requestResync')
+net.Receive( 'gmodz_requestResync', function( len, pl )
+	local invid = net.ReadUInt( 32 );
+	local inv = inventories[ invid ];
+	if not inv then
+		pl:ChatPrint("[ERROR] No inventory with given id: "..invid );
+		return ;
+	end
+	if not table.HasValue( inv.editors, pl )then
+		pl:ChatPrint("[ERROR] You don't have perms to view this inventory!");
+		return ;
+	end
+	
+	net.Start( 'gmodz_syncInv' );
+		net.WriteInt( inv.id, 32 );
+		net.WriteTable( inv:SaveToTable( ) );
+	net.Send( pl );
+	
+	pl:ChatPrint('Error corrected. Inventory re-synced with server.');
 end);

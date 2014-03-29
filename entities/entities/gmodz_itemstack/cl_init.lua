@@ -27,7 +27,7 @@ function ENT:Draw()
 	if not self.initted then self:Initialize( ) end
 	
 	render.SuppressEngineLighting( true );
-	if self.csModel then
+	if IsValid( self.csModel ) then
 		self.csModel:SetRenderOrigin( self:GetPos( ) );
 		self.csModel:SetRenderAngles( self:GetAngles( ) );
 		self.csModel:SetupBones( );

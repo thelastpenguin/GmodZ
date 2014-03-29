@@ -1,13 +1,3 @@
-concommand.Add('gmodz_holster', function( pl )
-	pl.holstered = pl:GetActiveWeapon( );
-	pl:SetActiveWeapon( NULL );
-end);
-
-concommand.Add('gmodz_unholster',function( pl )
-	pl:SetActiveWeapon( pl.holstered or NULL );
-end);
-
-
 concommand.Add('gmodz_a_give', function( pl, cmd, args )
 	if not pl:IsSuperAdmin() then return end
 	

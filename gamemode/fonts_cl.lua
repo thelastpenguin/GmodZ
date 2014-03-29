@@ -99,49 +99,49 @@ surface.CreateFont( "GmodZ_Font3D12", {
 
 
 surface.CreateFont( "GmodZ_3DH1", {
-	font = "KG All of Me",
+	font = "Press Style",
 	size = 64,
 	weight = 500
 } )
 
 
 surface.CreateFont( "GmodZ_KG_64", {
-	font = "KG All of Me",
+	font = "Press Style",
 	size = 64*gmodz.ScrScale,
-	weight = 500
+	weight = 0
 } )
 
 surface.CreateFont( "GmodZ_KG_3D32", {
-	font = "KG All of Me",
+	font = "Press Style",
 	size = 32,
-	weight = 500
+	weight = 0
 } )
 surface.CreateFont( "GmodZ_KG_32", {
-	font = "KG All of Me",
+	font = "Press Style",
 	size = 32*gmodz.ScrScale,
-	weight = 500
+	weight = 0
 } )
 
 surface.CreateFont( "GmodZ_KG_3D38", {
-	font = "KG All of Me",
+	font = "Press Style",
 	size = 38,
-	weight = 500
+	weight = 0
 } )
 surface.CreateFont( "GmodZ_KG_3D48", {
-	font = "KG All of Me",
+	font = "Press Style",
 	size = 48,
-	weight = 500
+	weight = 0
 } )
 surface.CreateFont( "GmodZ_KG_48", {
-	font = "KG All of Me",
+	font = "Press Style",
 	size = 48*gmodz.ScrScale,
-	weight = 500
+	weight = 0
 } )
  
 surface.CreateFont( "GmodZ_ItemNameTag", {
-	font = "KG All of Me",
+	font = "Press Style",
 	size = 40*gmodz.ScrScale,
-	weight = 200
+	weight = 0
 } )
 
 
@@ -159,6 +159,17 @@ surface.CreateFont( "GmodZ_Font3D18_OUTLINED", {
 	outline = true
 } )
 
+
+surface.CreateFont( "GmodZ_GRUNGE_128", {
+	font = "BAD GRUNGE",
+	size = 128*gmodz.ScrScale,
+	weight = 0
+})
+surface.CreateFont( "GmodZ_GRUNGE_64", {
+	font = "Press Style",
+	size = 64*gmodz.ScrScale,
+	weight = 0
+})
 
 
 

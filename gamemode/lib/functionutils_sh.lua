@@ -51,3 +51,13 @@ function gmodz.MemoizeEx( fn )
 
     return setmetatable( object, object )
 end
+
+
+
+
+
+
+function table.Hash( tbl )
+  print(  gmodz.pon.encode( tbl ) );
+  return util.CRC( gmodz.pon.encode( tbl ) );
+end

@@ -50,13 +50,22 @@ function GM:OnSpawnMenuClose( )
 end
 
 --
+-- PLAYER MOVE
+-- 
+function GM:Move( pl, move )
+	return gmodz.hook.Call('Move', pl, move );
+end
+
+--
 -- PLAYER BIND PRESSED
 --
 function GM:PlayerBindPress( ply, bind, pressed )
+	if LocalPlayer():Team() ~= TEAM_SURVIVER then return end
 	return gmodz.hook.Call('PlayerBindPress', ply, bind, pressed );
 end
 
 function GM:PrePlayerDraw( pl )
+	if LocalPlayer():Team() ~= TEAM_SURVIVER then return end
 	if pl == LocalPlayer() then
 		pl:SetAngles( Angle(0,math.sin( CurTime() ) * 60, 0 ) )	
 	end

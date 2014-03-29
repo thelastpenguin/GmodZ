@@ -38,14 +38,11 @@ function GM:PlayerReady( pl )
 	pl:UnLock();	
 	pl:UnSpectate();
 	
-	pl:SetTeam( TEAM_SURVIVER );
-	
 	pl:SetNWBool('gmz_ready', true );
 	
 	pl:Spawn();
 	pl:SetHealth( pl.udata.health or gmodz.cfg.starting_health );
 end
-gmodz.hook.Add( 'hud_prompt', function() if not pl:GetNWBool( 'gmz_ready' ) then return 'Loading...' end end );
 
 --
 -- PLAYER DISCONNECTED
@@ -67,9 +64,18 @@ function GM:PlayerSpawn( pl )
 	
 end
 function GM:PlayerSpawnLoading( pl )
+	pl:StripWeapons( );
 	
-	pl:Spectate( OBS_MODE_FIXED );
-	pl:Lock( );
+	local npcs = ents.FindByClass( 'npc_zombie' )
+	if #npcs > 0 then
+		pl:Spectate( OBS_MODE_CHASE );
+		local n = npcs[math.random(1,#npcs)]
+		n:SetSchedule( SCHED_IDLE_WALK );
+		pl:SpectateEntity( n )
+	else
+		pl:Spectate( OBS_MODE_FIXED );
+	end
+	--pl:Lock( );
 	pl:SetHealth( gmodz.cfg.starting_health );
 	pl:SetModel( "models/player/breen.mdl" );
 	
@@ -77,11 +83,10 @@ function GM:PlayerSpawnLoading( pl )
 	
 end
 function GM:PlayerSpawnActive( pl )
-	
-	pl:SetHealth( gmodz.cfg.starting_health );
 	pl:SetMoveType( MOVETYPE_WALK );
 	pl:UnSpectate();
 	pl:SetModel( gmodz.cfg.models[pl:GetUData( 'mdl' )] or gmodz.cfg.modelRandom( ) );
+	pl:SetHealth( pl:GetUData( 'hp', 100 ) );
 	
 	pl:AllowFlashlight( true );
 	
@@ -142,12 +147,17 @@ function GM:PlayerDeath( victim, infl, attacker )
 		inv:SetSlot( i, nil, nil );
 	end
 	
+	-- put in the default inv contents.
+	self:LoadoutInventory( inv );
+	
+	victim:SetTeam( TEAM_LOADING );
+	victim:SetUData( 'hp', 100 );
+	gmodz.hook.Call( 'PlayerDeath', victim );
 	
 	return true;
 end
 function GM:PlayerDeathThink( pl )
-	if( pl.respawn_time and pl.respawn_time < CurTime() )then
-		pl.respawn_time = nil;
+	if( pl:Team() ~= TEAM_LOADING )then
 		pl:Spawn();
 	end
 end
@@ -170,8 +180,8 @@ end
 -- FALL DAMAGE
 --
 function GM:GetFallDamage( pl, speed )
-	if speed < 100 then return 0 end
-	return (speed-100)/7;
+	speed = speed - 200
+	return ( speed / 8 )
 end
 
 --
@@ -181,6 +191,33 @@ function GM:OnNPCKilled( npc, killer, wep )
 	return gmodz.hook.Call( 'OnNPCKilled', npc, killer, wep );
 end
 
+
+--
+-- GIVE DEFAULT INVENTORY
+--
+function GM:LoadoutInventory( inv )
+	if not inv then return end;
+	for k,v in pairs( gmodz.cfg.starting_items )do
+		local stack = gmodz.itemstack.new( v[1] ):SetCount( v[2] );
+		inv:AddStack( stack );
+	end
+end
+
+
+--
+-- PLAYER MOVE
+-- 
+function GM:Move( pl, move )
+	return gmodz.hook.Call('Move', pl, move );
+end
+
+
+--
+-- VOICE CHAT RADIUS
+--
+function GM:PlayerCanHearPlayersVoice( pl1, pl2 )
+	return true, true ;	
+end
 
 
 

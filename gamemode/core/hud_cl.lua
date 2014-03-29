@@ -4,6 +4,8 @@ gmodz.hook.Add('LoadComplete',function()
 	
 	-- DRAW THE MAIN HUD
 	gmodz.hook.Add('HUDPaintBackground',function()
+		if LocalPlayer():Team() ~= TEAM_SURVIVER then return end
+		
 		hud:SetPaintedManually( false );
 		hud:PaintManual( );
 		hud:SetPaintedManually( true );
@@ -21,6 +23,7 @@ end);
 -- DRAW TIP TEXT
 local ScrW, ScrH, LocalPlayer = ScrW, ScrH, LocalPlayer ;
 gmodz.hook.Add( 'HUDPaintBackground', function()
+	if LocalPlayer():Team() ~= TEAM_SURVIVER then return end
 	local text = gmodz.hook.Call( 'hud_prompt' );
 	if not text then return end
 	
@@ -32,4 +35,3 @@ gmodz.hook.Add( 'HUDPaintBackground', function()
 	
 	surface.DrawText( text );
 end);
-

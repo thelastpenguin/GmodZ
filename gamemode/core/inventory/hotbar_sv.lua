@@ -1,7 +1,12 @@
 
 util.AddNetworkString( 'gmodz_hotbar_equipslot' );
 net.Receive( 'gmodz_hotbar_equipslot', function( len, pl )
-	local slot = net.ReadUInt(16);
+	
+	gmodz.playerequipslot( pl, net.ReadUInt(16) );
+	
+end);
+
+gmodz.playerequipslot = function( pl, slot )
 	local inv = pl:GetInv( 'inv' );
 	if not inv then
 		gmodz.print("ERROR PLAYER "..pl:Name().."DOESN'T HAVE A LOADED INVENTORY!!");
@@ -40,7 +45,10 @@ net.Receive( 'gmodz_hotbar_equipslot', function( len, pl )
 				wep:SetClip1( data.clip1 );
 			end
 		end
+	else
+		pl:StripWeapons();
+		pl:Give( 'weapon_fists' );
 	end
-	pl.activeslot = stack;
-	pl.equippedStack = stack;
-end);
+	pl.activeslot = stack; 
+	pl.activeSlotIndex = slot;
+end

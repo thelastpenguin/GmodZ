@@ -49,6 +49,23 @@ net.Receive( 'gmodz_invSetSlot', function()
 	gmodz.hook.Call( 'UpdatedInventory', inv, index );
 end);
 
+net.Receive( 'gmodz_syncHash', function()
+	local invid = net.ReadInt( 32 );
+	local hash = net.ReadInt( 32 );
+	local inv = inventories[ invid ];
+	if not inv then gmodz.print('ERROR: Hash check failed. Inventory does not exist or is not synced.' ) return end
+	
+	if inv:Hash() ~= hash then
+		gmodz.print('ERROR: Inventory Hash Codes do not match! Requesting Re-sync', Color(255,0,0));
+		gmodz.print( hash .. ' ~= ' .. inv:Hash() );
+		net.Start( 'gmodz_requestResync' )
+			net.WriteUInt( invid, 32 );
+		net.SendToServer( );
+	else
+		gmodz.print('[INV] Inv Hash '..inv:Hash()..' matches expected '..hash..' for inventory '..invid );
+	end
+end);
+
 net.Receive( 'gmodz_delInv', function( )
 	inventories[ net.ReadInt( 32 ) ] = nil;
 	gmodz.hook.Call( 'DeletedInventory', inv );
@@ -145,6 +162,27 @@ function inv_mt:CountItems( selector )
 		end
 	end
 	return c;
+end
+
+function inv_mt:SaveToTable( )
+	local data = {};
+	local stacks = {};
+	data.s = stacks;
+	for k,v in pairs( self.stacks )do
+		stacks[k] = v:SaveToTable( );
+	end
+	
+	data.w, data.h = self:GetSize( );
+	data.v = 0;
+	return data;
+end
+
+function inv_mt:Hash( )
+	local hashstr = {};
+	for k,v in SortedPairs( self.stacks )do
+		hashstr[#hashstr+1] = k..','..v.meta.class..','..v:GetCount();
+	end
+	return util.CRC( table.concat( hashstr, ',' ) )%1073741824;
 end
 
 

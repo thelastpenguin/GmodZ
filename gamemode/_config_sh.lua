@@ -1,5 +1,8 @@
 gmodz.cfg = {};
 
+gmodz.cfg.speedwalk = 220;
+gmodz.cfg.speedrun = 360;
+
 
 gmodz.cfg.starting_health = 100;
 gmodz.cfg.max_food = 200;
@@ -24,5 +27,5 @@ gmodz.cfg.color_darkbg = Color(50,54,50,230);
 
 
 -- DEBUG SETTINGS
-gmodz.cfg.d_loadrate = 2;
+gmodz.cfg.d_loadrate = 20;
 

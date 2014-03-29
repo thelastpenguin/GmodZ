@@ -7,11 +7,6 @@ local CurTime = CurTime
 
 function ENT:Initialize()
 	
-	self:PhysicsInit(SOLID_VPHYSICS)
-	self:SetMoveType(MOVETYPE_NONE);
-	self:SetSolid(SOLID_VPHYSICS)
-	self:SetCollisionGroup( COLLISION_GROUP_WORLD );
-	
 	self.nCheck = CurTime( );
 	self.players = {};
 end

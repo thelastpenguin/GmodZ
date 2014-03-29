@@ -89,7 +89,7 @@ do
 		dLoaded.food = tonumber( pdata.dFood );
 		dLoaded.water = tonumber( pdata.dWater );
 		dLoaded.TimePlayed = tonumber( pdata.dTimePlayed );
-		dLoaded.TimeSurvived = tonumber( pdata.dTimeSurvived );
+		dLoaded.Deaths = tonumber( pdata.dDeaths );
 		dLoaded.KilledZombies = tonumber( pdata.dKilledZombies );
 		dLoaded.KilledCivilians = tonumber( pdata.dKilledCivilians );
 		dLoaded.KilledBandits = tonumber( pdata.dKilledBandits );
@@ -100,13 +100,15 @@ do
 	-- UTILITY TO INITALIZE USER DATA.
 	local function initUser( pl, dLoaded )
 		dLoaded.inv = invCreate( gmodz.cfg.user_invSize.w, gmodz.cfg.user_invSize.h );
+		GAMEMODE:LoadoutInventory( dLoaded.inv ); -- default inv item contents.
+		
 		dLoaded.bank = { invCreate( gmodz.cfg.user_bankSize.w, gmodz.cfg.user_bankSize.h ) };
 		
 		dLoaded.health = gmodz.cfg.starting_health ;
 		dLoaded.food = gmodz.cfg.max_food ;
 		dLoaded.water = gmodz.cfg.max_water ;
 		dLoaded.TimePlayed = 0;
-		dLoaded.TimeSurvived = 0;
+		dLoaded.Deaths = 0;
 		dLoaded.KilledZombies = 0;
 		dLoaded.KilledCivilians = 0;
 		dLoaded.KilledBandits = 0;
@@ -135,10 +137,12 @@ do
 		
 		pl.udata = {};
 		
+		pl:SetUData( 'hp', data.health );
 		pl:SetUData( 'food', data.food );
 		pl:SetUData( 'water', data.water );
+		
 		pl:SetUData( 'TimePlayed', data.TimePlayed );
-		pl:SetUData( 'TimeSurvived', data.TimeSurvived );
+		pl:SetUData( 'Deaths', data.dDeaths );
 		pl:SetUData( 'KilledZombies', data.KilledZombies );
 		pl:SetUData( 'KilledCivilians', data.KilledCivilians );
 		pl:SetUData( 'KilledBandits', data.KilledBandits );
@@ -192,8 +196,8 @@ do
 		local banks = {};
 			local index = 1;
 			while( pl:GetInv( 'bank'..index ) )do
-				banks[#banks+1] = pl:GetInv( 'bank'..index ):SaveToTable( );
 				index = index + 1;
+				banks[#banks+1] = pl:GetInv( 'bank'..(index-1) ):SaveToTable( );
 			end
 		local bank = gmodz.pon.encode( banks );
 		
@@ -201,7 +205,7 @@ do
 		local food = pl:GetUData( 'food', 0 );
 		local water = pl:GetUData( 'water', 0 );
 		local TimePlayed = pl:GetUData( 'TimePlayed', 0 );
-		local TimeSurvived = pl:GetUData( 'TimeSurvived', 0 );
+		local Deaths = pl:GetUData( 'dDeaths', 0 );
 		local KilledZombies = pl:GetUData( 'KilledZombies', 0 );
 		local KilledCivilians = pl:GetUData( 'KilledCivilians', 0 );
 		local KilledBandits = pl:GetUData( 'KilledBandits', 0 );
@@ -215,7 +219,7 @@ do
 			end
 		end
 		
-		gmodz.db:NewQuery():SetSQLEx('REPLACE INTO gmodz_users VALUES ( "<steamid>", "<mdl>", "<inv>", "<bank>", "<dHealth>", "<dFood>", "<dWater>", "<dTimePlayed>", "<dTimeSurvived>", "<dKilledZombies>", "<dKilledCivilians>", "<dKilledBandits>", "<karma>" )', {
+		gmodz.db:NewQuery():SetSQLEx('REPLACE INTO gmodz_users VALUES ( "<steamid>", "<mdl>", "<inv>", "<bank>", "<dHealth>", "<dFood>", "<dWater>", "<dTimePlayed>", "<dDeaths>", "<dKilledZombies>", "<dKilledCivilians>", "<dKilledBandits>", "<karma>" )', {
 				steamid = pl:SteamID(),
 				mdl = mdlid,
 				inv = inv,
@@ -223,8 +227,8 @@ do
 				dHealth = pl:Health(),
 				dFood = food,
 				dWater = water,
+				dDeaths = Deaths,
 				dTimePlayed = TimePlayed,
-				dTimeSurvived = TimeSurvived,
 				dKilledZombies = KilledZombies,
 				dKilledCivilians = KilledCivilians,
 				dKilledBandits = KilledBandits,

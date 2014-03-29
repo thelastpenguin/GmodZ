@@ -1,7 +1,7 @@
-"darkrpv2"
+"gmodz"
 {
 	"base"		"base"
-    "title"  "GmodZ - git"
+    "title"  "GmodZ"
     "version"   "1.3.0"
     "menusystem"	"1"
 

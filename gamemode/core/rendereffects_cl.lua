@@ -33,7 +33,7 @@ function GM:CalcView( pl, pos, ang, fov, nearZ, farZ )
 	fov = 75
 	
 	local LocalPlayer = LocalPlayer();
-	local hpos = LocalPlayer:HeadPos( );
+	local hpos = LocalPlayer:HeadPos( ) or Vector(0,0,0);
 	
 	-- CUSTOM HANDLING FOR WHEN WE  ARE DEAD
 	if( not LocalPlayer:Alive() )then
@@ -157,7 +157,7 @@ end
 
 local _ang, _pos = Angle(0,0,0), Vector(0,0,0);
 gmodz.rendereffects.SetCamCalc( function( ply, pos, ang, fov )
-	if gmodz.getVar( 'viewmode' ) == 0 then return pos, ang, fov end
+	if gmodz.getVar( 'viewmode' ) == 0 then return pos or Vector(0,0,0), ang or Angle(0,0,0), fov or 90 end
 	
 	local playerdistance = 50
 	local fixeddist = 16

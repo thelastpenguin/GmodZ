@@ -4,7 +4,7 @@ function PANEL:Init( )
 	self:InvalidateLayout( true );
 	self.text = {};
 	self:MakePopup( );
-	self:MoveToBack( );
+	self:SetZPos( 100000 );
 	
 	local messages = {
 		{1,'Loading...'},
@@ -18,9 +18,10 @@ function PANEL:Init( )
 		{1,'Done'}
 	}
 	
+	gmodz.vgui_loading_screen = true ;
 	local function message( )
 		if not ValidPanel( self )then return end
-		if #messages == 0 then self:Remove() return end
+		if #messages == 0 then self:Remove() gmodz.vgui_loading_screen = false return end
 		local m = table.remove( messages, 1 );
 		table.insert( self.text, 1, m[2] );
 		timer.Simple( (math.random()*m[1]+m[1])*1/gmodz.cfg.d_loadrate*0.5, message );

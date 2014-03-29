@@ -89,3 +89,21 @@ net.Receive( 'gmodz_inv_dropitem', function( len, pl )
 	ent:SetPos( tres.HitPos );
 	
 end);
+
+
+
+
+concommand.Add('gmodz_holster', function( pl )
+	pl.holsteredwep = pl:GetActiveWeapon( );
+	pl:SetActiveWeapon( NULL );
+end);
+
+concommand.Add('gmodz_unholster',function( pl )
+	local inv = pl:GetInv( 'inv' );
+	if not inv or not IsValid( pl.holsteredwep ) then return end
+	local stack = inv:GetSlot( pl.activeSlotIndex );
+	print( stack );
+	
+	if not stack or stack.meta.Weapon ~= pl.holsteredwep:GetClass() then pl:StripWeapons() return end 
+	pl:SetActiveWeapon( pl.holsteredwep );
+end);

@@ -118,7 +118,6 @@ function PANEL:PerformLayout( )
 end
 function PANEL:Paint( w, h )
 	
-	
 	if self.index == activeSlot then
 		surface.SetDrawColor(255,255,255,255);
 		draw_background(0,0,w,h);
@@ -199,6 +198,8 @@ end
 
 
 gmodz.hook.Add('PlayerBindPress', function( pl, bind, pressed )
+	if not pl:Team() == TEAM_ACTIVE then return end
+	
 	if not pressed then return end
 	if bind == 'invprev' then
 		gmodz.print("Inventory previous slot...");

@@ -69,12 +69,15 @@ end);
 
 -- NPC Looting...
 gmodz.hook.Add( 'OnNPCKilled', function( npc, pl, wep )
-	if math.random(1,4) == 1 then
-		
-	else
+	if math.random(1,15) == 1 then
 		local lType = gmodz.hook.Call( 'ChooseLootType', { gmodz.item.GetMeta( 'base' )} );
 		local ent = lType:CreateDrop( isfunction( lType.lootCount ) and lType.lootCount( lType ) or lType.lootCount );
-		local pos = ent:GetPos() ;
+		local pos = npc:GetPos() ;
+		pos.z = pos.z - ent:OBBMins().z ;
+		ent:SetPos( pos );
+	elseif  math.random(1,5) == 1 then
+		local ent = gmodz.item.GetMeta('money'):CreateDrop( math.random(5,10) );
+		local pos = npc:GetPos() ;
 		pos.z = pos.z - ent:OBBMins().z ;
 		ent:SetPos( pos );
 	end

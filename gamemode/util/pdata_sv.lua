@@ -89,7 +89,8 @@ do
 		dLoaded.food = tonumber( pdata.dFood );
 		dLoaded.water = tonumber( pdata.dWater );
 		dLoaded.TimePlayed = tonumber( pdata.dTimePlayed );
-		dLoaded.Deaths = tonumber( pdata.dDeaths );
+		dLoaded.dDeaths = tonumber( pdata.dDeaths );
+		print( "LOADED DEATHS: "..dLoaded.dDeaths );
 		dLoaded.KilledZombies = tonumber( pdata.dKilledZombies );
 		dLoaded.KilledCivilians = tonumber( pdata.dKilledCivilians );
 		dLoaded.KilledBandits = tonumber( pdata.dKilledBandits );
@@ -108,7 +109,7 @@ do
 		dLoaded.food = gmodz.cfg.max_food ;
 		dLoaded.water = gmodz.cfg.max_water ;
 		dLoaded.TimePlayed = 0;
-		dLoaded.Deaths = 0;
+		dLoaded.dDeaths = 0;
 		dLoaded.KilledZombies = 0;
 		dLoaded.KilledCivilians = 0;
 		dLoaded.KilledBandits = 0;
@@ -205,7 +206,8 @@ do
 		local food = pl:GetUData( 'food', 0 );
 		local water = pl:GetUData( 'water', 0 );
 		local TimePlayed = pl:GetUData( 'TimePlayed', 0 );
-		local Deaths = pl:GetUData( 'dDeaths', 0 );
+		local dDeaths = pl:GetUData( 'Deaths', 0 );
+		print("SAVED DEATHS AS: "..dDeaths );
 		local KilledZombies = pl:GetUData( 'KilledZombies', 0 );
 		local KilledCivilians = pl:GetUData( 'KilledCivilians', 0 );
 		local KilledBandits = pl:GetUData( 'KilledBandits', 0 );
@@ -219,21 +221,21 @@ do
 			end
 		end
 		
-		gmodz.db:NewQuery():SetSQLEx('REPLACE INTO gmodz_users VALUES ( "<steamid>", "<mdl>", "<inv>", "<bank>", "<dHealth>", "<dFood>", "<dWater>", "<dTimePlayed>", "<dDeaths>", "<dKilledZombies>", "<dKilledCivilians>", "<dKilledBandits>", "<karma>" )', {
-				steamid = pl:SteamID(),
-				mdl = mdlid,
-				inv = inv,
-				bank = bank,
-				dHealth = pl:Health(),
-				dFood = food,
-				dWater = water,
-				dDeaths = Deaths,
-				dTimePlayed = TimePlayed,
-				dKilledZombies = KilledZombies,
-				dKilledCivilians = KilledCivilians,
-				dKilledBandits = KilledBandits,
-				karma = karma
-			}):SetCallback( cback ):Run();
+		gmodz.db:NewQuery():SetSQL('REPLACE INTO gmodz_users VALUES ( "?", "?", "?", "?", "?", "?", "?", "?", "?", "?", "?", "?", "?" )',
+				pl:SteamID(),
+				mdlid,
+				inv,
+				bank,
+				pl:Health(),
+				food,
+				water,
+				TimePlayed,
+				dDeaths,
+				KilledZombies,
+				KilledCivilians,
+				KilledBandits,
+				karma
+			):SetCallback( cback ):Run();
 	end
 	
 end

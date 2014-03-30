@@ -21,7 +21,7 @@ function PANEL:Init( )
 	gmodz.vgui_loading_screen = true ;
 	local function message( )
 		if not ValidPanel( self )then return end
-		if #messages == 0 then self:Remove() gmodz.vgui_loading_screen = false return end
+		if #messages == 0 then gmodz.hook.Call('OpenStartMenu' ) self:Remove() gmodz.vgui_loading_screen = false return end
 		local m = table.remove( messages, 1 );
 		table.insert( self.text, 1, m[2] );
 		timer.Simple( (math.random()*m[1]+m[1])*1/gmodz.cfg.d_loadrate*0.5, message );

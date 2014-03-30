@@ -37,7 +37,9 @@ function gmodz.inventory.newFromTable( data )
 	
 	for k,v in pairs( data.s )do
 		if not gmodz.item.GetMeta( v.class ) then continue end
-		n.stacks[k] = gmodz.itemstack.newFromTable( v );
+		local stack = gmodz.itemstack.newFromTable( v );
+		if stack:GetCount() <= 0 then continue end
+		n.stacks[k] = stack;
 	end
 	
 	if( data.w and data.h )then

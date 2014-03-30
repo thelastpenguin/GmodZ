@@ -43,6 +43,11 @@ net.Receive( 'gmodz_inv_dropitem', function( len, pl )
 	local qty = net.ReadUInt( 8 );
 	
 	-- VALIDATE
+	if qty == 0 then
+		pl:ChatPrint("ERROR QTY = 0" )
+		return ;
+	end
+	
 	local inv = gmodz.inventory.get( invid );
 	if not inv then
 		pl:ChatPrint('Inventory ID: '..invid..' does not exist.' );

@@ -1,5 +1,9 @@
 local PANEL = {};
+local menu ;
 function PANEL:Init( )
+	if ValidPanel( menu )then menu:Remove( ) end
+	menu = self ;
+	
 	self:SetSize( ScrW(), ScrH() );
 	self:SetPos( 0, 0 );
 	self:MakePopup( );
@@ -26,16 +30,17 @@ function PANEL:Init( )
 	self.content:SetPos( self:GetWide()*0.2 + 5, self:GetTall()*0.12 + 5);
 	self.content:ShowPanel( 'mdlpreview', gmodz.menu.panels.modelpreview( ) );
 	
-	if LocalPlayer():Team() == TEAM_LOADING then
-		self.sidebar:AddOption('SPAWN', function() gmodz.menu.requestSpawn() end)
-	end
-	self.sidebar:AddOption('OPTIONS', function()  end)
-	self.sidebar:AddOption('RULES', function() self.content:ShowPanel( 'html', gmodz.menu.panels.rules() ) end)
-	self.sidebar:AddOption('DONATE', function() self.content:ShowPanel( 'html', gmodz.menu.panels.rules() ) end)
-	self.sidebar:AddOption('EXIT', function() LocalPlayer():ConCommand('disconnect'); end)
-	
 	self.header:Populate();
 	self.footer:Populate( );
+end
+
+function PANEL:AddOption( t, f )
+	self.sidebar:AddOption( t, f );
+end
+
+function PANEL:ShowPanel( id, p )
+	if isfunction( id ) then p = id; id = tostring( p ) end
+	self.content:ShowPanel( id, p );
 end
 
 
@@ -44,9 +49,6 @@ end
 local gmodz = gmodz ;
 function PANEL:Think( )
 	if _G.gmodz ~= gmodz then self:Remove() end
-	if LocalPlayer():Team() ~= TEAM_LOADING then
-		self:Remove( );
-	end
 end
 
 local matBlurScreen = Material( "pp/blurscreen" )
@@ -71,15 +73,6 @@ function PANEL:Paint( w, h )
 end
 
 vgui.Register( 'gmodz_mainmenu', PANEL, 'EditablePanel' );
-
-
-local menu ;
-
-gmodz.hook.Add('Think', function()
-	if not ValidPanel( menu ) and LocalPlayer():Team() == TEAM_LOADING and not gmodz.vgui_loading_screen then
-		menu = vgui.Create( 'gmodz_mainmenu' );
-	end
-end);
 
 
 

@@ -57,14 +57,15 @@ end
 
 function ENT:QueueSpawn( )
 	local rnd = math.random( gmodz.cfg.loot_respawnTime - gmodz.cfg.loot_respawnVariance, gmodz.cfg.loot_respawnTime + gmodz.cfg.loot_respawnVariance );
-	timer.Simple( rnd, function()
+	local spawn = function()
 		if not IsValid( self )then return end
 		if self:CanSpawnLoot( ) then
 			self:SpawnLoot( );
 		else
-			self:QueueSpawn( );
+			timer.Simple( 60, spawn );
 		end
-	end);
+	end
+	timer.Simple( rnd, spawn );
 end
 
 function ENT:OnRemove( )

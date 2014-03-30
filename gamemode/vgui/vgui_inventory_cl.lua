@@ -386,7 +386,7 @@ function PANEL:SetStack( stack )
 	if stack:GetCount() > 1 then
 		self:AddOption( 'split', function()
 			local ms = parent:GetStack( ):Copy();
-			local half = math.Round( ms:GetCount()*0.5 );
+			local half = (math.ceil( ms:GetCount()*0.5) );
 			local new = ms:Copy():SetCount( ms:GetCount() - half );
 			
 			-- PICK UP THE CURRENTLY HOVERED PANEL.

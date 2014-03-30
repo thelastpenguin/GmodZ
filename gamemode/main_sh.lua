@@ -13,9 +13,8 @@ if (SERVER )then
 end
 include( 'lib/source_compiler_sh.lua' );
 
-gmodz.src_start( GM.FolderName..'/gamemode' );
-
-local include = gmodz.src_include ;
+--gmodz.src_start( GM.FolderName..'/gamemode' );
+--local include = gmodz.src_include ;
 
 if( SERVER )then
 	gmodz.include_cl = AddCSLuaFile ;
@@ -86,7 +85,7 @@ gmodz.include_cl 'util/pdata_cl.lua' ;
 gmodz.include_sh 'util/player_sh.lua' ;
 gmodz.include_cl 'util/entity_cl.lua' ;
 gmodz.include_cl 'util/3dmenuSys_cl.lua' ;
-gmodz.include_cl 'util/escmenu_cl.lua' ;
+--gmodz.include_cl 'util/escmenu_cl.lua' ;
 
 
 -- GENERAL CLIENTSIDE GRAPHICS
@@ -162,6 +161,6 @@ gmodz.hook.Call( 'LoadComplete' );
 gmodz.hook.DeleteAll( 'LoadComplete' ); 
 
 
-gmodz.src_output( 'gmodz/'..( SERVER and 'src_server.txt' or 'src_client.txt' ), function( out )
+/*gmodz.src_output( 'gmodz/'..( SERVER and 'src_server.txt' or 'src_client.txt' ), function( out )
 	return SERVER and [[AddCSLuaFile( 'init_cl.lua' ); ]]..out or out ; 
-end );
+end );*/

@@ -81,6 +81,9 @@ function GM:PlayerSpawnLoading( pl )
 	
 	self:PlayerSpawnHands( pl );
 	
+	timer.Simple( 1, function()
+		pl:CallClientHook( 'OpenStartMenu' );
+	end);
 end
 function GM:PlayerSpawnActive( pl )
 	pl:SetMoveType( MOVETYPE_WALK );
@@ -152,7 +155,11 @@ function GM:PlayerDeath( victim, infl, attacker )
 	
 	victim:SetTeam( TEAM_LOADING );
 	victim:SetUData( 'hp', 100 );
-	gmodz.hook.Call( 'PlayerDeath', victim );
+	gmodz.hook.Call( 'PlayerDeath', victim, infl, attacker );
+	
+	timer.Simple( 5, function()
+		victim:CallClientHook( 'OpenStartMenu' );
+	end );
 	
 	return true;
 end
@@ -218,6 +225,23 @@ end
 function GM:PlayerCanHearPlayersVoice( pl1, pl2 )
 	return true, true ;	
 end
+
+--
+-- ENTITY TAKE DAMAGE
+--
+function GM:EntityTakeDamage( ent, dmginfo )
+	local attckr = dmginfo:GetAttacker( ) 
+	if attckr:IsPlayer() and attckr:InSafezone( ) then
+		dmginfo:SetDamage( 0 );
+	end
+end
+
+
+-- KEY BINDS
+function GM:ShowHelp( pl ) pl:CallClientHook( 'F1' ) end
+function GM:ShowTeam( pl ) pl:CallClientHook( 'F2' ) end
+function GM:ShowSpare1( pl ) pl:CallClientHook( 'F3' ) end
+function GM:ShowSpare2( pl ) pl:CallClientHook( 'F4' ) end
 
 
 

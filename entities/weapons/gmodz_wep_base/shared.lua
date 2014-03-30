@@ -213,7 +213,7 @@ function SWEP:MeleeSwing()
 			return
 		end
 
-		if SERVER and hitent:IsValid() then
+		if SERVER and IsValid( hitent ) then
 			damage = self.MeleeDamage * self:CalcMultiplier( tr );
 
 			if hitent:GetClass() == "func_breakable_surf" then
@@ -244,8 +244,6 @@ function SWEP:MeleeSwing()
 			end
 		end
 
-		if self.PostOnMeleeHit then self:PostOnMeleeHit(hitent, hitflesh, tr) end
-
 		if CLIENT then
 			local tr2 = owner:DoubleTrace(self.MeleeRange, MASK_SHOT, self.MeleeSize, filter)
 			if tr2.HitPos == tr.HitPos then
@@ -259,7 +257,6 @@ function SWEP:MeleeSwing()
 		self.IdleAnimation = CurTime() + self:SequenceDuration()
 		self:PlaySwingSound()
 
-		if self.PostOnMeleeMiss then self:PostOnMeleeMiss(tr) end
 	end
 
 	owner:LagCompensation(false)

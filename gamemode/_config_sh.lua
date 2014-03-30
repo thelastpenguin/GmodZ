@@ -10,7 +10,7 @@ gmodz.cfg.max_water = 100;
 
 gmodz.cfg.item_despawn = 300; -- wait five minutes.
 
-gmodz.cfg.loot_respawnTime = 200;
+gmodz.cfg.loot_respawnTime = 500;
 gmodz.cfg.loot_respawnVariance = 100;
 
 gmodz.cfg.user_invSize = {w=5,h=6};
@@ -27,5 +27,5 @@ gmodz.cfg.color_darkbg = Color(50,54,50,230);
 
 
 -- DEBUG SETTINGS
-gmodz.cfg.d_loadrate = 20;
+gmodz.cfg.d_loadrate = 5;
 

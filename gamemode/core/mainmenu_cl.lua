@@ -1,10 +1,43 @@
 gmodz.menu = {};
 
+
+
+--
+-- SHOW MENU PANEL
+--
+gmodz.hook.Add( 'OpenStartMenu', function()
+	local menu = vgui.Create( 'gmodz_mainmenu' );
+	menu:AddOption('SPAWN', function() gmodz.menu.requestSpawn() menu:Remove() end)
+	menu:AddOption('STATS', function() menu:ShowPanel( 'mdl', gmodz.menu.panels.modelpreview( ) )end );
+	menu:AddOption('OPTIONS', function()  end)
+	menu:AddOption('RULES', function() menu:ShowPanel( 'html', gmodz.menu.panels.rules() )  end)
+	menu:AddOption('DONATE', function() menu:ShowPanel( 'html', gmodz.menu.panels.rules() ) end)
+	menu:AddOption('EXIT', function() LocalPlayer():ConCommand('disconnect'); menu:Remove() end)
+end);
+
+gmodz.hook.Add('F1', function()
+	local menu = vgui.Create( 'gmodz_mainmenu' );
+	menu:AddOption('STATS', function() menu:ShowPanel( 'mdl', gmodz.menu.panels.modelpreview( ) )end );
+	menu:AddOption('OPTIONS', function()  end)
+	menu:AddOption('RULES', function() menu:ShowPanel( 'html', gmodz.menu.panels.rules() )  end)
+	menu:AddOption('DONATE', function() menu:ShowPanel( 'html', gmodz.menu.panels.rules() ) end)
+	menu:AddOption('CLOSE', function() menu:Remove() end)
+end);
+
+
+-- 
+-- REQUEST SPAWN
+-- 
 function gmodz.menu.requestSpawn( )
 	net.Start('gmodz_requestspawn');
 	net.SendToServer( );
 end
 
+
+
+--
+-- PANEL GEN UTILS
+--
 gmodz.menu.panels = {};
 
 function gmodz.menu.panels.rules()
@@ -59,6 +92,7 @@ function gmodz.menu.panels.modelpreview( )
 	end
 	
 	stats:AddLabel( 'Time Played: ', (LocalPlayer():GetUData('TimePlayed') or 'n/a' ) );
+	stats:AddLabel( 'Deaths: ', (LocalPlayer():GetUData('Deaths') or 'n/a' ) );
 	stats:AddLabel( 'Zombies Killed: ', (LocalPlayer():GetUData('KilledZombies') or 'n/a' ) );
 	stats:AddLabel( 'Civilians Killed: ', (LocalPlayer():GetUData('KilledCivilians') or 'n/a' ) );
 	stats:AddLabel( 'Bandits Killed', (LocalPlayer():GetUData('KilledBandits') or 'n/a' ) );

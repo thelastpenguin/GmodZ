@@ -33,7 +33,6 @@ if SERVER then
 	
 	util.AddNetworkString( 'gmodz_syncstamina' );
 	local function syncStamina( pl, stamina, delta )
-		print('Syncing change in stamina!');
 		net.Start( 'gmodz_syncstamina' );
 			net.WriteInt( stamina, 8 );
 			net.WriteInt( delta, 8 );

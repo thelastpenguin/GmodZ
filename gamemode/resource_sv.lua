@@ -1,6 +1,7 @@
 resource.AddSingleFile( 'resource/fonts/BAD GRUNGE.ttf' );
 resource.AddSingleFile( 'resource/fonts/KGAllofMe.ttf' );
 resource.AddSingleFile( 'resource/fonts/Michroma.ttf' );
+resource.AddSingleFile( 'resource/fonts/Press Style.ttf' );
 
 
 local function AddDir(dir, str )

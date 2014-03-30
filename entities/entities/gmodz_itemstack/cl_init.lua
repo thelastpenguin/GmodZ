@@ -38,6 +38,7 @@ function ENT:Draw()
 	render.SuppressEngineLighting( false );
 	
 	local meta = self.meta;
+	if not meta then return end
 	
 	if meta.customDraw then
 		meta.customDraw( meta, self );

@@ -113,3 +113,25 @@ else
 		gmodz.hook.Call( net.ReadString(), unpack( net.ReadTable() ) );
 	end);
 end
+
+
+--
+-- KARMA SYSTEM
+--
+function Player:SetKarma( k )
+	self:SetUData('karma', k );
+end
+function Player:AddKarma( k )
+	self:SetKarma( self:GetKarma() + k );
+end
+function Player:GetKarma( k )
+	return self:GetUData('karma',0);
+end
+
+function Player:IsBandit( )
+	return self:GetKarma() < -50 ;
+end
+
+function Player:IsCivilian( )
+	return not self:IsBandit() ;	
+end

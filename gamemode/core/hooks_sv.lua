@@ -252,7 +252,7 @@ net.Receive( 'gmodz_nwready', function( len, pl )
 	GAMEMODE:PlayerNetworkReady( pl );
 end);
 
-timer.Create( 'gmodz_saveall', 60, 0, function()
+timer.Create( 'gmodz_saveall', gmodz.cfg.save_interval, 0, function()
 	gmodz.hook.Call( 'SaveAll' );
 end);
 concommand.Add( 'gmodz_forcesave', function( pl )

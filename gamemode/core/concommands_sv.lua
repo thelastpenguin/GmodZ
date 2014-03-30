@@ -10,3 +10,9 @@ concommand.Add('gmodz_a_give', function( pl, cmd, args )
 	
 	inv:AddStack( stack );
 end );
+
+concommand.Add( '_gmodz_pickmodel', function( pl, cmd, args )
+	if gmodz.cfg.models[args[1]] then
+		pl:SetUData( 'mdl', args[1] );
+	end
+end);

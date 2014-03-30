@@ -43,4 +43,8 @@ NODE.settings['rate_mult'] = {
 
 medit.nodetype.register( 'node_loot', NODE );
 
--- SEE MODULE lootmanager_sv.lua
+gmodz.hook.Add('medit_Cleanup',function()
+	for k,v in pairs( ents.FindByClass( 'node_loot' ) )do
+		v:Remove( );
+	end
+end);

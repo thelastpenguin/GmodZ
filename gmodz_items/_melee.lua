@@ -9,7 +9,7 @@ Useful for prying open locks or bashing in brains.
 ]]
 item.Model = 'models/weapons/w_crowbar.mdl'
 item.Weapon = 'weapon_crowbar'
-item.lootBias = 2
+item.lootBias = 3
 item.flags = ITEMFLAG_BASECLASS ;
 
 gmodz.item.register( 'base_melee', item );

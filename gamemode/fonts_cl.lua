@@ -1,5 +1,12 @@
 gmodz.ScrScale = ScrW()/1600;
 
+
+surface.CreateFont( "GmodZ_Font128", {
+	font = "Michroma",
+	size = 128*gmodz.ScrScale,
+	weight = 500
+} )
+
 surface.CreateFont( "GmodZ_Font64", {
 	font = "Michroma",
 	size = 64*gmodz.ScrScale,

@@ -57,6 +57,7 @@ end
 --
 function medit.ActivateNodes( )
 	gmodz.print('[MEDIT] Activating nodes. ('..#medit.mapnodes..' nodes)');
+	gmodz.hook.Call('medit_Cleanup' );
 	gmodz.print(' * pre processing * ');
 	gmodz.hook.Call('PreMapLoaded');
 	gmodz.print(' * activating nodes * ' );

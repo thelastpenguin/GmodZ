@@ -25,7 +25,7 @@ gmodz.cfg.starting_items = {
 gmodz.cfg.color_highlight = Color(255,150,0);
 gmodz.cfg.color_darkbg = Color(50,54,50,230);
 
+gmodz.cfg.save_interval = 120
 
 -- DEBUG SETTINGS
 gmodz.cfg.d_loadrate = 5;
-

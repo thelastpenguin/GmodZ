@@ -6,7 +6,7 @@ item.Desc = [[
 Base Food Entity.
 ]]
 item.Model = "models/Items/BoxMRounds.mdl"
-item.lootBias = 5
+item.lootBias = 4
 item.flags = ITEMFLAG_BASECLASS ;
 gmodz.item.register( 'base_material', item );
 
@@ -156,7 +156,7 @@ Unubtanium - high tech alloy. Unstable Form of Matter. HIGHLY EXPLOSIVE.
 ]]
 item.OnUse = onuse_explosive_super;
 item.Model = "models/props_c17/consolebox05a.mdl"
-item.lootCount = 16
+item.lootCount = 1
 item.lootBias = 0.2
 item.flags = ITEMFLAG_LOOTABLE;
 gmodz.item.register( 'material_techtrium', item );

@@ -26,3 +26,10 @@ NODE.settings['radius'] = {
 }
 
 medit.nodetype.register( 'node_safezone', NODE );
+
+-- SEE MODULE lootmanager_sv.lua
+gmodz.hook.Add('medit_Cleanup',function()
+	for k,v in pairs( ents.FindByClass( 'node_safezone' ) )do
+		v:Remove( );
+	end
+end);

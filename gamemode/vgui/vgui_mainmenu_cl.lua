@@ -90,7 +90,7 @@ function PANEL:Populate()
 	self.credits = Label( 'by TheLastPenguin', self );
 	self.credits:SetFont( 'GmodZ_KG_32' );
 	self.credits:SetSize( self:GetWide(), 32 );
-	self.credits:SetPos( self.label:GetWide() + 70, self:GetTall() - self.credits:GetTall() - 10)
+	self.credits:SetPos( self.label:GetWide() + 70, self:GetTall() - self.credits:GetTall() - 35)
 	
 	local credits = {
 		'created by TheLastPenguin',

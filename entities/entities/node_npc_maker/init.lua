@@ -22,6 +22,7 @@ end
 function ENT:CreateNPC( )
 	print("Spawning O.o");
 	local n = ents.Create( self.npc_class[math.random(1,#self.npc_class)]);
+	if not IsValid( n ) then return end
 	n:Spawn( );
 	n:SetPos( self:GetPos() + Vector( 0,0,20 ) );
 	n:SetAngles( Angle( 0, math.random(-180,180),0) );

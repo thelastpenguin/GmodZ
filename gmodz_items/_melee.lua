@@ -9,7 +9,7 @@ Useful for prying open locks or bashing in brains.
 ]]
 item.Model = 'models/weapons/w_crowbar.mdl'
 item.Weapon = 'weapon_crowbar'
-item.lootBias = 3
+item.lootBias = 1.3
 item.flags = ITEMFLAG_BASECLASS ;
 
 gmodz.item.register( 'base_melee', item );
@@ -26,7 +26,7 @@ An old fire axe, brutal but effective.
 ]]
 item.Model = "models/warz/melee/fireaxe.mdl"
 item.Weapon = 'gmodz_axe'
-item.lootBias = 1
+item.lootBias = 0.6
 item.flags = ITEMFLAG_LOOTABLE;
 
 gmodz.item.register( 'melee_fireaxe', item );
@@ -44,7 +44,7 @@ Base Ball anyone? Zombies don't make great  pitchers.
 ]]
 item.Model = "models/warz/melee/baseballbat.mdl"
 item.Weapon = 'gmodz_baseballbat'
-item.lootBias = 1
+item.lootBias = 3
 item.flags = ITEMFLAG_LOOTABLE;
 
 gmodz.item.register( 'melee_bballBat', item );
@@ -98,7 +98,7 @@ A cricketbat... Once these were used for sports.
 ]]
 item.Model = "models/warz/melee/cricketbat.mdl"
 item.Weapon = 'gmodz_cricketbat'
-item.lootBias = 3
+item.lootBias = 1.3
 item.flags = ITEMFLAG_LOOTABLE;
 
 gmodz.item.register( 'melee_cricketbat', item );
@@ -116,7 +116,7 @@ Trusty old crowbar
 ]]
 item.Model = "models/warz/melee/crowbar.mdl"
 item.Weapon = 'gmodz_crowbar'
-item.lootBias = 3
+item.lootBias = 2
 item.flags = ITEMFLAG_LOOTABLE;
 
 gmodz.item.register( 'melee_crowbar', item );
@@ -134,7 +134,7 @@ An old frying skillet.
 ]]
 item.Model = "models/warz/melee/fryingpan.mdl"
 item.Weapon = 'gmodz_fryingpan'
-item.lootBias = 3
+item.lootBias = 2.3
 item.flags = ITEMFLAG_LOOTABLE;
 
 gmodz.item.register( 'melee_fryingpan', item );
@@ -151,7 +151,7 @@ An old golf club... grass hasn't been cut in a while.
 ]]
 item.Model = "models/warz/melee/golfclub.mdl"
 item.Weapon = 'gmodz_golfclub'
-item.lootBias = 1
+item.lootBias = 1.3
 item.flags = ITEMFLAG_LOOTABLE;
 
 gmodz.item.register( 'melee_golfclub', item );
@@ -186,7 +186,7 @@ Hack and slash with this hatchet.
 ]]
 item.Model = "models/warz/melee/hatchet.mdl"
 item.Weapon = 'gmodz_hatchet'
-item.lootBias = 0.8
+item.lootBias = 0.4
 item.flags = ITEMFLAG_LOOTABLE;
 
 gmodz.item.register( 'melee_hatchet', item );
@@ -204,7 +204,7 @@ Slash through the undead like butter.
 ]]
 item.Model = "models/warz/melee/katana1.mdl"
 item.Weapon = 'gmodz_katana'
-item.lootBias = 0.1
+item.lootBias = 0.05
 item.flags = ITEMFLAG_LOOTABLE;
 
 gmodz.item.register( 'melee_katana', item );
@@ -239,7 +239,7 @@ No need to dig down to hell when you can find it right at the surface.
 ]]
 item.Model = "models/warz/melee/pickaxe.mdl"
 item.Weapon = 'gmodz_pickaxe'
-item.lootBias = 0.5
+item.lootBias = 0.8
 item.flags = ITEMFLAG_LOOTABLE;
 
 gmodz.item.register( 'melee_pickaxe', item );

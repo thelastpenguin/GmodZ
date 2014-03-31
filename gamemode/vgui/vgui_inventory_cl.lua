@@ -463,7 +463,6 @@ function PANEL:Init( )
 	self:SetMouseInputEnabled( false );
 	
 	self.icon = vgui.Create('SpawnIcon', self );
-	self.icon:SetMouseInputEnabled( false );
 	self.count = Label('',self);
 	self.count:SetFont( 'GmodZ_Font3D18' );
 	self.name = Label('',self);
@@ -473,7 +472,17 @@ function PANEL:SetStack( stack )
 	self.stack = stack;
 	
 	if stack then
-			
+		if ValidPanel( self.icon )then
+			self.icon:Remove( );
+		end
+		
+		if stack.meta.Material then
+			self.icon = vgui.Create( 'DImage', self );
+		else
+			self.icon = vgui.Create( 'SpawnIcon', self );
+		end
+		self.icon:SetMouseInputEnabled( false );
+		
 		self.count:SetText( stack:GetCount( ) );
 		self.count:SizeToContents( );
 		
@@ -499,7 +508,11 @@ function PANEL:PerformLayout( )
 	if self.stack then
 		self.icon:InvalidateLayout( true );
 		self.icon:SetSize( w*1, h*1 );
-		self.icon:SetModel( self.stack.meta.Model );
+		if self.stack.meta.Material then
+			self.icon:SetImage( self.stack.meta.Material );
+		elseif self.stack.meta.Model then
+			self.icon:SetModel( self.stack.meta.Model );
+		end
 		self.icon:Center( );
 	end
 	

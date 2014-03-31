@@ -140,7 +140,49 @@ function PANEL:Paint()
 	
 	local w, h = self:GetSize()
 	
+	--
+	-- DRAW INFO
+	--
 	
+	-- x, y, radius, linewidth, startangle, endangle, aa
+	draw.NoTexture( );
+	
+	surface.SetDrawColor( 0, 0, 0, 100 );
+	surface.DrawArc( w*0.5, h*0.5, w*0.5-26, w*0.5, 0, 360, 60 )
+	
+	-- RIGHT - FOOD
+	local food = LocalPlayer():GetUData( 'food' );
+	if not food then return end;
+	local frac = 1-math.Clamp( food / gmodz.cfg.max_food, 0, 1 );
+	
+	local aStart = -55;
+	surface.SetDrawColor(0,0,0,150);
+	surface.DrawArc( w*0.5, h*0.5, w*0.5-23, w*0.5-3, aStart, aStart+110, 20 )
+	
+	surface.SetDrawColor(100,155,0);
+	surface.DrawArc( w*0.5, h*0.5, w*0.5-23, w*0.5-3, aStart+110*frac, aStart+110, 20 )
+	
+	surface.SetDrawColor(255,255,255,50);
+	surface.DrawArcOutline( w*0.5, h*0.5, w*0.5-23, w*0.5-3, aStart, aStart+110, 20 )
+	
+	-- LEFT - WATER
+	local water = LocalPlayer():GetUData( 'water' );
+	if not water then return end;
+	local frac = math.Clamp( water / gmodz.cfg.max_water, 0, 1 );
+	
+	local aStart = 90+35
+	surface.SetDrawColor(0,0,0,150);
+	surface.DrawArc( w*0.5, h*0.5, w*0.5-23, w*0.5-3, aStart, aStart+110, 20 )
+	
+	surface.SetDrawColor(0,70,155);
+	surface.DrawArc( w*0.5, h*0.5, w*0.5-23, w*0.5-3, aStart, aStart+110*frac, 20 )
+	
+	surface.SetDrawColor(255,255,255,50);
+	surface.DrawArcOutline( w*0.5, h*0.5, w*0.5-23, w*0.5-3, aStart, aStart+110, 20 )
+	
+	--
+	-- DRAW HEALTH
+	--
 	
 	
 	
@@ -203,38 +245,6 @@ function PANEL:Paint()
 	
 	self.LastPaint = RealTime()
 	
-	-- x, y, radius, linewidth, startangle, endangle, aa
-	draw.NoTexture( );
-	
-	-- RIGHT - FOOD
-	local food = LocalPlayer():GetUData( 'food' );
-	if not food then return end;
-	local frac = 1-math.Clamp( food / gmodz.cfg.max_food, 0, 1 );
-	
-	local aStart = -45;
-	surface.SetDrawColor(0,0,0,150);
-	surface.DrawArc( w*0.45, h*0.5, w*0.5-20, w*0.5, aStart, aStart+90, 15 )
-	
-	surface.SetDrawColor(100,155,0);
-	surface.DrawArc( w*0.45, h*0.5, w*0.5-20, w*0.5, aStart+90*frac, aStart+90, 15 )
-	
-	surface.SetDrawColor(255,255,255,50);
-	surface.DrawArcOutline( w*0.45, h*0.5, w*0.5-20, w*0.5, aStart, aStart+90, 15 )
-	
-	-- LEFT - WATER
-	local water = LocalPlayer():GetUData( 'water' );
-	if not water then return end;
-	local frac = math.Clamp( water / gmodz.cfg.max_water, 0, 1 );
-	
-	local aStart = 90+45
-	surface.SetDrawColor(0,0,0,150);
-	surface.DrawArc( w*0.55, h*0.5, w*0.5-20, w*0.5, aStart, aStart+90, 15 )
-	
-	surface.SetDrawColor(0,70,155);
-	surface.DrawArc( w*0.55, h*0.5, w*0.5-20, w*0.5, aStart, aStart+90*frac, 15 )
-	
-	surface.SetDrawColor(255,255,255,50);
-	surface.DrawArcOutline( w*0.55, h*0.5, w*0.5-20, w*0.5, aStart, aStart+90, 15 )
 end
 
 derma.DefineControl( "gmodz_healthmodel", "Health Model", PANEL )

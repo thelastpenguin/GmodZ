@@ -51,3 +51,8 @@ end
 
 function ENT:Think()
 end
+
+
+gmodz.hook.Add('ItemStackNoticePickup', function( class, count )
+	gmodz.notice.stackpickup( gmodz.itemstack.new( class ):SetCount( count ) );
+end);

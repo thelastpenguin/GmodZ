@@ -6,7 +6,7 @@ item.Desc = [[
 Base Food Entity.
 ]]
 item.Model = "models/Items/BoxMRounds.mdl"
-item.lootBias = 4
+item.lootBias = 1.3
 item.flags = ITEMFLAG_BASECLASS ;
 gmodz.item.register( 'base_material', item );
 

@@ -61,13 +61,22 @@ function medit.ActivateNodes( )
 	gmodz.print(' * pre processing * ');
 	gmodz.hook.Call('PreMapLoaded');
 	gmodz.print(' * activating nodes * ' );
+	local errors = {};
 	for k,v in pairs( medit.mapnodes )do
 		local mt =  v.meta;
 		if not mt then continue end
 		print('   - node: '..mt.class );
-		mt:Activate( v );
+		local succ, err = pcall( mt.Activate, mt, v );
+		if not succ then
+			errors[#errors+1] = {k,err};
+		end
 		gmodz.hook.Call( 'ActivatedNode', v );
 	end
+	if #errors > 0 then
+		gmodz.print("ERRORS: ", Color(255,0,0));
+		PrintTable( errors );
+	end
+	
 	gmodz.print(' * calling hooks *' );
 	gmodz.hook.Call( 'PostMapLoaded' );
 	gmodz.print( '* activation complete *' );

@@ -14,6 +14,7 @@ gmodz.hook.Add("PlayerDeath",function( pl, infl, attacker )
 end);
 
 gmodz.hook.Add('OnNPCKilled', function( npc, killer, wep )
+	if not killer:IsPlayer() then return end
 	killer:SetUData( 'KilledZombies', killer:GetUData('KilledZombies',0) + 1 );
 end);
 

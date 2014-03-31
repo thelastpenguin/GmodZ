@@ -15,6 +15,8 @@ end
 
 
 gmodz.hook.Add( 'PlayerSay', function( pl, text, public )
+	if not IsValid( pl )then gmodz.chat.broadcast( Color(50,50,50),'Console: ', color_white, text ); return '' end
+	
 	if string.sub( text, 1, 3 ) == '// ' then
 		gmodz.chat.broadcast( Color(100,100,100),'[G] ', pl ,color_white,': ', string.sub( text, 4 ) );
 		return '';

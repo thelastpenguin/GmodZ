@@ -130,6 +130,8 @@ function PANEL:PerformLayout( )
 	self.lblTitle:SetPos( 0, 0 );
 	self.lblTitle:CenterHorizontal( );
 	
+	if not ValidPanel( self.pDesc ) or not ValidPanel( self.pInv ) then return end ;
+	
 	self.pDesc:SetSize(self:GetWide()*0.25, self:GetTall() - self.lblTitle:GetTall() );
 	self.pDesc:SetPos( self:GetWide() - self.pDesc:GetWide(), self:GetTall() - self.pDesc:GetTall() );
 	

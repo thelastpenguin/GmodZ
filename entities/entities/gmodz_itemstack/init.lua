@@ -43,6 +43,7 @@ end
 function ENT:Use( pl, caller )
 	if self.OnUse then self.OnUse( self, pl ) end
 	
+	
 	self:EmitSound( 'weapons/ammopickup.wav', 500, 100 );
 	if not pl:IsPlayer() then return end
 	local inv = pl:GetInv( 'inv' );
@@ -55,6 +56,8 @@ function ENT:Use( pl, caller )
 		pl:ChatPrint("Your inventory is full. "..remainder.." items left over.");
 		return ;
 	end
+	pl:CallClientHook( 'ItemStackNoticePickup', self.stack.meta.class, self.stack:GetCount() );
+	
 	self:Remove()
 end
 function ENT:SetUseCallback( func )

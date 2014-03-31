@@ -70,6 +70,7 @@ end
 function GM:HUDItemPickedUp( itemName ) return true end
 function GM:HUDAmmoPickedUp( itemName, amount ) return true end
 function GM:HUDDrawPickupHistory( ) return true end
+--function GM:HUDDrawTargetID( ) return false end
 
 --
 -- DRAWING HOOKS

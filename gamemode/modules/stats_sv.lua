@@ -16,3 +16,10 @@ end);
 gmodz.hook.Add('OnNPCKilled', function( npc, killer, wep )
 	killer:SetUData( 'KilledZombies', killer:GetUData('KilledZombies',0) + 1 );
 end);
+
+
+timer.Create( 'gmodz_timeplayed', function()
+	for k,v in pairs( player.GetAll() )do
+		v:SetUData('TimePlayed', v:GetUData('TimePlayed') + 60 );
+	end
+end);

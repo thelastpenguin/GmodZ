@@ -236,12 +236,24 @@ function GM:EntityTakeDamage( ent, dmginfo )
 	end
 end
 
-
+--
 -- KEY BINDS
+--
 function GM:ShowHelp( pl ) pl:CallClientHook( 'F1' ) end
 function GM:ShowTeam( pl ) pl:CallClientHook( 'F2' ) end
 function GM:ShowSpare1( pl ) pl:CallClientHook( 'F3' ) end
 function GM:ShowSpare2( pl ) pl:CallClientHook( 'F4' ) end
+
+--
+-- PLAYER SAY
+--
+function GM:PlayerSay( pl, text, public )
+	return gmodz.hook.Call( 'PlayerSay', pl, text, public );	
+end
+
+
+
+
 
 
 
@@ -253,8 +265,13 @@ net.Receive( 'gmodz_nwready', function( len, pl )
 end);
 
 timer.Create( 'gmodz_saveall', gmodz.cfg.save_interval, 0, function()
-	gmodz.hook.Call( 'SaveAll' );
+	local succ, err = pcall( gmodz.hook.Call, 'SaveAll' );
+	if not succ then 
+		gmodz.adminLog( '[ERROR ON SAVE SYSTEM] ' );
+		gmodz.adminLog( err );
+	end
 end);
+
 concommand.Add( 'gmodz_forcesave', function( pl )
 	if not pl:IsListenServerHost() and not pl:IsSuperAdmin() then
 		gmodz.adminLog( 'Player '..pl:Name()..' was denied access to command gmodz_forcesave.' );

@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS gmodz_users ;
 DROP TABLE IF EXISTS gmodz_shop ;
+DROP TABLE IF EXISTS gmodz_nodes ;
 CREATE TABLE gmodz_users ( 
 			`steamid` VARCHAR( 30 ) NOT NULL,
 			`mdl` VARCHAR( 50 ), 

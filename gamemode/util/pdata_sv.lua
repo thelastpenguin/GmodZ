@@ -1,7 +1,11 @@
 gmodz.pdata = {};
 
 gmodz.hook.Add( 'PlayerDisconnected', function( pl )
-	gmodz.pdata.SaveUser( pl );
+	local succ, err = pcall( gmodz.pdata.SaveUser, pl );
+	if not succ then 
+		gmodz.adminLog('ERROR FAILED TO SAVE USER: '..pl:Name().." ON DISCONNECT!");
+		gmodz.adminLog( err );
+	end
 end);
 
 gmodz.hook.Add( 'SaveAll', function()

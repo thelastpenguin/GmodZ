@@ -268,3 +268,26 @@ do
 		end
 	end);
 end
+
+
+hook.Add("SetupWorldFog",'gmodz',function()
+	render.FogMode( MATERIAL_FOG_LINEAR ) 
+	render.FogStart( 1800 )
+	render.FogEnd( 2200 )
+	render.FogMaxDensity( 1 )
+	
+	render.FogColor( 89,89,89 )
+
+	return true
+end);
+
+hook.Add('SetupSkyboxFog','gmodz',function()
+	render.FogMode( MATERIAL_FOG_LINEAR ) 
+	render.FogStart( 0 )
+	render.FogEnd( 1500  )
+	render.FogMaxDensity( 0.99 )
+	
+	render.FogColor( 70,70,70 )
+
+	return true;
+end);

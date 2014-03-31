@@ -136,7 +136,7 @@ else
 			end
 			if lastalpha < 0.05 then return end
 			
-			local w, h = ScrW()*0.3, 22;
+			local w, h = ScrW()*0.3, 27;
 			local ox, oy = ScrW()*0.5, ScrH()*0.05
 			
 			draw.RoundedBox( 8, ox - w*0.5, oy, w, h, Color(0, 0, 0, 200*lastalpha), true, false, true, false );

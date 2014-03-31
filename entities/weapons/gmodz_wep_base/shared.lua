@@ -229,11 +229,9 @@ function SWEP:MeleeSwing()
 				if hitent:IsPlayer() then
 					hitent:ViewPunch(Angle( math.random(-20,20), math.random(-20,20) ) );
 					
-					--gamemode.Call("ScalePlayerDamage", hitent, tr.HitGroup, dmginfo)
-
-					if self.MeleeKnockBack > 0 then
-						--hitent:ThrowFromPositionSetZ(tr.HitPos, self.MeleeKnockBack, nil, true)
-					end
+					gamemode.Call("ScalePlayerDamage", hitent, tr.HitGroup, dmginfo)
+				elseif hitent:IsNPC() then
+					gamemode.Call("ScaleNPCDamage", hitent, tr.HitGroup, dmginfo );
 				end
 				hitent:TakeDamageInfo(dmginfo)
 

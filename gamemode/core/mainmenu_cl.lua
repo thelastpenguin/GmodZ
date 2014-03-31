@@ -42,7 +42,7 @@ gmodz.menu.panels = {};
 
 function gmodz.menu.panels.rules()
 	local html = vgui.Create( 'DHTML' );
-	html:OpenURL( 'http://www.lastpenguin.com/' );
+	html:OpenURL( gmodz.cfg.url_rules );
 	return html ;
 end 
 

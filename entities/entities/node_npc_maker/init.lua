@@ -2,19 +2,13 @@ ENT.Type = "point"
 
 function ENT:Initialize()
 	gmodz.print('[NPC MAKER] Spawned.');
-	self.nextTick = 0;
-	self.nextSpawn = 0;
+	self.nextTick, self.nextSpawn = 0, 0 ;
 end
 function ENT:SetNode( node )
 	self:SetPos( node:GetPos() );
 	
 	
-	for k,v in pairs( player.GetAll() )do
-		v:SetPos( self:GetPos() );
-	end
-	
 	self.data = node:GetData( );
-	PrintTable( self.data );
 	
 	self.npc_class = self.data.npc_class ;
 	if not self.npc_class then self:Remove() end
@@ -23,7 +17,6 @@ function ENT:SetNode( node )
 	self.frequency = tonumber( self.data.spawn_rate );
 	
 	self.children = {};
-	self.alive = 0;
 end
 
 function ENT:CreateNPC( )
@@ -42,41 +35,61 @@ function ENT:CanSpawn( )
 	end
 	return true ;
 end
-function ENT:CheckPlayersInRange( )
-	for k,v in pairs( player.GetAll())do
-		if self:Visible( v ) then
-			return true ;
+
+function ENT:FindNearestPlayer( )
+	local p, d = nil, 2500;
+	local mpos = self:GetPos();
+	for k,v in pairs( player.GetAll() )do
+		if mpos:Distance( v:GetPos() ) < d then
+			p = v;
 		end
 	end
-	return false ;
+	return p;
+end
+
+
+
+function ENT:GetLiveChildren( )
+	for k,v in pairs( self.children )do 
+		if not IsValid( v ) then
+			table.remove( self.children, k );
+			self.nextTick = CurTime() + self.frequency ;
+			return self:GetLiveChildren( );
+		end
+	end
+	return self.children ;
+end
+
+function ENT:SlowThink( )
+	local ctime = CurTime( );
+	local pClosest = self:FindNearestPlayer( );
+	
+	if IsValid( pClosest ) then
+		if pClosest:GetPos():Distance( self:GetPos() ) < 500 then return end -- too close.
+		
+		if #self.children < self.max_children then
+			self.nextTick = CurTime() + self.frequency ;
+			self:CreateNPC( );
+		end
+		
+		local cldrn = self:GetLiveChildren();
+	else
+		-- REMOVE CHILDREN OUT OF RANGE
+		for k,v in pairs( self.children )do
+			if IsValid( v )then
+				v:Remove();
+			end
+		end
+	end
+	
 end
 
 local isnumber = _G.isnumber ;
 function ENT:Think()
 	local ctime = CurTime();
-	if ctime > self.nextTick and ctime > self.nextSpawn then
+	if ctime > self.nextTick then
 		self.nextTick = ctime + 1;
-		if not self:CheckPlayersInRange( ) then
-			for k,v in pairs( self.children )do
-				if IsValid( v )then
-					v:Remove();
-				end
-			end
-			return ;
-		end
-		
-		for k,v in pairs( self.children )do
-			if not IsValid( v ) then
-				self.nextSpawn = ctime + self.frequency ;
-				table.remove( self.children, k );
-				break ;
-			end
-		end
-		
-		if #self.children < self.max_children and self.nextSpawn < ctime and self:CanSpawn() then
-			self:CreateNPC( );
-			self.nextSpawn = ctime + self.frequency ;
-		end
+		self:SlowThink( );
 	end
 end
 

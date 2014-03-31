@@ -173,7 +173,7 @@ surface.CreateFont( "GmodZ_GRUNGE_128", {
 	weight = 0
 })
 surface.CreateFont( "GmodZ_GRUNGE_64", {
-	font = "Press Style",
+	font = "BAD GRUNGE",
 	size = 64*gmodz.ScrScale,
 	weight = 0
 })

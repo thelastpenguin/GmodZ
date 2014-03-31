@@ -112,6 +112,9 @@ gmodz.include_cl 'core/inventory/invmenu_cl.lua' ;
 gmodz.include_sv 'core/inventory/hotbar_sv.lua' ;
 gmodz.include_cl 'core/inventory/hotbar_cl.lua' ;
 
+-- CHAT SYSTEM
+gmodz.include_sh 'core/chat_sh.lua' ;
+
 -- MAP EDITING SYSTEM
 if medit and medit.DeactivateNodes then medit.DeactivateNodes( ) end
 _G.medit = {};

@@ -100,6 +100,9 @@ function Player:MeleeTrace(distance, size, filter, start)
 end
 
 
+--
+-- CALL CLIENT HOOK
+--
 if SERVER then
 	util.AddNetworkString( 'gmodz_callhook' );
 	function Player:CallClientHook( str, ... )
@@ -113,6 +116,23 @@ else
 		gmodz.hook.Call( net.ReadString(), unpack( net.ReadTable() ) );
 	end);
 end
+
+--
+-- CHAT PRINT
+--
+if SERVER then
+	util.AddNetworkString( 'gmodz_chatadd' );
+	function Player:ChatPrintEx( ... )
+		net.Start( 'gmodz_chatadd' )
+			net.WriteTable( { ... } );
+		net.Send( self );
+	end
+else
+	net.Receive( 'gmodz_chatadd', function( len  )
+		chat.AddText( unpack( net.ReadTable( ) ) );	
+	end);
+end
+
 
 
 --

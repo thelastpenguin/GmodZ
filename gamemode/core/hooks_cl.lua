@@ -64,23 +64,34 @@ function GM:PlayerBindPress( ply, bind, pressed )
 	return gmodz.hook.Call('PlayerBindPress', ply, bind, pressed );
 end
 
-function GM:PrePlayerDraw( pl )
-	if LocalPlayer():Team() ~= TEAM_SURVIVER then return end
-	if pl == LocalPlayer() then
-		pl:SetAngles( Angle(0,math.sin( CurTime() ) * 60, 0 ) )	
-	end
-end
-
--- HIDE THE DEFAULT MESSAGES
+--
+-- HIDE PICKUP MESSAGES
+--
 function GM:HUDItemPickedUp( itemName ) return true end
 function GM:HUDAmmoPickedUp( itemName, amount ) return true end
 function GM:HUDDrawPickupHistory( ) return true end
 
--- DRAWING HOOKS.
+--
+-- DRAWING HOOKS
+--
 function GM:PostRenderVGUI( ... ) gmodz.hook.Call( 'PostRenderVGUI', ... ); end
 function GM:HUDPaintBackground( ... ) gmodz.hook.Call( 'HUDPaintBackground', ... ); end
 
 function GM:HUDShouldDraw( ... ) return gmodz.hook.Call( 'HUDShouldDraw', ... ) ~= false end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 --

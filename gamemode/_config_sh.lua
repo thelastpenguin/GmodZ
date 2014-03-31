@@ -1,7 +1,7 @@
 gmodz.cfg = {};
 
 gmodz.cfg.speedwalk = 220;
-gmodz.cfg.speedrun = 360;
+gmodz.cfg.speedrun = 320;
 
 
 gmodz.cfg.starting_health = 100;
@@ -29,3 +29,8 @@ gmodz.cfg.save_interval = 120
 
 -- DEBUG SETTINGS
 gmodz.cfg.d_loadrate = 5;
+
+
+-- MENU SYSTEM
+gmodz.cfg.url_rules = 'http://www.tpsgaming.com/showthread.php?tid=141';
+gmodz.cfg.url_donate = 'http://www.tpsgaming.com/showthread.php?tid=141'

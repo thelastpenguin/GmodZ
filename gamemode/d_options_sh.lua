@@ -4,11 +4,8 @@ if CLIENT then
 	gmodz.createSetting( 'gui_scale', { defval = 1 } );
 	
 	gmodz.hook.Add( 'F4', function( )
-		if gmodz.getVar( 'viewmode' ) == 0 then
-			gmodz.setVar( 'viewmode', 1 );
-		else
-			gmodz.setVar( 'viewmode', 0 );
-		end
+		gmodz.setVar( 'viewmode', gmodz.getVar( 'viewmode' ) == 0 and 1 or 0 );
+		gmodz.saveSettings( );
 	end);
 elseif SERVER then
 	

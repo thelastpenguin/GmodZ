@@ -1,3 +1,5 @@
+resource.AddWorkshop( '165772389' );
+
 resource.AddSingleFile( 'resource/fonts/BAD GRUNGE.ttf' );
 resource.AddSingleFile( 'resource/fonts/KGAllofMe.ttf' );
 resource.AddSingleFile( 'resource/fonts/Michroma.ttf' );

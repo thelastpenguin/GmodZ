@@ -18,6 +18,18 @@ function ENT:SetConfig( cfg )
 	
 end
 
+
+-- KILL COOL DOWN
+gmodz.hook.Add('PlayerDeath', function( pl, _, attckr )
+	attckr:SetNWBool( 'sz_cooldown', true );
+	timer.Simple( 120, function()
+		if IsValid( attckr )then 
+			attckr:SetNWBool( 'sz_cooldown', false );
+		end	
+	end);
+	
+end);
+
 do
 	local cache = {};
 	local function checkClass( c )

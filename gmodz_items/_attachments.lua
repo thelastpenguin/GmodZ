@@ -9,7 +9,7 @@ Base Class for all attachments.
 
 item.Material = "VGUI/fas2atts/compm4"--'models/weapons/w_crowbar.mdl'
 item.Model = 'models/Items/BoxMRounds.mdl'
-item.lootBias = 0.5
+item.lootBias = 0.2
 item.lootCount = 1
 item.flags = ITEMFLAG_BASECLASS ;
 

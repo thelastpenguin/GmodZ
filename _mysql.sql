@@ -1,7 +1,4 @@
-DROP TABLE IF EXISTS gmodz_users ;
-DROP TABLE IF EXISTS gmodz_shop ;
-DROP TABLE IF EXISTS gmodz_nodes ;
-CREATE TABLE gmodz_users ( 
+CREATE TABLE IF NOT EXISTS gmodz_users ( 
 			`steamid` VARCHAR( 30 ) NOT NULL,
 			`mdl` VARCHAR( 50 ), 
 			`inventory` TEXT,
@@ -17,8 +14,22 @@ CREATE TABLE gmodz_users (
 			`karma` TINYINT,
 			UNIQUE( `steamid` ) );
 
-CREATE TABLE gmodz_shop (
+CREATE TABLE IF NOT EXISTS gmodz_shop (
 			`steamid` VARCHAR( 30 ) NOT NULL,
 			`itemid` VARCHAR( 30 ) NOT NULL,
 			`data` TEXT,
 			UNIQUE( `steamid`, `itemid` ) );
+
+CREATE TABLE IF NOT EXISTS gmodz_factions ( 
+			`factionid` VARCHAR( 30 ) NOT NULL,
+			`name` VARCHAR( 255) NOT NULL,
+			`color_r` TINYINT UNSIGNED NOT NULL,
+			`color_g` TINYINT UNSIGNED NOT NULL,
+			`color_b` TINYINT UNSIGNED NOT NULL,
+			`maxplayers` INT UNSIGNED NOT NULL,
+			UNIQUE( `id` ) );
+
+CREATE TABLE IF NOT EXISTS gmodz_faction_members ( 
+			`steamid` VARCHAR( 30 ) NOT NULL,
+			`factionid` VARCHAR( 30 ) NOT NULL 
+			)

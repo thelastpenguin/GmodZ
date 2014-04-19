@@ -229,6 +229,8 @@ function SWEP:MeleeSwing()
 				if hitent:IsPlayer() then
 					hitent:ViewPunch(Angle( math.random(-20,20), math.random(-20,20), 0 ) );
 					
+					dmginfo:SetDamage( math.Clamp( dmginfo:GetDamage(), 0, 45 ) );
+					
 					gamemode.Call("ScalePlayerDamage", hitent, tr.HitGroup, dmginfo)
 				elseif hitent:IsNPC() then
 					gamemode.Call("ScaleNPCDamage", hitent, tr.HitGroup, dmginfo );

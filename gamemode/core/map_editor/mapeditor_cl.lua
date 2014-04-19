@@ -18,7 +18,7 @@ end);
 
 concommand.Add( 'medit_stop', function( )
 	if not LocalPlayer():IsSuperAdmin() then chat.AddText(Color(255,0,0),'[MEDIT] You need to be a super admin to do this.' ) return end
-	chat.AddText( Color(0,0,200,'[MEDIT] Ended edit session.'));
+	chat.AddText( Color(0,0,200),'[MEDIT] Ended edit session.');
 	net.Start( 'medit_ui_ApplyChanges' );
 	net.SendToServer( );
 	medit.editing = false ;

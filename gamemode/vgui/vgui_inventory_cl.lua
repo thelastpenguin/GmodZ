@@ -299,7 +299,7 @@ function PANEL:Paint(w,h)
 				gmodz.InvTransfer( sInv, sIndex, pHovered:GetInv(), pHovered:Index(), qty );
 				gmodz.invmenu.DragUpdateQuantity( 0 );
 			else
-				self:SetStack( sStack:Copy() );
+				pHovered:SetStack( sStack:Copy() );
 				gmodz.InvTransfer( sInv, sIndex, pHovered:GetInv(), pHovered:Index(), math.min( sStack:GetCount(), sStack.meta.StackSize ) );
 				gmodz.invmenu.DragUpdateQuantity( 0 );
 			end

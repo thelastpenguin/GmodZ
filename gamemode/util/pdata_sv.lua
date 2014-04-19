@@ -9,12 +9,20 @@ gmodz.hook.Add( 'PlayerDisconnected', function( pl )
 end);
 
 gmodz.hook.Add( 'SaveAll', function()
-	for _, pl in pairs( player.GetAll())do
-		pl:ChatPrint("Saving user data. You may experience some lag.");
-		gmodz.pdata.SaveUser( pl, function()
-			pl:ChatPrint( 'Save complete.' );
-		end);
-	end
+	gmodz.adminLog("ABOUT TO SAVE!!!", Color(0,255,0));	
+	timer.Simple( 2, function()
+		for _, pl in pairs( player.GetAll())do
+			pl:ChatPrint("Saving user data. You may experience some lag.");
+			local succ, err = pcall( gmodz.pdata.SaveUser, pl, function()
+				if not IsValid( pl )then return end
+				pl:ChatPrint( 'Save complete.' );
+			end );
+			if not succ then
+				gmodz.adminLog("ERROR FAILED TO SAVE USER: "..pl:Name().." MSG: ", Color(255,0,0));
+				gmodz.adminLog( err, Color(255,0,0));
+			end
+		end
+	end);
 end);
 
 
@@ -195,6 +203,7 @@ end
 do
 	
 	function gmodz.pdata.SaveUser( pl, cback )
+		if not pl.udata then return end
 		
 		-- INVENTORIES
 		local inv = gmodz.pon.encode( pl:GetInv('inv'):SaveToTable() );
@@ -211,7 +220,6 @@ do
 		local water = pl:GetUData( 'water', 0 );
 		local TimePlayed = pl:GetUData( 'TimePlayed', 0 );
 		local dDeaths = pl:GetUData( 'Deaths', 0 );
-		print("SAVED DEATHS AS: "..dDeaths );
 		local KilledZombies = pl:GetUData( 'KilledZombies', 0 );
 		local KilledCivilians = pl:GetUData( 'KilledCivilians', 0 );
 		local KilledBandits = pl:GetUData( 'KilledBandits', 0 );

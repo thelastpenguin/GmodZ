@@ -293,8 +293,9 @@ gmodz.hook.Add( 'EntityRemoved', function( ent )
 		for _, v in pairs( invs )do
 			local editors = v:GetEditors( );
 			for _, pl in pairs( editors )do
+				if not IsValid( pl ) or pl == ent then continue end
 				net.Start( 'gmodz_delInv' );
-					net.WriteInt( v.id );
+					net.WriteInt( v.id, 32 );
 				net.Send( pl );
 			end
 		end
@@ -382,7 +383,7 @@ net.Receive( 'gmodz_inv_moveStack', function( len, pl )
 	end
 	
 	if qty > stackSource:GetCount() then
-		pl:ChatPrint(string.format('[ERROR] Transfer quantity %d excedes source stack size of %d! Can not complete transfer.', qty, stack1:GetCount() ) );
+		pl:ChatPrint(string.format('[ERROR] Transfer quantity %d excedes source stack size of %d! Can not complete transfer.', qty, stackSource:GetCount() ) );
 		invSource:SyncSlot( sIndex1 );
 		invDest:SyncSlot( sIndex2 );
 		return ;

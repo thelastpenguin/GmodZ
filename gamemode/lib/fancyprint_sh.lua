@@ -22,6 +22,7 @@ if( SERVER )then
 			net.WriteString( msg );
 		net.Send( recipiants );
 	end
+	
 elseif( CLIENT )then
 	function gmodz.print( msg, color )
 		MsgC( Color(255,155,0), '[GmodZ] ' );

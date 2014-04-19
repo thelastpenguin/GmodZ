@@ -7,7 +7,7 @@ if SERVER then
 		local mh = gmodz.cfg.starting_health;
 		for k,pl in pairs( player.GetAll())do
 			
-			local rate = pl:GetVelocity():Length() > 30 and 2 or 1;
+			local rate = pl:KeyDown( IN_SPEED ) and 2 or 1;
 			
 			local w, f = pl:GetUData( 'water', 0 ), pl:GetUData( 'food', 0 );
 			local fw, ff = w / mw, f / mf ;
@@ -49,13 +49,13 @@ if SERVER then
 	
 	local speedfast = gmodz.cfg.speedrun ;
 	local speedwalk = gmodz.cfg.speedwalk;
-	timer.Create( 'gmodz_stamina', 0.2, 0, function()
+	timer.Create( 'gmodz_stamina', 0.3, 0, function()
 	
 		for _, pl in pairs( player.GetAll() )do
 			local s, d = pl.stamina or 100, 0 ;
 			if pl:KeyDown( IN_SPEED ) then
 				if s > 0 then
-					s = math.Clamp( s - 2, 0, 100 );
+					s = math.Clamp( s - 3, 0, 100 );
 					d = -2;
 					
 					if pl:GetRunSpeed() ~= speedfast then pl:SetRunSpeed( speedfast ) end
@@ -148,7 +148,7 @@ else
 		end);
 		
 		timer.Create( 'gmodz_stamina', 0.1, 0, function()
-			stamina = math.Clamp( stamina + delta*0.5, 0, 100 );	
+			stamina = math.Clamp( stamina + delta/3, 0, 100 );	
 		end);
 		
 		net.Receive( 'gmodz_syncstamina', function()

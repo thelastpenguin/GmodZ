@@ -48,7 +48,7 @@ end
 -- PLAYER DISCONNECTED
 --
 function GM:PlayerDisconnected( pl )
-	gmodz.hook.Call( 'PlayerDisconnected', pl );	
+	gmodz.hook.Call( 'PlayerDisconnected', pl );
 end
 
 --
@@ -67,19 +67,11 @@ function GM:PlayerSpawnLoading( pl )
 	pl:StripWeapons( );
 	
 	local npcs = ents.FindByClass( 'npc_zombie' )
-	if #npcs > 0 then
-		pl:Spectate( OBS_MODE_CHASE );
-		local n = npcs[math.random(1,#npcs)]
-		n:SetSchedule( SCHED_IDLE_WALK );
-		pl:SpectateEntity( n )
-	else
-		pl:Spectate( OBS_MODE_FIXED );
-	end
+	pl:Spectate( OBS_MODE_FIXED );
+
 	--pl:Lock( );
 	pl:SetHealth( gmodz.cfg.starting_health );
 	pl:SetModel( "models/player/breen.mdl" );
-	
-	self:PlayerSpawnHands( pl );
 	
 	timer.Simple( 1, function()
 		pl:CallClientHook( 'OpenStartMenu' );
@@ -87,47 +79,34 @@ function GM:PlayerSpawnLoading( pl )
 end
 function GM:PlayerSpawnActive( pl )
 	pl:SetMoveType( MOVETYPE_WALK );
-	pl:UnSpectate();
+	if pl:GetObserverMode() ~= OBS_MODE_NONE then
+		pl:UnSpectate();
+	end
 	pl:SetModel( gmodz.cfg.models[pl:GetUData( 'mdl' )] or gmodz.cfg.modelRandom( ) );
 	pl:SetHealth( pl:GetUData( 'hp', 100 ) );
+	pl:SetPos( self:PlayerSelectSpawn( pl ):GetPos() );
 	
 	pl:AllowFlashlight( true );
 	
-	self:PlayerSpawnHands( pl );
+	pl:SetupHands( );
  	
  	-- CALL HOOKS.
  	gmodz.hook.Call( 'PlayerSpawn', pl );
 	
 end
-function GM:PlayerSpawnHands( pl )
-	-- VIEW MODEL HANDS.
-	local oldhands = pl:GetHands()
-	if ( IsValid( oldhands ) ) then oldhands:Remove() end
 
-	local hands = ents.Create( "gmod_hands" )
-	if ( IsValid( hands ) ) then
-		pl:SetHands( hands )
-		hands:SetOwner( pl )
 
-		-- Which hands should we use?
-		local cl_playermodel = pl:GetInfo( "cl_playermodel" )
-		local info = player_manager.TranslatePlayerHands( cl_playermodel )
-		if ( info ) then
-			hands:SetModel( info.model )
-			hands:SetSkin( info.skin )
-			hands:SetBodyGroups( info.body )
-		end
-
-		-- Attach them to the viewmodel
-		local vm = pl:GetViewModel( 0 )
-		hands:AttachToViewmodel( vm )
-
-		vm:DeleteOnRemove( hands )
-		pl:DeleteOnRemove( hands )
-
-		hands:Spawn()
- 	end	
+-- Choose the model for hands according to their player model.
+function GM:PlayerSetHandsModel( ply, ent )
+	local simplemodel = player_manager.TranslateToPlayerModelName( ply:GetModel() )
+	local info = player_manager.TranslatePlayerHands( simplemodel )
+	if ( info ) then
+		ent:SetModel( info.model )
+		ent:SetSkin( info.skin )
+		ent:SetBodyGroups( info.body )
+	end
 end
+
 
 --
 -- PLAYER DEATH
@@ -137,17 +116,23 @@ function GM:PlayerDeath( victim, infl, attacker )
 	victim:Spectate(OBS_MODE_CHASE);
 	victim.respawn_time = CurTime() + 5;
 	
+	gmodz.hook.Call( 'PlayerDeath', victim, infl, attacker );
+	
 	-- drop inv.
 	local inv = victim:GetInv( 'inv' );
 	local w, h = inv:GetSize();
 	for i = 0, w*h-1 do
 		local stack = inv:GetSlot( i );
 		if not stack then continue end
-		local ent = gmodz.itemstack.CreateEntity( stack );
-		ent:SetPos( victim:GetPos( ) );
-		ent:EnableTimeout( );
-		
 		inv:SetSlot( i, nil, nil );
+		
+		--if math.random( 1, 2 ) == 1 then continue end
+		
+		local ent = gmodz.itemstack.CreateEntity( stack );
+		ent:SetPos( victim:GetPos() );
+		ent:EnableTimeout( );
+		ent:Spawn();
+		
 	end
 	
 	-- put in the default inv contents.
@@ -155,7 +140,6 @@ function GM:PlayerDeath( victim, infl, attacker )
 	
 	victim:SetTeam( TEAM_LOADING );
 	victim:SetUData( 'hp', 100 );
-	gmodz.hook.Call( 'PlayerDeath', victim, infl, attacker );
 	
 	timer.Simple( 5, function()
 		victim:CallClientHook( 'OpenStartMenu' );
@@ -231,9 +215,14 @@ end
 --
 function GM:EntityTakeDamage( ent, dmginfo )
 	local attckr = dmginfo:GetAttacker( ) 
+	if not IsValid( attckr ) then return end
+	
 	if attckr:IsPlayer() and attckr:InSafezone( ) then
 		dmginfo:SetDamage( 0 );
+	elseif ent:GetPos():Distance( dmginfo:GetAttacker():GetPos() ) > 2500 then
+		dmginfo:SetDamage( 0 );
 	end
+	
 end
 
 --
@@ -250,9 +239,6 @@ function GM:ShowSpare2( pl ) pl:CallClientHook( 'F4' ) end
 function GM:PlayerSay( pl, text, public )
 	return gmodz.hook.Call( 'PlayerSay', pl, text, public );	
 end
-
-
-
 
 
 

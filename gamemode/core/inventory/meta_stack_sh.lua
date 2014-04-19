@@ -34,9 +34,9 @@ end
 function stack_mt:SaveToTable( )
 	local data = {
 			class = self:GetClass(),
-			count = self:GetCount( ),
-			data =  self.data or nil
+			count = self:GetCount( )
 		}
+	if self:GetData() then data.data = self:GetData() end
 	return data;
 end
 
@@ -70,11 +70,7 @@ function stack_mt:Remove( )
 end
 
 function stack_mt.__eq( self, other )
-	local eq = self.meta.equals;
-	if( eq )then
-		return eq( self, other );
-	end
-	return false;
+	return self.meta.class == other.meta.class;
 end
 
 function stack_mt:Copy( )
@@ -82,7 +78,6 @@ function stack_mt:Copy( )
 	for k,v in pairs( self )do
 		copy[k] = v;
 	end
-	if copy.meta ~= self.meta then  print("HORY SHIZ WTF BREH" ); end
 	return setmetatable( copy, stack_mt );
 end
 

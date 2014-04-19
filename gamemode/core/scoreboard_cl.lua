@@ -1,7 +1,7 @@
 local scoreboard;
 function GM:ScoreboardShow( )
 	scoreboard = vgui.Create( 'gmodz_scoreboard', self );
-	scoreboard:SetSize( ScrH()*0.6, ScrH()*0.8 );
+	scoreboard:SetSize( ScrH()*0.8, ScrH()*0.8 );
 	scoreboard:Center( );
 	return true;
 end
@@ -17,14 +17,15 @@ end
 --
 local PANEL = {};
 function PANEL:Init( )
+	-- MAKE IT SHOW
 	self:MakePopup();
 	self:SetKeyBoardInputEnabled( false );
 	
+	-- MODIFY THE SCROLL BAR
 	local scroller = vgui.Create( 'DScrollPanel', self );
 	scroller:SetSize( self:GetSize() );
 	scroller:SetPos( 0, 0 );
 
-	-- MODIFY THE SCROLLBAR
 	local scrollbar = scroller.VBar;
 	local scrollbar_bg = Color( 255, 255, 255, 100 );
 	local scrollbar_grip = Color( 255, 255, 255, 20 );
@@ -37,6 +38,7 @@ function PANEL:Init( )
 	
 	self.scroller = scroller;
 	
+	-- SETUP THE TITLE
 	self.title = Label('GmodZ - ALPHA', self );
 	self.title:SetFont('GmodZ_KG_64');
 	self.title:SizeToContents( );
@@ -56,20 +58,29 @@ function PANEL:Init( )
 	self:PerformLayout( );
 end
 function PANEL:PerformLayout( )
+	-- LAYOUT THE TITLE
 	local w, h = self:GetSize();
 	self.title:CenterHorizontal( );
 	self.subtitle:SetPos( 0, self.title:GetTall() );
 	self.subtitle:CenterHorizontal( );
 	
+	-- LAYOUT THE SCROLLAREA
 	self.scroller:SetPos( 0, self.title:GetTall()+self.subtitle:GetTall() );
 	self.scroller:SetSize(w,h-self.title:GetTall()-self.subtitle:GetTall());
 	
-	local y = 0;
+	
+	-- LAYOUT NAMES
 	local pw = self.scroller:GetCanvas():GetWide();
-	for k,v in pairs( self.pListPlayers )do
-		v:SetSize( pw, 64*gmodz.ScrScale )
-		v:SetPos( 0, y );
-		y = y + v:GetTall() + 5;
+	local colWidth = self:GetWide()/2 ;
+	local padding = 5;
+	
+	for k,panel in pairs( self.pListPlayers )do
+		local index = k-1;
+		local x = index % 2 == 0 and 0 or colWidth + padding; 
+		
+		panel:SetWide( colWidth - padding );
+		panel:PerformLayout( );
+		panel:SetPos( x, math.floor(index/2) * (panel:GetTall()+padding) );
 	end
 end
 function PANEL:Paint( )
@@ -84,12 +95,12 @@ end
 function PANEL:SetPlayer( pl )
 	self.pl = pl;
 	self.pName = Label( pl:Name(), self );
-	self.pName:SetFont( 'GmodZ_Font28');
+	self.pName:SetFont( 'GmodZ_Font22');
 	self.pName:SizeToContents( );
 	
 	if pl:IsAdmin( ) then
 		local rank = Label(pl:IsSuperAdmin() and '[SA]' or '[A]', self );
-		rank:SetFont( 'GmodZ_Font28');
+		rank:SetFont( 'GmodZ_Font22');
 		rank:Dock( RIGHT );
 		rank:SetTextColor( Color(255,0,0));
 	end
@@ -99,8 +110,15 @@ function PANEL:PerformLayout( )
 	self.pName:SetPos( 10, 0 );
 	self.pName:CenterVertical( );
 end
-local bgColor = Color(100,100,100,200);
+
+local mat = Material( 'gmodz/gui/concrete/512x128.png' );
 function PANEL:Paint( w, h )
-	draw.RoundedBox( 16, 0, 0, w, h, bgColor )
+	surface.SetMaterial( mat );
+	if self:IsHovered() then
+		surface.SetDrawColor(255,255,255);
+	else
+		surface.SetDrawColor(200,200,200);
+	end
+	surface.DrawTexturedRect(0,0,w,h);
 end
 vgui.Register( 'gmodz_scoreboard_row', PANEL );

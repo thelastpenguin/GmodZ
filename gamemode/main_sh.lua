@@ -69,6 +69,7 @@ gmodz.include_sh 'lib/phooks_sh.lua' ;
 gmodz.include_sh 'lib/pon_sh.lua' ;
 gmodz.include_sv 'lib/mysql_sv.lua' ;
 gmodz.include_sh 'lib/functionutils_sh.lua' ;
+gmodz.include_sh 'lib/tableutils_sh.lua' ;
 gmodz.include_cl 'lib/draw_cl.lua' ;
 
 

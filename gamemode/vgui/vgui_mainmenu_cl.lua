@@ -94,6 +94,7 @@ function PANEL:Populate()
 	
 	local credits = {
 		'created by TheLastPenguin',
+		'stalker retextured by Snipa',
 		'map and artwork by Hibbafrabba',
 		'created for TPS Servers'
 	}
@@ -139,7 +140,7 @@ function PANEL:Init( )
 end
 
 function PANEL:PerformLayout( )
-	self.yoffset = self:GetTall()*0.15 + 30;	
+	self.yoffset = self:GetTall()*0.20;	
 end
 
 function PANEL:AddOption( title, func )

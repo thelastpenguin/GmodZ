@@ -323,7 +323,7 @@ gmodz.hook.Add( 'PostItemsLoaded', function()
 	recip:AddMaterialEx( 'material_copper', 2, {} );
 	recip:AddMaterialEx( 'material_metal', 2, {} );
 	recip:AddMaterialEx( 'material_gunpowder', 1, {} );
-	recip:AddProductEx( 'ammo_9mm', 20, {} );
+	recip:AddProductEx( 'ammo_7.62', 20, {} );
 	gmodz.crafting.register( 'ammo_7.62', recip );
 	
 	
@@ -367,20 +367,28 @@ gmodz.hook.Add( 'PostItemsLoaded', function()
 	recip:SetTitle( 'Advanced Circuit' );
 	recip:AddMaterialEx( 'material_techtrium', 1, {} );
 	recip:AddMaterialEx( 'material_circuit', 1, {} );
-	recip:AddProductEx( 'material_circuit_adv', {} );
+	recip:AddProductEx( 'material_circuit_adv', 1, {} );
 	gmodz.crafting.register( 'advcirc', recip );
 	
 	-- MEDICAL KIT
 	local recip = gmodz.crafting.new( );
 	recip:SetTitle( 'Medical Kit' );
-	recip:AddMaterialEx( 'ammo_Bandages', 1, {} );
-	recip:AddMaterialEx( 'ammo_Quikclots', 1, {} );
-	recip:AddMaterialEx( 'ammo_Hemostats', 1, {} );
+	recip:AddMaterialEx( 'ammo_Bandages', 2, {} );
+	recip:AddMaterialEx( 'ammo_Quikclots', 2, {} );
+	recip:AddMaterialEx( 'ammo_Hemostats', 2, {} );
 	recip:AddProductEx( 'healthkit', 1, {} );
+	gmodz.crafting.register( 'healthkit', recip );
 	
 	-- SALVAGE IRON
 	local recip = gmodz.crafting.new( );
-	recip:SetTitle( 'Scrap Metal' );
+	recip:SetTitle( 'Salvage Metal' );
 	recip:AddMaterialEx( 'melee_fryingpan', 1, {} );
-	recip:AddProductEx( 'material_metal', 5 );
+	recip:AddProductEx( 'material_metal', 3 );
+	gmodz.crafting.register( 'fry->metal', recip );
+	
+	-- BUTTERFLY KNIFE
+	local recip = gmodz.crafting.new( );
+	recip:SetTitle( 'Butterfly Knife' );
+	recip:AddMaterialEx( 'material_metal', 5 );
+	recip:AddProductEx( 'melee_bflyknife' )
 end);

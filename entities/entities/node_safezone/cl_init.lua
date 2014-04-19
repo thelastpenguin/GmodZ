@@ -18,6 +18,10 @@ function ENT:Draw( )
 		color = Color(0,0,255);
 	end
 	
+	if LocalPlayer():GetNWBool( 'sz_cooldown' ) then
+		color = Color(255,0,0);
+	end
+	
 	
 	local ptc = #self.pts;
 	for i = 1, ptc do

@@ -26,8 +26,7 @@ function ENT:SpawnLoot( )
 	-- CREATE THE ENTITY
 	local succ, ent = pcall( lType.CreateDrop, lType, isfunction( lType.lootCount ) and lType.lootCount( self ) or lType.lootCount );
 	if not succ or not IsValid( ent ) then
-		gmodz.print("LOOT NODE FAILED TO CREATE LOOT ENTITY.  CLASS: "..lType.class );
-		print( ent );
+		gmodz.adminLog("LOOT NODE FAILED TO CREATE LOOT ENTITY.  CLASS: "..lType.class, Color(255,0,0) );
 		return end
 	
 	local size = -ent:OBBMins();
@@ -42,6 +41,8 @@ function ENT:SpawnLoot( )
 	
 	ent:DisableTimeout( true );
 	
+	ent:Spawn( );
+	
 	self.entLoot = ent;
 end
 
@@ -54,18 +55,18 @@ function ENT:CanSpawnLoot( )
 	end
 	return true;
 end
-
+local function spawn( self )
+	if not IsValid( self )then return end
+	if self:CanSpawnLoot( ) then
+		self:SpawnLoot( );
+	else
+		timer.Simple( 60, function() spawn( self ) end );
+	end
+end
 function ENT:QueueSpawn( )
 	local rnd = math.random( gmodz.cfg.loot_respawnTime - gmodz.cfg.loot_respawnVariance, gmodz.cfg.loot_respawnTime + gmodz.cfg.loot_respawnVariance );
-	local spawn = function()
-		if not IsValid( self )then return end
-		if self:CanSpawnLoot( ) then
-			self:SpawnLoot( );
-		else
-			timer.Simple( 60, spawn );
-		end
-	end
-	timer.Simple( rnd, spawn );
+	print("QUEUED SPAWN: "..rnd );
+	timer.Simple( rnd, function( ) spawn( self ) end );
 end
 
 function ENT:OnRemove( )

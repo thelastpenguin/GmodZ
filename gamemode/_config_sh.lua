@@ -1,7 +1,7 @@
 gmodz.cfg = {};
 
-gmodz.cfg.speedwalk = 220;
-gmodz.cfg.speedrun = 320;
+gmodz.cfg.speedwalk = 190;
+gmodz.cfg.speedrun = 250;
 
 
 gmodz.cfg.starting_health = 100;

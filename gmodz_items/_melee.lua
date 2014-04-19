@@ -9,7 +9,7 @@ Useful for prying open locks or bashing in brains.
 ]]
 item.Model = 'models/weapons/w_crowbar.mdl'
 item.Weapon = 'weapon_crowbar'
-item.lootBias = 1.3
+item.lootBias = 0.5
 item.flags = ITEMFLAG_BASECLASS ;
 
 gmodz.item.register( 'base_melee', item );
@@ -26,7 +26,7 @@ An old fire axe, brutal but effective.
 ]]
 item.Model = "models/warz/melee/fireaxe.mdl"
 item.Weapon = 'gmodz_axe'
-item.lootBias = 0.6
+item.lootBias = 0.15
 item.flags = ITEMFLAG_LOOTABLE;
 
 gmodz.item.register( 'melee_fireaxe', item );

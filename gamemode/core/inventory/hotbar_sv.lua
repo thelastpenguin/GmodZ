@@ -21,9 +21,9 @@ gmodz.playerequipslot = function( pl, slot )
 			local wep = pl:GetWeapon( mt.Weapon );
 			if IsValid( wep ) then
 				local clip1 = wep:Clip1( );
-				slot:SetData( {
-						clip1 = clip1
-					} )
+				local d = ( slot:GetData() or {} )
+				d.clip1 = clip1;
+				slot:SetData( d )
 			else
 				gmodz.print('ERROR PLAYER IS MISSING WEAPON... COULDN\'T PUT IT AWAY' );
 			end

@@ -167,7 +167,7 @@ local lastHovered = nil;
 local function drawPanels()
 	
 	local LocalPlayer = LocalPlayer();
-	local view = hook.Call( 'CalcView', GAMEMODE, LocalPlayer, LocalPlayer:EyePos(), LocalPlayer:EyeAngles(), LocalPlayer:GetFOV() );
+	local view = GAMEMODE:CalcView( LocalPlayer, LocalPlayer:EyePos(), LocalPlayer:EyeAngles(), LocalPlayer:GetFOV() ) or GAMEMODE.BaseClass:CalcView( LocalPlayer, LocalPlayer:EyePos(), LocalPlayer:EyeAngles(), LocalPlayer:GetFOV() );
 	if not view then return end
 	
 	local vOrigin = view.origin;

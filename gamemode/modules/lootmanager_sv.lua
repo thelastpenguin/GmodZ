@@ -18,18 +18,19 @@ local table, math = table, math ;
 local function select( tbl )
 	local c = 0;
 	local opts = {};
+	
 	for k,v in pairs( tbl )do
 		if v.lootBias and (v:IsBase() or v:IsLootable() )then
 			c = c + v.lootBias ;
-			opts[ #opts + 1 ] = v;
+			table.insert( opts, v );
 		end
 	end
 	if c == 0 then return nil end -- nothing to see here.
 	
 	local _type ;
 	repeat
-		local t, i = math.random()*c, 0;
-		for k,v in ipairs( opts )do
+		local t, i = math.random()*c, 0;	
+		for k,v in pairs( opts )do
 			i = i + v.lootBias ;
 			if i < t then continue end
 			if v:IsBase( ) then
@@ -47,7 +48,7 @@ local function select( tbl )
 end
 
 local function chooseItemType( _b )
-	return select( _b or gmodz.item.GetMeta( 'base' ).children ) or select( gmodz.item.GetMeta( 'base' ).children );
+	return _b and select( _b ) or select( { gmodz.item.GetMeta( 'base' ) } );
 end
 
 gmodz.hook.Add( 'ChooseLootType', function( bases )
@@ -75,12 +76,28 @@ gmodz.hook.Add( 'OnNPCKilled', function( npc, pl, wep )
 		local pos = npc:GetPos() ;
 		pos.z = pos.z - ent:OBBMins().z ;
 		ent:SetPos( pos );
+		
+		ent:Spawn( );
 	elseif  math.random(1,5) == 1 then
 		local ent = gmodz.item.GetMeta('money'):CreateDrop( math.random(5,10) );
 		local pos = npc:GetPos() ;
 		pos.z = pos.z - ent:OBBMins().z ;
 		ent:SetPos( pos );
+		
+		ent:Spawn( );
 	end
 end);
 
-
+timer.Simple( 0, function()
+	local counts = {};
+	for i = 1, 100 do
+		local mt = chooseItemType( );
+		counts[ mt.class ] = ( counts[ mt.class ] or 0 ) + 1;
+	end
+	
+	print("CALCULATED: ");
+	for k,v in SortedPairs( counts )do
+		print( k..' - '..v );
+	end
+	
+end);

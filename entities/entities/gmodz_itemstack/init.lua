@@ -4,6 +4,18 @@ AddCSLuaFile("shared.lua")
 include("shared.lua")
 
 function ENT:Initialize()
+end
+
+function ENT:SetStack( stack )
+	local stack = stack:Copy();
+	
+	self.stack = stack;
+	self:SetType( stack:GetClass() );
+	self:SetAmount( stack:GetCount() );
+	
+	self:EnableTimeout( );
+	
+	
 	
 	local meta = self.stack.meta;
 	self:SetModel( meta.SVModel or meta.Model );
@@ -14,24 +26,8 @@ function ENT:Initialize()
 	self:SetUseType(SIMPLE_USE)
 	self:SetCollisionGroup( COLLISION_GROUP_WORLD );
 	
-	local phys = self:GetPhysicsObject()
-	if not phys:IsValid() then
-		gmodz.print("ERROR PHYS INIT FAILED ITEM: "..self.stack.meta.PrintName );
-		ErrorNoHalt("ERROR PHYS INIT FAILED");
-		self:Remove()
-		return ;
-	end
+	self:PhysWake( );
 	
-	phys:Wake()
-end
-function ENT:SetStack( stack )
-	local stack = stack:Copy();
-	
-	self.stack = stack;
-	self:SetType( stack:GetClass() );
-	self:SetAmount( stack:GetCount() );
-	
-	self:EnableTimeout( );
 end
 function ENT:EnableTimeout( )
 	self.TimeOut = CurTime() + gmodz.cfg.item_despawn;	

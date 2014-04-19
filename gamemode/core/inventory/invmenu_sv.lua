@@ -93,6 +93,8 @@ net.Receive( 'gmodz_inv_dropitem', function( len, pl )
 	local tres = util.TraceEntity( tracedata, ent );
 	ent:SetPos( tres.HitPos );
 	
+	ent:Spawn( );
+	
 end);
 
 

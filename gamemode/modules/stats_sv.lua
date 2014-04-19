@@ -19,7 +19,7 @@ gmodz.hook.Add('OnNPCKilled', function( npc, killer, wep )
 end);
 
 
-timer.Create( 'gmodz_timeplayed', function()
+timer.Create( 'gmodz_timeplayed', 60, 0, function()
 	for k,v in pairs( player.GetAll() )do
 		v:SetUData('TimePlayed', v:GetUData('TimePlayed') + 60 );
 	end

@@ -53,4 +53,7 @@ gmodz.hook.Add('medit_Cleanup',function()
 	for k,v in pairs( ents.FindByClass( 'node_npc_maker' ) )do
 		v:Remove( );
 	end
+	for k,v in pairs( ents.FindByClass( 'npc_maker' ) ) do
+		v:Remove( );
+	end
 end);

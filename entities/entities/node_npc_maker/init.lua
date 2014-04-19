@@ -20,12 +20,15 @@ function ENT:SetNode( node )
 end
 
 function ENT:CreateNPC( )
-	print("Spawning O.o");
 	local n = ents.Create( self.npc_class[math.random(1,#self.npc_class)]);
+	
 	if not IsValid( n ) then return end
-	n:Spawn( );
+	
 	n:SetPos( self:GetPos() + Vector( 0,0,20 ) );
 	n:SetAngles( Angle( 0, math.random(-180,180),0) );
+	
+	n:Spawn( );
+	
 	table.insert( self.children, n );
 	return n ;
 end
@@ -61,6 +64,23 @@ function ENT:GetLiveChildren( )
 	return self.children ;
 end
 
+function ENT:GarbageCollectChildren( )
+	for k,v in pairs( self.children )do
+		local mpos = v:GetPos();
+		local remove = true ;
+		for _, p in pairs( player.GetAll()) do
+			if mpos:Distance( p:GetPos() ) < 2400 then
+				remove = false;
+				break
+			end
+		end
+		if remove then
+			table.remove( self.children, k ):Remove( );
+			return ;
+		end
+	end
+end
+
 function ENT:SlowThink( )
 	local ctime = CurTime( );
 	local pClosest = self:FindNearestPlayer( );
@@ -76,11 +96,7 @@ function ENT:SlowThink( )
 		local cldrn = self:GetLiveChildren();
 	else
 		-- REMOVE CHILDREN OUT OF RANGE
-		for k,v in pairs( self.children )do
-			if IsValid( v )then
-				v:Remove();
-			end
-		end
+		self:GarbageCollectChildren( );
 	end
 	
 end

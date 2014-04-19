@@ -29,7 +29,8 @@ end );
 -- CALCULATE THE VIEW... At last... 
 --
 local angDif = math.AngleDifference
-function GM:CalcView( pl, pos, ang, fov, nearZ, farZ )
+
+function GM:_CalcView( pl, pos, ang, fov, nearZ, farZ )
 	fov = 75
 	
 	local LocalPlayer = LocalPlayer();
@@ -42,7 +43,11 @@ function GM:CalcView( pl, pos, ang, fov, nearZ, farZ )
 			local ragdoll = pl:GetRagdollEntity();
 			if not IsValid( ragdoll )then return end
 			local eyes = ragdoll:GetAttachment( ragdoll:LookupAttachment( "eyes" ) );
-			return eyes.Pos, eyes.Ang, fov;
+			return {
+					origin = eyes.Pos,
+					angles = eyes.Ang,
+					fov = fov
+				}
 		else
 			return ;
 		end
@@ -62,7 +67,7 @@ function GM:CalcView( pl, pos, ang, fov, nearZ, farZ )
 	
 	if frac < 0.01 then
 		local pos, ang, fov = calcA( pl, hpos, Angle(ang.p, ang.y, ang.r), fov );
-		if pos:Distance( hpos ) < 10 then gmodz.firstperson = true return end ;
+		if pos:Distance( hpos ) < 10 then gmodz.firstperson = true return  end ;
 		gmodz.firstperson = false ;
 		
 		local tracedata = {
@@ -87,7 +92,7 @@ function GM:CalcView( pl, pos, ang, fov, nearZ, farZ )
 		local frac0 = 1 - frac;
 		
 		local pos = posA*frac0 + posB*frac;
-		if pos:Distance( hpos ) < 10 then gmodz.firstperson = true return end ;
+		if pos:Distance( hpos ) < 10 then gmodz.firstperson = true return  end ;
 		gmodz.firstperson = false ;
 		
 		-- CHECK VECTOR FOR OBSTICALS
@@ -109,6 +114,11 @@ function GM:CalcView( pl, pos, ang, fov, nearZ, farZ )
 				fov = fovA*frac0 + fovB*frac
 			}
 	end
+end
+
+
+function GM:CalcView( ... )
+	return self:_CalcView( ... ) or self.BaseClass:CalcView( ... )
 end
 -- lots of math... yea...
 
@@ -225,22 +235,41 @@ end);
 -- SCREEN COLOR REALISM
 --
 do
+	-- FIRST PASS
+	local tab = {}
+	tab[ "$pp_colour_addr" ] = 0.15
+	tab[ "$pp_colour_addg" ] = 0.08
+	tab[ "$pp_colour_addb" ] = 0
+	tab[ "$pp_colour_brightness" ] = -0.12
+	tab[ "$pp_colour_contrast" ] = 1
+	tab[ "$pp_colour_colour" ] = 1
+	tab[ "$pp_colour_mulr" ] = 0
+	tab[ "$pp_colour_mulg" ] = 0
+	tab[ "$pp_colour_mulb" ] = 0
+	
+	gmodz.hook.Add( 'RenderScreenspaceEffects', function()
+		DrawColorModify( tab )
+	end);
+	
+	
+	-- SECOND PASS
 	local tab = {}
 	tab[ "$pp_colour_colour" ] = 1
 	tab[ "$pp_colour_brightness" ] = 0
 	tab[ "$pp_colour_contrast" ] = 1
 	tab[ "$pp_colour_addb" ] = 0
 	
+	
 	gmodz.hook.Add( 'RenderScreenspaceEffects', function()
 		local mod = 1 / ( 1 + math.pow( 2.71, - LocalPlayer():Health() / 5 + 8 ) );
+		if mod > 0.4 then return end
+		
 		tab[ "$pp_colour_colour" ] = mod;
 		DrawColorModify( tab )
 		
 		-- DRAW MOTION BLUR
-		if( mod < 0.3 )then
-			for i = 0, 0.4, 0.1 do
-				DrawMotionBlur( 0.2, 0.3, 0.9*i*(1-mod)) -- DrawMotionBlur( Float Additive alpha,Float Draw alpha, Float Frame Update delay. )
-			end
+		for i = 0, 0.4, 0.1 do
+			DrawMotionBlur( 0.2, 0.3, 0.9*i*(1-mod)) -- DrawMotionBlur( Float Additive alpha,Float Draw alpha, Float Frame Update delay. )
 		end
 	end );
 end
@@ -269,7 +298,7 @@ do
 	end);
 end
 
-
+/*
 hook.Add("SetupWorldFog",'gmodz',function()
 	render.FogMode( MATERIAL_FOG_LINEAR ) 
 	render.FogStart( 1800 )
@@ -290,4 +319,4 @@ hook.Add('SetupSkyboxFog','gmodz',function()
 	render.FogColor( 70,70,70 )
 
 	return true;
-end);
+end);*/

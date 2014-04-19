@@ -12,6 +12,9 @@ CREATE TABLE IF NOT EXISTS gmodz_users (
 			`dKilledCivilians` INT UNSIGNED,
 			`dKilledBandits` INT UNSIGNED,
 			`karma` TINYINT,
+			`posx` INT,
+			`posy` INT,
+			`posz` INT,
 			UNIQUE( `steamid` ) );
 
 CREATE TABLE IF NOT EXISTS gmodz_shop (

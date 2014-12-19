@@ -11,6 +11,5 @@
 
     "icon"  ""
     "info"  ""
-    "hide"  "0"
     "maps"      "^gmodz_|^gmz"
 }

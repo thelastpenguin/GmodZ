@@ -59,6 +59,7 @@ function item:IsLootable( )
 	return self.lootBias and self.lootBias > 0 ;	
 end
 
+-- TODO: this appears to be
 function item:SelectLootChild( )
 	local children = self:FindChildren( );
 	local totalbias = 0;

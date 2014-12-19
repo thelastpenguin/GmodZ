@@ -142,13 +142,13 @@ function PANEL:Paint(w,h) end
 function PANEL:PaintOver( w, h )
 	gmodz.invmenu.PaintDragging( );
 end
-function PANEL:CalcRenderSettings( pos )
+function PANEL:CalcRenderSettings( pos, ang )
 	local xpos = ScrW()*0.6;
 	local ypos = ScrH()*0.5;
 	local vecOffset = gui.ScreenToVector( xpos, ypos );
 	local campos = pos + vecOffset * 30;
 	
-	local ang = LocalPlayer():GetAngles();
+	local ang = ang
 	ang.p = 90;
 	ang.r = 0;
 	ang.y = ang.y + 180;

@@ -12,7 +12,7 @@ gmodz.hook.Add('LoadComplete',function()
 	end);
 	
 	-- DISABLE HEALTH GUI
-	gmodz.hook.Add('HUDShouldDraw',function( n ) if n == 'CHudHealth' then return false end end );
+	gmodz.hook.Add('HUDShouldDraw', function( n ) if n == 'CHudHealth' then return false end end );
 	
 	
 	-- DRAW LOADING SEQUENCE OVERLAY

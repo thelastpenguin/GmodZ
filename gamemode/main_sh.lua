@@ -8,7 +8,7 @@
 
 gmodz = {}; -- core table.
 
-if (SERVER )then
+if (SERVER)then
 	AddCSLuaFile( 'lib/source_compiler_sh.lua' );
 end
 include( 'lib/source_compiler_sh.lua' );

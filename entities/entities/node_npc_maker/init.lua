@@ -66,16 +66,21 @@ end
 
 function ENT:GarbageCollectChildren( )
 	for k,v in pairs( self.children )do
-		local mpos = v:GetPos();
-		local remove = true ;
-		for _, p in pairs( player.GetAll()) do
-			if mpos:Distance( p:GetPos() ) < 2400 then
-				remove = false;
-				break
+		if IsValid(v) then
+			local remove = true ;
+			local mpos = v:GetPos();
+			for _, p in pairs( player.GetAll()) do
+				if mpos:Distance( p:GetPos() ) < 2400 then
+					remove = false;
+					break
+				end
 			end
-		end
-		if remove then
-			table.remove( self.children, k ):Remove( );
+			if remove then
+				table.remove(self.children,k):Remove();
+				return ;
+			end
+		else
+			table.remove(self.children, k);
 			return ;
 		end
 	end

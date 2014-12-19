@@ -118,9 +118,9 @@ function PANEL:SetModel( strModelName )
 end
 
 function PANEL:Think( )
-	if( not IsValid( self.Entity ) or self.Entity:GetModel() ~= LocalPlayer():GetModel() )then
+	if(IsValid(LocalPlayer()) and (not IsValid( self.Entity ) or self.Entity:GetModel() ~= LocalPlayer():GetModel()))then
 		self:SetModel( LocalPlayer():GetModel() );
-	end	
+	end
 end
 
 --[[---------------------------------------------------------
@@ -304,3 +304,4 @@ function PANEL:Paint( w, h )
 	surface.DrawOutlinedRect(0,0,w,h);
 end
 vgui.Register( 'gmodz_waterbar', PANEL );
+

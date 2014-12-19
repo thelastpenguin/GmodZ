@@ -12,9 +12,6 @@ CREATE TABLE IF NOT EXISTS gmodz_users (
 			`dKilledCivilians` INT UNSIGNED,
 			`dKilledBandits` INT UNSIGNED,
 			`karma` TINYINT,
-			`posx` INT,
-			`posy` INT,
-			`posz` INT,
 			UNIQUE( `steamid` ) );
 
 CREATE TABLE IF NOT EXISTS gmodz_shop (
@@ -30,7 +27,7 @@ CREATE TABLE IF NOT EXISTS gmodz_factions (
 			`color_g` TINYINT UNSIGNED NOT NULL,
 			`color_b` TINYINT UNSIGNED NOT NULL,
 			`maxplayers` INT UNSIGNED NOT NULL,
-			UNIQUE( `id` ) );
+			UNIQUE( `factionid` ) );
 
 CREATE TABLE IF NOT EXISTS gmodz_faction_members ( 
 			`steamid` VARCHAR( 30 ) NOT NULL,

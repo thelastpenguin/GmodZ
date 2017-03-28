@@ -39,7 +39,6 @@ end
 function ENT:Use( pl, caller )
 	if self.OnUse then self.OnUse( self, pl ) end
 	
-	
 	self:EmitSound( 'weapons/ammopickup.wav', 500, 100 );
 	if not pl:IsPlayer() then return end
 	local inv = pl:GetInv( 'inv' );
@@ -47,11 +46,23 @@ function ENT:Use( pl, caller )
 		pl:ChatPrint("Your inventory is not properly loaded. Could not pickup item.");
 		return ;
 	end
+	
+	if self.stack:GetCount() < 1 then -- >_<
+		self:Remove()
+		return
+	end
+	
 	local remainder = inv:AddStack( self.stack )
 	if remainder > 0 then
 		pl:ChatPrint("Your inventory is full. "..remainder.." items left over.");
 		return ;
 	end
+	
+	local item = gmodz.item.GetMeta( self.stack.meta.class )
+	if item.attch then
+		pl:FAS2_PickUpAttachment(item.attch, true)
+	end
+	
 	pl:CallClientHook( 'ItemStackNoticePickup', self.stack.meta.class, self.stack:GetCount() );
 	
 	self:Remove()

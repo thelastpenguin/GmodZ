@@ -171,8 +171,7 @@ end
 -- FALL DAMAGE
 --
 function GM:GetFallDamage( pl, speed )
-	speed = speed - 200
-	return ( speed / 8 )
+	return ( ( speed - 200 ) / 8 )
 end
 
 --
